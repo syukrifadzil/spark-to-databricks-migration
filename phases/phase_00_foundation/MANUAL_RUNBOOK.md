@@ -141,18 +141,23 @@ brew tap databricks/tap
 brew install databricks
 databricks -v
 databricks auth login --host https://<workspace-host>
-databricks current-user me
+databricks auth profiles
+databricks current-user me -p <project-profile-name>
+databricks catalogs list -p <project-profile-name>
 ```
 
 Expected:
-- `databricks -v` prints a version.
-- `databricks auth login` opens a browser for OAuth consent and asks for a profile name (accept the default or type one). It writes a profile to `~/.databrickscfg`, which is outside the repository.
-- `databricks current-user me` prints JSON including your `userName`.
+- `databricks -v` prints a version. If Homebrew warns that `databricks` is shadowed by another executable earlier in your `PATH`, `which -a databricks` shows which one runs.
+- `databricks auth login` opens a browser for OAuth consent and asks for a profile name. Give it a project-specific name. It writes the profile to `~/.databrickscfg`, which is outside the repository. Pass the host only, without any `?o=` query string.
+- `databricks auth profiles` lists the profile with `Valid` set to `YES`.
+- `databricks current-user me -p ...` prints JSON including your `userName`; `catalogs list` includes `workspace`.
+
+Always pass `-p <project-profile-name>` (or `export DATABRICKS_CONFIG_PROFILE=<project-profile-name>` in the current terminal). If `~/.databrickscfg` contains other profiles, commands without `-p` use whichever profile is the default, which may be a different workspace.
 
 Optional volume check:
 
 ```bash
-databricks fs ls dbfs:/Volumes/workspace/retail_landing/raw
+databricks fs ls dbfs:/Volumes/workspace/retail_landing/raw -p <project-profile-name>
 ```
 
 Expected: no output and no error, because the volume is empty. If the command syntax differs in your CLI version, check `databricks fs ls --help`.

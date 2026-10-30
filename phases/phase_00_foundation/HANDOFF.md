@@ -43,6 +43,7 @@ Authored, not executed. No command, query or render in this phase has been run y
 | Lakeflow or bundle APIs renamed again | Code written against outdated syntax | Explicit verification step at the start of Phases 03 and 05 |
 | Mermaid syntax not rendering | Documentation looks broken on GitHub | Runbook Step 9 checks every diagram |
 | Secrets committed by accident | Credential exposure | `.gitignore`, `.env.example` placeholders, staged secret scan |
+| CLI commands reach a non-project workspace | The maintainer's `~/.databrickscfg` has other profiles, and the default points at a different workspace | Always pass `-p <project profile>` or set `DATABRICKS_CONFIG_PROFILE`; Phase 05 bundle config pins the project host |
 
 ## Human outputs required
 
@@ -55,16 +56,16 @@ Fill in before requesting Phase 01.
   - Python:
   - Java:
 - `git check-ignore -v .env` output:
-- Default catalog name (FE2):
+- Default catalog name (FE2): `workspace` (managed catalog), confirmed 2026-10-31.
 - Namespace script result and verification query outputs (Step 7):
 - Script re-run result:
 - FE4 probe result (optional):
 - SQL warehouse name and size (no HTTP path needed here) (FE8):
-- Databricks CLI version and `current-user me` result, redacted (optional):
+- Databricks CLI version and `current-user me` result, redacted (optional): Databricks CLI v1.23.0 (Homebrew; an older shadowing copy was renamed). OAuth login succeeded; the project profile is the only profile and the default (`DATABRICKS_CONFIG_PROFILE` set in `~/.zshrc`). `current-user me` returned the maintainer's user, a member of `admins`. Unrelated profiles were removed from `~/.databrickscfg` after a backup.
 - FE items observed as unavailable, and the fallback chosen:
 - ADRs accepted, or comments:
 - Requested changes to Phase 00 documents:
-- Commit hash and repository URL after push:
+- Commit hash and repository URL after push: `ce7d125`, https://github.com/syukrifadzil/spark-to-databricks-migration
 
 ## Phase 01 prerequisites
 
