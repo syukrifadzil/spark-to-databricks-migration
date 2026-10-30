@@ -1,0 +1,46 @@
+# --- Secrets and local configuration -------------------------------------
+# Real values live only in .env on the maintainer's machine.
+.env
+.env.*
+!.env.example
+.databrickscfg
+# dbt profiles hold connection details; commit only profiles.example.yml.
+profiles.yml
+
+# --- Python ---------------------------------------------------------------
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# --- Local Spark artefacts ------------------------------------------------
+spark-warehouse/
+metastore_db/
+derby.log
+*.crc
+
+# --- Generated data and job outputs ---------------------------------------
+# Bulk CSVs are reproducible from the generator (Phase 01); only small
+# samples under data/samples/ and data/fixtures/ are committed.
+data/raw/
+output/
+
+# --- dbt --------------------------------------------------------------------
+target/
+dbt_packages/
+logs/
+
+# --- Databricks bundles -----------------------------------------------------
+.databricks/
+
+# --- Editors and OS ---------------------------------------------------------
+.DS_Store
+.idea/
+.vscode/
+.claude/
