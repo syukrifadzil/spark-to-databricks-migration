@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1520" height="570" viewBox="0 0 1520 570" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title>Reconciliation - legacy versus Lakehouse</title>
+<defs>
+<style>
+.title{font-size:20px;font-weight:700;fill:#111827}
+.pt{font-size:15px;font-weight:700}
+.box{fill:#ffffff;stroke:#cdd3db;stroke-width:1.5}
+.built .box{fill:#f5f8ff;stroke:#4a72d9;stroke-width:2}
+.ct{font-size:14px;font-weight:700;fill:#111827}
+.built .ct{fill:#2f5bcc}
+.cs{font-size:11.5px;fill:#4b5563}
+.ic{fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.b-built{fill:#4a72d9}
+.bt{font-size:9.5px;font-weight:700;fill:#ffffff;letter-spacing:0.4px}
+.edge{fill:none;stroke:#6b7280;stroke-width:1.5}
+.el{font-size:11.5px;fill:#374151}
+.lg{font-size:12.5px;fill:#111827}
+.cap{font-size:12.5px;fill:#374151}
+</style>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/></marker>
+<symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="2.5"/><path d="M4 5.5v13c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-13M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></symbol>
+<symbol id="i-compare" viewBox="0 0 24 24"><path d="M4 8h15M15 4l4 4-4 4M20 16H5M9 12l-4 4 4 4"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 20h18M6 20v-7M11 20V5M16 20v-10"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
+</defs>
+
+<rect width="1520" height="570" fill="#ffffff"/>
+<text class="title" x="40" y="42">Reconciliation - legacy versus Lakehouse</text>
+
+<!-- Panels -->
+<rect x="30" y="70" width="340" height="370" rx="14" fill="#f1faf8" stroke="#3aa395" stroke-width="2"/>
+<text class="pt" x="50" y="98" fill="#227a6e">Shared input</text>
+<rect x="400" y="70" width="720" height="170" rx="14" fill="#f7f8fa" stroke="#9aa3af" stroke-width="2"/>
+<text class="pt" x="420" y="98" fill="#4b5563">Legacy path - local PySpark</text>
+<rect x="400" y="270" width="720" height="170" rx="14" fill="#fdf4f3" stroke="#d9534f" stroke-width="2"/>
+<text class="pt" x="420" y="298" fill="#b03a36">Lakehouse path - Databricks</text>
+<rect x="1150" y="70" width="340" height="370" rx="14" fill="#f4f7fe" stroke="#6b8ee0" stroke-width="2"/>
+<text class="pt" x="1170" y="98" fill="#3858b8">Comparison</text>
+
+<!-- Edges -->
+<path class="edge" d="M350,249 H385 V159 H420" marker-end="url(#arrow)"/>
+<path class="edge" d="M350,249 H385 V359 H420" marker-end="url(#arrow)"/>
+<path class="edge" d="M720,159 H780" marker-end="url(#arrow)"/>
+<path class="edge" d="M720,359 H780" marker-end="url(#arrow)"/>
+<path class="edge" d="M1080,159 H1135 V195 H1170" marker-end="url(#arrow)"/>
+<path class="edge" d="M1080,359 H1135 V235 H1170" marker-end="url(#arrow)"/>
+<path class="edge" d="M1320,258 V320" marker-end="url(#arrow)"/>
+
+<!-- Cards -->
+<g class="built" transform="translate(50,205)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#7c5cdb"/>
+  <use xlink:href="#i-doc" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Same CSV batches</text>
+  <text class="cs" x="70" y="55">Identical files feed both</text>
+  <text class="cs" x="70" y="70">paths, plus anomaly manifest</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 01</text>
+</g>
+<g class="built" transform="translate(420,115)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#a5682a"/>
+  <use xlink:href="#i-gear" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Legacy job</text>
+  <text class="cs" x="70" y="55">Overwrite outputs; replays</text>
+  <text class="cs" x="70" y="70">and bad rows not handled</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 02</text>
+</g>
+<g class="built" transform="translate(780,115)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#2e8f80"/>
+  <use xlink:href="#i-chart" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Legacy metrics</text>
+  <text class="cs" x="70" y="55">Counts, decimal sums, key</text>
+  <text class="cs" x="70" y="70">sets, per-row hashes</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 06</text>
+</g>
+<g class="built" transform="translate(420,315)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#c2463f"/>
+  <use xlink:href="#i-db" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Silver and gold tables</text>
+  <text class="cs" x="70" y="55">Same business outputs from</text>
+  <text class="cs" x="70" y="70">Lakeflow and dbt</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 04</text>
+</g>
+<g class="built" transform="translate(780,315)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#2e8f80"/>
+  <use xlink:href="#i-chart" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Lakehouse metrics</text>
+  <text class="cs" x="70" y="55">Same metric definitions,</text>
+  <text class="cs" x="70" y="70">computed in SQL</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 06</text>
+</g>
+<g class="built" transform="translate(1170,170)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#2e8f80"/>
+  <use xlink:href="#i-compare" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Compare</text>
+  <text class="cs" x="70" y="55">Exact match required on</text>
+  <text class="cs" x="70" y="70">clean data</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 06</text>
+</g>
+<g class="built" transform="translate(1170,320)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#3b6fd9"/>
+  <use xlink:href="#i-doc" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Reconciliation report</text>
+  <text class="cs" x="70" y="55">Match, explained, unexplained;</text>
+  <text class="cs" x="70" y="70">unexplained fails the run</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 06</text>
+</g>
+
+<!-- Edge labels -->
+<g transform="translate(1332,289)"><rect x="-4" y="-10" width="56" height="20" rx="4" fill="#f4f7fe"/><text class="el" x="0" y="4">classify</text></g>
+
+<!-- Legend and caption -->
+<text class="lg" x="40" y="486" font-weight="700">Legend</text>
+<rect x="110" y="474" width="26" height="16" rx="4" fill="#f5f8ff" stroke="#4a72d9" stroke-width="2"/>
+<text class="lg" x="144" y="486">Built in this project (badge shows the phase)</text>
+<text class="cap" x="40" y="520">Expected differences, such as replays the legacy job double counts, must trace to an entry in the anomaly manifest and a contract rule.</text>
+<text class="cap" x="40" y="540">Anything else is an unexplained difference and fails reconciliation.</text>
+</svg>

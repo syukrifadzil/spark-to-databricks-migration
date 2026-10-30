@@ -1,6 +1,6 @@
 # 0002. Unity Catalog namespace and volume landing zone
 
-- Status: Proposed
+- Status: Accepted (2026-10-31)
 - Date: 2026-10-30
 
 ## Context

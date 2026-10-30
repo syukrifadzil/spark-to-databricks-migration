@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1220" height="600" viewBox="0 0 1220 600" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title>As-is legacy job versus to-be Lakehouse</title>
+<defs>
+<style>
+.title{font-size:20px;font-weight:700;fill:#111827}
+.pt{font-size:15px;font-weight:700}
+.box{fill:#ffffff;stroke:#cdd3db;stroke-width:1.5}
+.built .box{fill:#f5f8ff;stroke:#4a72d9;stroke-width:2}
+.verify .box{fill:#fffaf2;stroke:#e09a3e;stroke-width:2}
+.ct{font-size:14px;font-weight:700;fill:#111827}
+.built .ct{fill:#2f5bcc}
+.cs{font-size:11.5px;fill:#4b5563}
+.ic{fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.b-built{fill:#4a72d9}
+.b-verify{fill:#e09a3e}
+.bt{font-size:9.5px;font-weight:700;fill:#ffffff;letter-spacing:0.4px}
+.edge{fill:none;stroke:#6b7280;stroke-width:1.5}
+.el{font-size:11.5px;fill:#374151}
+.lg{font-size:12.5px;fill:#111827}
+.cap{font-size:12.5px;fill:#374151}
+</style>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/></marker>
+<symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 10v10"/></symbol>
+<symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="2.5"/><path d="M4 5.5v13c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-13M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></symbol>
+<symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3.5l9 16H3z"/><path d="M12 10v4.5M12 17.2v0.3"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 20h18M6 20v-7M11 20V5M16 20v-10"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
+</defs>
+
+<rect width="1220" height="600" fill="#ffffff"/>
+<text class="title" x="40" y="42">As-is legacy job versus to-be Lakehouse</text>
+
+<!-- Panels -->
+<rect x="30" y="70" width="380" height="420" rx="14" fill="#f7f8fa" stroke="#9aa3af" stroke-width="2"/>
+<text class="pt" x="50" y="98" fill="#4b5563">As-is - legacy batch job</text>
+<rect x="450" y="70" width="740" height="420" rx="14" fill="#fdf4f3" stroke="#d9534f" stroke-width="2"/>
+<text class="pt" x="470" y="98" fill="#b03a36">To-be - Lakehouse on Databricks</text>
+
+<!-- Edges -->
+<path class="edge" d="M220,208 V250" marker-end="url(#arrow)"/>
+<path class="edge" d="M220,338 V380" marker-end="url(#arrow)"/>
+<path class="edge" d="M640,208 V250" marker-end="url(#arrow)"/>
+<path class="edge" d="M790,294 H850" marker-end="url(#arrow)"/>
+<path class="edge" d="M640,338 V380" marker-end="url(#arrow)"/>
+<path class="edge" d="M1000,338 V380" marker-end="url(#arrow)"/>
+
+<!-- As-is cards -->
+<g class="built" transform="translate(70,120)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#7c5cdb"/>
+  <use xlink:href="#i-doc" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">CSV extracts</text>
+  <text class="cs" x="70" y="55">Schema inferred at read time;</text>
+  <text class="cs" x="70" y="70">no contract</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 01</text>
+</g>
+<g class="built" transform="translate(70,250)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#a5682a"/>
+  <use xlink:href="#i-gear" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">One PySpark script</text>
+  <text class="cs" x="70" y="55">Procedural joins; no rules,</text>
+  <text class="cs" x="70" y="70">no dedup, print logging</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 02</text>
+</g>
+<g class="built" transform="translate(70,380)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5f6b7a"/>
+  <use xlink:href="#i-table" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Report outputs</text>
+  <text class="cs" x="70" y="55">Overwritten every run;</text>
+  <text class="cs" x="70" y="70">replays double count</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 02</text>
+</g>
+
+<!-- To-be cards -->
+<g class="built" transform="translate(490,120)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#d98a2b"/>
+  <use xlink:href="#i-folder" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Landing volume</text>
+  <text class="cs" x="70" y="55">Immutable CSV batch folders</text>
+  <text class="cs" x="70" y="70">in retail_landing.raw</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 00</text>
+</g>
+<g transform="translate(850,120)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5f6b7a"/>
+  <use xlink:href="#i-doc" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Pipeline event log</text>
+  <text class="cs" x="70" y="55">Pass and fail counts per</text>
+  <text class="cs" x="70" y="70">expectation, per update</text>
+</g>
+<g class="built" transform="translate(490,250)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#c2463f"/>
+  <use xlink:href="#i-table" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Bronze</text>
+  <text class="cs" x="70" y="55">Every row as received, as</text>
+  <text class="cs" x="70" y="70">strings, plus file metadata</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="verify" transform="translate(850,250)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#c2463f"/>
+  <use xlink:href="#i-db" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Silver</text>
+  <text class="cs" x="70" y="55">Typed, validated, latest</text>
+  <text class="cs" x="70" y="70">version per key (SCD type 1)</text>
+  <rect class="b-verify" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="built" transform="translate(490,380)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#d98a2b"/>
+  <use xlink:href="#i-warn" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Quarantine</text>
+  <text class="cs" x="70" y="55">Rejected rows with failed rule</text>
+  <text class="cs" x="70" y="70">names; nothing is lost</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="built" transform="translate(850,380)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#d98a2b"/>
+  <use xlink:href="#i-chart" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Gold</text>
+  <text class="cs" x="70" y="55">dbt marts with tests, docs</text>
+  <text class="cs" x="70" y="70">and lineage</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 04</text>
+</g>
+
+<!-- Edge labels -->
+<g transform="translate(232,229)"><rect x="-4" y="-10" width="40" height="20" rx="4" fill="#f7f8fa"/><text class="el" x="0" y="4">read</text></g>
+<g transform="translate(232,359)"><rect x="-4" y="-10" width="68" height="20" rx="4" fill="#f7f8fa"/><text class="el" x="0" y="4">overwrite</text></g>
+<g transform="translate(652,229)"><rect x="-4" y="-10" width="80" height="20" rx="4" fill="#fdf4f3"/><text class="el" x="0" y="4">Auto Loader</text></g>
+<text class="el" x="820" y="285" text-anchor="middle">valid</text>
+<g transform="translate(652,359)"><rect x="-4" y="-10" width="76" height="20" rx="4" fill="#fdf4f3"/><text class="el" x="0" y="4">failed rules</text></g>
+<g transform="translate(1012,359)"><rect x="-4" y="-10" width="66" height="20" rx="4" fill="#fdf4f3"/><text class="el" x="0" y="4">dbt build</text></g>
+
+<!-- Legend and caption -->
+<text class="lg" x="40" y="531" font-weight="700">Legend</text>
+<rect x="110" y="519" width="26" height="16" rx="4" fill="#f5f8ff" stroke="#4a72d9" stroke-width="2"/>
+<text class="lg" x="144" y="531">Built in this project (badge shows the phase)</text>
+<rect x="480" y="519" width="26" height="16" rx="4" fill="#fffaf2" stroke="#e09a3e" stroke-width="2"/>
+<text class="lg" x="514" y="531">Depends on a feature not yet verified</text>
+<rect x="800" y="519" width="26" height="16" rx="4" fill="#ffffff" stroke="#cdd3db" stroke-width="1.5"/>
+<text class="lg" x="834" y="531">Platform feature, used as is</text>
+<text class="cap" x="40" y="564">The legacy job reloads everything and loses evidence of bad data. The Lakehouse ingests incrementally, keeps every</text>
+<text class="cap" x="40" y="584">received row in bronze, moves bad rows to quarantine with reasons, and builds gold with tested SQL.</text>
+</svg>

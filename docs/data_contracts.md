@@ -8,13 +8,7 @@ A data contract is a written promise from a producer to its consumers about stru
 
 ## 2. Contract boundaries
 
-```mermaid
-flowchart LR
-    src["Source extracts"] -->|"C1 landing contract"| bronze["Bronze"]
-    bronze --> silver["Silver"]
-    silver -->|"C2 silver contract"| dbt["dbt gold"]
-    dbt -->|"C3 gold contract"| users["Report consumers<br/>and reconciliation"]
-```
+![Medallion layers with contract boundaries C1 (landing), C2 (silver) and C3 (gold)](diagrams/medallion-ownership.svg)
 
 | Contract | Producer | Consumer | Enforced by |
 |---|---|---|---|
@@ -84,9 +78,22 @@ Columns below are the baseline set from the Phase 01 brief. Phase 01 adds event 
 |---|---|---|
 | payment_id | Yes | Primary key |
 | order_id | Yes | References orders |
-| amount | Yes | `DECIMAL(18,2)`; negative only if Phase 01 models refunds explicitly |
+| payment_type | Yes | `charge` or `refund` (column name provisional; Phase 01 fixes it) |
+| amount | Yes | `DECIMAL(18,2)`, always greater than zero; direction comes from `payment_type` |
 | method | Yes | Allowed list (Phase 01) |
-| status | Yes | Allowed list (Phase 01) |
+| status | Yes | Allowed list (Phase 01), split into successful and unsuccessful values |
+
+#### Refunds and partial payments (decided 2026-10-31)
+
+Both are modelled explicitly.
+
+- **Partial payments.** An order can have any number of payment records. Each successful charge pays part of the order total.
+- **Refunds.** A refund is its own payment record with `payment_type = refund` and a positive amount. It references the order, never edits the original charge, and may be partial.
+- **Failed payments.** Records with an unsuccessful status are kept in silver but contribute nothing to money totals.
+- **Net paid per order** = sum of successful charges minus sum of successful refunds.
+- **Payment state per order** (derived in gold, not stored in source): unpaid, partially paid, paid, partially refunded, refunded. Overpaid (net paid greater than the order total) is an anomaly, not a state.
+
+Amounts are always positive and the direction comes from the type column. The alternative, signed amounts, makes sums slightly simpler, but it makes "negative amount" ambiguous: a negative number could be a valid refund or a data error. With unsigned amounts, any negative or zero amount is unambiguously invalid.
 
 ## 5. Silver contract guarantees (C2)
 
@@ -107,9 +114,9 @@ For every silver entity table:
 | Duplicate key with different content | Silver | Latest `source_updated_at` wins; tie-breaker decides equal timestamps | Matches source-of-truth semantics |
 | Null required value | Silver | Quarantine | Row cannot be keyed or is incomplete |
 | Malformed timestamp or number | Silver | `try_` parse returns null, then quarantine | Never fail the whole run for one row |
-| Negative or otherwise invalid amount | Silver | Quarantine (unless an explicit refund type is modelled) | Business rule |
+| Negative or zero amount | Silver | Quarantine | Amounts are always positive; refunds are identified by `payment_type`, not by sign |
 | Invalid reference (unknown customer or product) | Silver keeps, dbt tests, reconciliation reports | Flagged, not rejected | A parent may arrive in a later batch; rejecting would lose valid data |
-| Order and payment totals disagree | Gold | dbt business test and reconciliation report | Cross-entity rule, not a row-level rule |
+| Order and payment totals disagree | Gold | dbt business test and reconciliation report. Underpaid and partially refunded orders are valid states; overpaid orders and refunds exceeding successful charges are failures | Cross-entity rule, not a row-level rule |
 | Late arrival (older `source_updated_at`) | Silver | Ignored for that key if a newer version exists | Sequence ordering |
 | Source correction (newer `source_updated_at`) | Silver | Replaces current version | Sequence ordering |
 | New column in source file (schema evolution) | Bronze accepts; silver ignores until the contract adopts it | Explicit contract change | Prevents silent downstream changes |

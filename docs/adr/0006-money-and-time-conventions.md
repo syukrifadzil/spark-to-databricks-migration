@@ -1,6 +1,6 @@
 # 0006. Monetary precision and timezone conventions
 
-- Status: Proposed
+- Status: Accepted (2026-10-31)
 - Date: 2026-10-30
 
 ## Context

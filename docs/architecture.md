@@ -4,52 +4,15 @@ Status: proposed in Phase 00, pending human review. Product names and APIs flagg
 
 ## 1. System context
 
-```mermaid
-flowchart LR
-    subgraph local["Local workstation (macOS)"]
-        gen["Synthetic data generator<br/>Phase 01"]
-        legacy["Legacy PySpark batch job<br/>Phase 02"]
-        dbtcli["dbt Core CLI<br/>Phase 04"]
-        recon["Reconciliation scripts<br/>Phase 06"]
-    end
-    subgraph dbx["Databricks workspace (Free Edition, serverless)"]
-        vol[("Managed volume<br/>retail_landing.raw")]
-        lf["Lakeflow Declarative Pipeline<br/>bronze and silver, Phase 03"]
-        wh["SQL warehouse"]
-        gold[("retail_gold marts")]
-    end
-    subgraph github["GitHub"]
-        repo["Repository"]
-        ci["Actions: static checks<br/>and unit tests, Phase 05"]
-    end
-    gen -->|CSV files| legacy
-    gen -->|manual upload| vol
-    vol --> lf
-    lf -->|silver tables| wh
-    dbtcli -->|SQL over HTTPS| wh
-    wh --> gold
-    legacy -->|baseline outputs| recon
-    gold -->|query results| recon
-    repo --> ci
-```
+![System context: local workstation, Databricks workspace and GitHub, with numbered data flow from generation through reconciliation](diagrams/system-context.svg)
+
+Diagrams in this repository are hand-written SVG files under `docs/diagrams/`. Card borders follow one legend everywhere: blue for components built in this project (the badge names the phase), orange for components that depend on a Free Edition feature or behaviour not yet verified, grey for platform services used as is.
 
 The same generated CSV files feed both the legacy job (locally) and the Lakehouse (through the volume). That shared input is what makes reconciliation meaningful.
 
 ## 2. As-is versus to-be
 
-```mermaid
-flowchart LR
-    subgraph asis["As-is: legacy"]
-        c1["CSV extracts"] --> j1["One PySpark script<br/>read, join, aggregate"]
-        j1 -->|overwrite| o1["Report tables or files"]
-    end
-    subgraph tobe["To-be: Lakehouse"]
-        c2["CSV batches in volume"] --> b2["Bronze<br/>raw, append-only"]
-        b2 --> s2["Silver<br/>typed, validated, deduplicated"]
-        b2 --> q2["Quarantine<br/>rejected rows with reasons"]
-        s2 --> g2["Gold<br/>dbt marts with tests"]
-    end
-```
+![As-is legacy job beside the to-be Lakehouse: landing, bronze, silver, quarantine, gold and the pipeline event log](diagrams/as-is-vs-to-be.svg)
 
 | Aspect | As-is | To-be |
 |---|---|---|
@@ -64,26 +27,7 @@ flowchart LR
 
 ## 3. Medallion layers and ownership
 
-```mermaid
-flowchart LR
-    files["CSV files<br/>retail_landing.raw"]
-    subgraph lakeflow["Owned by the Lakeflow pipeline"]
-        bronze["retail_bronze<br/>one table per entity"]
-        valid{"Validation rules"}
-        silver["retail_silver<br/>one table per entity"]
-        quar["retail_silver<br/>entity_quarantine tables"]
-    end
-    subgraph dbt["Owned by dbt Core"]
-        stg["Staging models"]
-        marts["retail_gold marts"]
-    end
-    files -->|Auto Loader, append| bronze
-    bronze --> valid
-    valid -->|pass| silver
-    valid -->|fail| quar
-    silver --> stg
-    stg --> marts
-```
+![Medallion layers grouped by owner: landing, Lakeflow (bronze, validation, silver, quarantine), dbt (staging, gold) and consumers, with contract boundaries C1 to C3](diagrams/medallion-ownership.svg)
 
 | Layer | Schema | Owner | Content | Write pattern |
 |---|---|---|---|---|
@@ -113,23 +57,7 @@ Exact batch folder names are fixed in Phase 01. Where staging models are materia
 
 ## 5. Incremental processing and idempotency
 
-```mermaid
-sequenceDiagram
-    participant M as Maintainer
-    participant V as Volume retail_landing.raw
-    participant P as Lakeflow pipeline
-    participant B as Bronze
-    participant S as Silver
-    M->>V: Upload batch folder (new file names)
-    M->>P: Start pipeline update
-    P->>V: Auto Loader lists files not yet in checkpoint
-    P->>B: Append new rows with ingestion metadata
-    P->>S: Upsert valid rows by business key,<br/>ordered by source_updated_at then event id
-    Note over S: Older sequence never overwrites newer.<br/>Same key and sequence is a no-op.
-    M->>P: Start update again with no new files
-    P->>V: No unseen files
-    Note over B,S: No change
-```
+![One pipeline update in five numbered steps, the three idempotency guarantees, and the silver ordering rules for replays, late arrivals, corrections and equal sequence values](diagrams/incremental-idempotency.svg)
 
 Idempotency is provided at three levels:
 
@@ -145,13 +73,7 @@ API note (verify in Phase 03): the CDC upsert is expected to use Lakeflow AUTO C
 
 ## 6. Validation and quarantine
 
-```mermaid
-flowchart TB
-    b["Bronze row, all strings"] --> p["Parse and type:<br/>try_cast, try_to_timestamp"]
-    p --> r{"All rules pass?"}
-    r -->|yes| s["Silver CDC flow"]
-    r -->|no| q["Quarantine row<br/>original values, failed rule names,<br/>batch and file metadata"]
-```
+The validation step is the "Parse and validate" card in the medallion diagram (section 3): each bronze row is parsed with `try_cast` and `try_to_timestamp`, then either passes every rule into the silver CDC flow, or goes to quarantine with its original values, failed rule names and file metadata.
 
 - Rules are defined once (a single dictionary of rule name to SQL predicate) and used twice: as `expect_all_or_drop` on the path into silver, and negated to select rows into the quarantine table. This is the documented Lakeflow quarantine pattern and keeps both sides consistent.
 - Expectation metrics in the pipeline event log give per-rule pass and fail counts without extra code.
@@ -164,11 +86,11 @@ dbt Core with the `dbt-databricks` adapter connects to a SQL warehouse over HTTP
 
 | Mart | Grain | Primary measures |
 |---|---|---|
-| `mart_daily_sales` | One row per local business date (Asia/Kuala_Lumpur) | Order count, item quantity, gross sales, payments received |
+| `mart_daily_sales` | One row per local business date (Asia/Kuala_Lumpur) | Order count, item quantity, gross sales, successful charges, refunds, net payments |
 | `mart_customer_lifetime_value` | One row per customer | First and last order date, order count, total spend |
 | `mart_product_performance` | One row per product | Units sold, revenue, order count |
 
-Final definitions, including treatment of cancelled orders, refunds and partial payments, are set in Phase 01 (business rules) and Phase 04 (SQL).
+Refunds and partial payments are modelled explicitly (see `data_contracts.md`, payments). The treatment of cancelled orders and the final measure definitions are set in Phase 01 (business rules) and Phase 04 (SQL).
 
 ## 8. Execution environments and responsibilities
 
@@ -189,13 +111,7 @@ GitHub Actions never holds workspace credentials in the baseline design. If live
 
 Target (Phase 05, subject to Free Edition verification):
 
-```mermaid
-flowchart LR
-    trig["Manual trigger<br/>or schedule"] --> job["Databricks job"]
-    job --> t1["Task 1: pipeline update<br/>bronze and silver"]
-    t1 --> t2["Task 2: dbt build<br/>gold"]
-    t2 --> t3["Task 3: reconciliation checks"]
-```
+![Target Databricks job with three tasks, and the manual fallback running the same three steps in the same order](diagrams/orchestration.svg)
 
 Fallback: the maintainer runs the same three steps by hand in order (pipeline update in the UI, `dbt build` locally, reconciliation scripts locally). The order and the success check between steps are identical, so the fallback exercises the same logic.
 
@@ -203,16 +119,7 @@ Job and pipeline definitions are planned as Databricks Asset Bundle configuratio
 
 ## 10. Reconciliation
 
-```mermaid
-flowchart LR
-    raw["Same input batches"] --> lo["Legacy job outputs"]
-    raw --> mo["Lakehouse gold and silver"]
-    lo --> lm["Metrics: row counts, decimal sums,<br/>key sets, per-row hashes"]
-    mo --> mm["Same metrics, same definitions"]
-    lm --> cmp{"Compare"}
-    mm --> cmp
-    cmp --> rep["Report: match,<br/>explained difference,<br/>unexplained difference"]
-```
+![Shared CSV input feeding the legacy path and the Lakehouse path, both reduced to the same metrics and compared into a classified report](diagrams/reconciliation.svg)
 
 Expected differences are a feature, not a defect: for example the legacy job double counts replayed records while the Lakehouse does not. Every expected difference must trace back to an entry in the anomaly manifest (Phase 01) and a rule in the data contract. Unexplained differences fail reconciliation. Details in Phase 06.
 

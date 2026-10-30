@@ -1,6 +1,6 @@
 # 0005. Human-operated deployment; CI limited to static checks and unit tests
 
-- Status: Proposed
+- Status: Accepted (2026-10-31)
 - Date: 2026-10-30
 
 ## Context

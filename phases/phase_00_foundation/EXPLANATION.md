@@ -118,6 +118,19 @@ Static checks and unit tests run safely on every pull request. Deployment remain
 
 `infra/sql/00_create_namespace.sql` creates the four schemas and the landing volume with `IF NOT EXISTS`, so it can be re-run safely. A SQL file was chosen over notebook cells or UI clicks because it is reviewable in git and identical on every run. Infrastructure-as-code tools (Terraform, bundles) were not used for this step: four statements do not justify another tool, and bundle support on Free Edition is unverified.
 
+### D13. Diagrams as hand-written SVG
+
+The first draft used Mermaid. After review, the diagrams were redrawn in a panelled card style: each environment or owner is a coloured panel, each component a card with an icon, title and two-line description, and arrows carry numbered steps explained in a caption. Mermaid cannot produce that layout.
+
+- Alternative: draw.io or Excalidraw files exported to PNG. Easy to edit visually, but needs a separate tool, and the exported images are binary and do not diff in review.
+- Alternative: keep Mermaid. Renders natively on GitHub and is quick to edit, but layout control is limited and the style requested is not achievable.
+- Chosen: plain SVG files in `docs/diagrams/`, embedded as images. They are text, diff cleanly, need no tooling, and render on GitHub, including in dark mode, because each has an opaque white background. The trade-off is that moving a card means editing coordinates by hand.
+- One legend is used everywhere: blue border for components built in this project (badge names the phase), orange for components that depend on something not yet verified, grey for platform services used as is. As phases complete and assumptions are verified, card colours and badges are updated.
+
+### D14. Refunds and partial payments modelled explicitly
+
+Decided during Phase 00 review. Orders may have several payments, and refunds are separate records. Amounts are always positive, and a type column carries the direction. That keeps "negative amount" an unambiguous data error and lets net paid, partial payment and partial refund states be derived in gold. Details are in `docs/data_contracts.md`.
+
 ## 6. File-by-file explanation
 
 | File | Purpose | Key points |
@@ -127,8 +140,9 @@ Static checks and unit tests run safely on every pull request. Deployment remain
 | `.env.example` | Documents local configuration variables | Placeholders only. `DATABRICKS_TOKEN` is empty by default to encourage OAuth. Consumers arrive in Phase 04 onwards. |
 | `infra/sql/00_create_namespace.sql` | Creates schemas and landing volume | Re-runnable. Single `USE CATALOG` line to change for a different catalog. Ends with two verification queries. |
 | `docs/case_study.md` | Scenario, legacy problems, goals, non-goals, acceptance criteria, phase plan, demo versus production | Acceptance criteria name the evidence that proves them. |
-| `docs/architecture.md` | Target architecture | Context, as-is versus to-be, layer ownership, naming, idempotency, quarantine, gold, environments, orchestration, reconciliation, security, recovery, open questions. Seven Mermaid diagrams. |
-| `docs/data_contracts.md` | Contract framework | Three contract boundaries, global CSV and type conventions, baseline entity contracts, silver guarantees, anomaly-to-behaviour table, change process. |
+| `docs/architecture.md` | Target architecture | Context, as-is versus to-be, layer ownership, naming, idempotency, quarantine, gold, environments, orchestration, reconciliation, security, recovery, open questions. |
+| `docs/diagrams/*.svg` | Seven architecture diagrams | Hand-written SVG in one visual system: coloured panels per environment or owner, cards with icons, phase badges, numbered steps, a legend and a caption. See D13. |
+| `docs/data_contracts.md` | Contract framework | Three contract boundaries, global CSV and type conventions, baseline entity contracts including refunds and partial payments, silver guarantees, anomaly-to-behaviour table, change process. |
 | `docs/platform_assumptions.md` | Free Edition, cost, toolchain, responsibilities | Fifteen assumptions with verification steps, fallbacks and blank observation columns for the maintainer. |
 | `docs/adr/README.md` | ADR index and template | |
 | `docs/adr/0001` to `0006` | Decision records | Status "Proposed" until the maintainer accepts them. |
@@ -151,7 +165,6 @@ See the table in `docs/case_study.md` section 7. The main differences: separate 
 
 ## 9. Limitations and unverified items
 
-- No Free Edition capability has been verified yet. All FE items in `docs/platform_assumptions.md` are open.
+- Free Edition items verified so far are recorded in `docs/platform_assumptions.md`. Pipeline and job creation (FE6, FE9) are confirmed only at API level; FE4, FE7, FE10, FE12 to FE14 remain untested.
 - Lakeflow Python API names, AUTO CDC behaviour on equal sequence values, and the current bundle product name and syntax must be checked against current Databricks documentation before Phases 03 and 05.
-- The Mermaid diagrams have not been rendered; GitHub renders Mermaid in Markdown, but syntax errors only show once viewed.
-- `infra/sql/00_create_namespace.sql` has not been run.
+- The SVG diagrams were written without being rendered. Text overflow or arrow placement errors only show once viewed.

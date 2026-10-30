@@ -33,7 +33,7 @@ Tick each item only after doing it yourself. Items marked (evidence) need an out
 ## Acceptance criteria for Phase 00
 
 - [ ] All required files present (Runbook Step 1)
-- [ ] Every Mermaid diagram renders on GitHub
+- [ ] All seven SVG diagrams display correctly locally and on GitHub (no overflowing text or misplaced arrows)
 - [ ] Any FE item observed as unavailable has its fallback noted in `HANDOFF.md`
 - [ ] Secret scan before commit returned no matches (evidence)
 - [ ] Human executed manual validation

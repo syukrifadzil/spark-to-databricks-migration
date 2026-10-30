@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1450" height="570" viewBox="0 0 1450 570" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title>Orchestration - target job and manual fallback</title>
+<defs>
+<style>
+.title{font-size:20px;font-weight:700;fill:#111827}
+.pt{font-size:15px;font-weight:700}
+.box{fill:#ffffff;stroke:#cdd3db;stroke-width:1.5}
+.built .box{fill:#f5f8ff;stroke:#4a72d9;stroke-width:2}
+.verify .box{fill:#fffaf2;stroke:#e09a3e;stroke-width:2}
+.ct{font-size:14px;font-weight:700;fill:#111827}
+.built .ct{fill:#2f5bcc}
+.cs{font-size:11.5px;fill:#4b5563}
+.ic{fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.b-built{fill:#4a72d9}
+.b-verify{fill:#e09a3e}
+.bt{font-size:9.5px;font-weight:700;fill:#ffffff;letter-spacing:0.4px}
+.edge{fill:none;stroke:#6b7280;stroke-width:1.5}
+.sc{fill:#ffffff;stroke:#374151;stroke-width:1.2}
+.sn{font-size:10.5px;font-weight:700;fill:#111827}
+.lg{font-size:12.5px;fill:#111827}
+.cap{font-size:12.5px;fill:#374151}
+</style>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/></marker>
+<symbol id="i-flow" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8.5 6h7M7.3 8.2l3.5 7.4M16.7 8.2l-3.5 7.4"/></symbol>
+<symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 10v10"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></symbol>
+<symbol id="i-compare" viewBox="0 0 24 24"><path d="M4 8h15M15 4l4 4-4 4M20 16H5M9 12l-4 4 4 4"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+</defs>
+
+<rect width="1450" height="570" fill="#ffffff"/>
+<text class="title" x="40" y="42">Orchestration - target job and manual fallback</text>
+
+<!-- Panels -->
+<rect x="30" y="70" width="1390" height="170" rx="14" fill="#fdf4f3" stroke="#d9534f" stroke-width="2"/>
+<text class="pt" x="50" y="98" fill="#b03a36">Target - Databricks job (Phase 05)</text>
+<rect x="30" y="270" width="1390" height="170" rx="14" fill="#f1faf8" stroke="#3aa395" stroke-width="2"/>
+<text class="pt" x="50" y="298" fill="#227a6e">Fallback - the maintainer runs the same steps by hand</text>
+
+<!-- Edges -->
+<path class="edge" d="M350,159 H400" marker-end="url(#arrow)"/>
+<path class="edge" d="M700,159 H750" marker-end="url(#arrow)"/>
+<path class="edge" d="M1050,159 H1100" marker-end="url(#arrow)"/>
+<path class="edge" d="M350,359 H400" marker-end="url(#arrow)"/>
+<path class="edge" d="M700,359 H750" marker-end="url(#arrow)"/>
+<path class="edge" d="M1050,359 H1100" marker-end="url(#arrow)"/>
+
+<!-- Target -->
+<g transform="translate(50,115)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5f6b7a"/>
+  <use xlink:href="#i-clock" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Trigger</text>
+  <text class="cs" x="70" y="55">Manual run or a schedule;</text>
+  <text class="cs" x="70" y="70">one run at a time</text>
+</g>
+<g class="built" transform="translate(400,115)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#c2463f"/>
+  <use xlink:href="#i-flow" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Task 1 - pipeline update</text>
+  <text class="cs" x="70" y="55">Bronze and silver; the job</text>
+  <text class="cs" x="70" y="70">stops if the update fails</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="verify" transform="translate(750,115)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5a55c7"/>
+  <use xlink:href="#i-table" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Task 2 - dbt build</text>
+  <text class="cs" x="70" y="55">dbt task on the SQL warehouse;</text>
+  <text class="cs" x="70" y="70">availability unverified (FE10)</text>
+  <rect class="b-verify" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 04</text>
+</g>
+<g class="built" transform="translate(1100,115)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#2e8f80"/>
+  <use xlink:href="#i-compare" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Task 3 - reconciliation</text>
+  <text class="cs" x="70" y="55">Fails the run on any</text>
+  <text class="cs" x="70" y="70">unexplained difference</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 06</text>
+</g>
+
+<!-- Fallback -->
+<g transform="translate(50,315)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#d98a2b"/>
+  <use xlink:href="#i-user" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Maintainer</text>
+  <text class="cs" x="70" y="55">Checks each step succeeded</text>
+  <text class="cs" x="70" y="70">before starting the next</text>
+</g>
+<g class="built" transform="translate(400,315)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#c2463f"/>
+  <use xlink:href="#i-flow" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Pipeline update in the UI</text>
+  <text class="cs" x="70" y="55">Jobs and Pipelines page; wait</text>
+  <text class="cs" x="70" y="70">for a successful update</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="built" transform="translate(750,315)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5a55c7"/>
+  <use xlink:href="#i-table" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">dbt build, locally</text>
+  <text class="cs" x="70" y="55">From the laptop, against the</text>
+  <text class="cs" x="70" y="70">same SQL warehouse</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 04</text>
+</g>
+<g class="built" transform="translate(1100,315)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#2e8f80"/>
+  <use xlink:href="#i-compare" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Reconciliation, locally</text>
+  <text class="cs" x="70" y="55">Same scripts and thresholds</text>
+  <text class="cs" x="70" y="70">as the job task</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 06</text>
+</g>
+
+<!-- Step labels -->
+<g transform="translate(375,145)"><circle class="sc" r="8.5"/><text class="sn" y="3.6" text-anchor="middle">1</text></g>
+<g transform="translate(725,145)"><circle class="sc" r="8.5"/><text class="sn" y="3.6" text-anchor="middle">2</text></g>
+<g transform="translate(1075,145)"><circle class="sc" r="8.5"/><text class="sn" y="3.6" text-anchor="middle">3</text></g>
+<g transform="translate(375,345)"><circle class="sc" r="8.5"/><text class="sn" y="3.6" text-anchor="middle">1</text></g>
+<g transform="translate(725,345)"><circle class="sc" r="8.5"/><text class="sn" y="3.6" text-anchor="middle">2</text></g>
+<g transform="translate(1075,345)"><circle class="sc" r="8.5"/><text class="sn" y="3.6" text-anchor="middle">3</text></g>
+
+<!-- Legend and caption -->
+<text class="lg" x="40" y="486" font-weight="700">Legend</text>
+<rect x="110" y="474" width="26" height="16" rx="4" fill="#f5f8ff" stroke="#4a72d9" stroke-width="2"/>
+<text class="lg" x="144" y="486">Built in this project (badge shows the phase)</text>
+<rect x="480" y="474" width="26" height="16" rx="4" fill="#fffaf2" stroke="#e09a3e" stroke-width="2"/>
+<text class="lg" x="514" y="486">Depends on a Free Edition feature not yet verified</text>
+<rect x="884" y="474" width="26" height="16" rx="4" fill="#ffffff" stroke="#cdd3db" stroke-width="1.5"/>
+<text class="lg" x="918" y="486">Platform feature or person</text>
+<text class="cap" x="40" y="520">Each arrow means: start only after the previous step succeeded. Both paths run the same logic in the same order, so the fallback still exercises the</text>
+<text class="cap" x="40" y="540">full design. Job and pipeline settings are kept as bundle configuration either way.</text>
+</svg>

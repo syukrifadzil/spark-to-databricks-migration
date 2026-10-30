@@ -20,7 +20,7 @@ ls -la
 ls -R docs infra phases/phase_00_foundation
 ```
 
-Expected: `README.md`, `GLOBAL_MASTER_INSTRUCTIONS.md`, `.gitignore`, `.env.example`, `docs/` (four documents and `adr/` with seven files), `infra/sql/00_create_namespace.sql`, and `phases/` with eight phase folders. `phase_00_foundation` holds `PROMPT.md`, `EXPLANATION.md`, `MANUAL_RUNBOOK.md`, `VALIDATION_CHECKLIST.md` and `HANDOFF.md`.
+Expected: `README.md`, `GLOBAL_MASTER_INSTRUCTIONS.md`, `.gitignore`, `.env.example`, `docs/` (four documents, `adr/` with seven files, `diagrams/` with seven SVG files), `infra/sql/00_create_namespace.sql`, and `phases/` with eight phase folders. `phase_00_foundation` holds `PROMPT.md`, `EXPLANATION.md`, `MANUAL_RUNBOOK.md`, `VALIDATION_CHECKLIST.md` and `HANDOFF.md`.
 
 Read, in this order: `docs/case_study.md`, `docs/architecture.md`, `docs/data_contracts.md`, `docs/platform_assumptions.md`, `docs/adr/`. Note anything you disagree with; decisions are cheapest to change now.
 
@@ -164,9 +164,21 @@ Expected: no output and no error, because the volume is empty. If the command sy
 
 Record against FE11.
 
-## Step 9. Render the Mermaid diagrams
+## Step 9. Check the diagrams
 
-GitHub renders Mermaid in Markdown. Before pushing, you can preview with a Markdown viewer that supports Mermaid (VS Code with a Mermaid preview extension, or paste a block into the Mermaid live editor at mermaid.live). After pushing (Step 11), open each document on GitHub and confirm that every diagram renders. Diagrams are in `README.md`, `docs/case_study.md`, `docs/architecture.md` and `docs/data_contracts.md`.
+The diagrams are SVG files in `docs/diagrams/`. Preview them locally before pushing. Working directory: repository root.
+
+```bash
+open docs/diagrams/*.svg
+```
+
+They open in your default browser or viewer. For each one, check that:
+- no text overflows its card or overlaps another card
+- arrows start and end at card edges
+- the numbered step circles sit on or beside their arrows
+- the legend and caption are readable
+
+After pushing, open `README.md`, `docs/case_study.md`, `docs/architecture.md` and `docs/data_contracts.md` on GitHub and confirm that the images display. GitHub scales wide images to the page width; click an image to view it full size. Report any defect with the file name and the card or arrow concerned.
 
 ## Step 10. Record results in the handoff
 

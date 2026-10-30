@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1890" height="690" viewBox="0 0 1890 690" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title>Medallion layers, ownership and data contracts</title>
+<defs>
+<style>
+.title{font-size:20px;font-weight:700;fill:#111827}
+.pt{font-size:15px;font-weight:700}
+.box{fill:#ffffff;stroke:#cdd3db;stroke-width:1.5}
+.built .box{fill:#f5f8ff;stroke:#4a72d9;stroke-width:2}
+.verify .box{fill:#fffaf2;stroke:#e09a3e;stroke-width:2}
+.ct{font-size:14px;font-weight:700;fill:#111827}
+.built .ct{fill:#2f5bcc}
+.cs{font-size:11.5px;fill:#4b5563}
+.ic{fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.b-built{fill:#4a72d9}
+.b-verify{fill:#e09a3e}
+.bt{font-size:9.5px;font-weight:700;fill:#ffffff;letter-spacing:0.4px}
+.edge{fill:none;stroke:#6b7280;stroke-width:1.5}
+.el{font-size:11.5px;fill:#374151}
+.lg{font-size:12.5px;fill:#111827}
+.cap{font-size:12.5px;fill:#374151}
+.pill{fill:#111827}
+.pl{font-size:10px;font-weight:700;fill:#ffffff}
+</style>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/></marker>
+<symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 10v10"/></symbol>
+<symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="2.5"/><path d="M4 5.5v13c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-13M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3.5l9 16H3z"/><path d="M12 10v4.5M12 17.2v0.3"/></symbol>
+<symbol id="i-compare" viewBox="0 0 24 24"><path d="M4 8h15M15 4l4 4-4 4M20 16H5M9 12l-4 4 4 4"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 20h18M6 20v-7M11 20V5M16 20v-10"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
+</defs>
+
+<rect width="1890" height="690" fill="#ffffff"/>
+<text class="title" x="40" y="42">Medallion layers, ownership and data contracts</text>
+
+<!-- Panels -->
+<rect x="30" y="70" width="340" height="500" rx="14" fill="#fdf8f0" stroke="#e3a14a" stroke-width="2"/>
+<text class="pt" x="50" y="98" fill="#b66d12">Landing - maintainer uploads</text>
+<rect x="400" y="70" width="720" height="500" rx="14" fill="#fdf4f3" stroke="#d9534f" stroke-width="2"/>
+<text class="pt" x="420" y="98" fill="#b03a36">Lakeflow pipeline - owns retail_bronze and retail_silver</text>
+<rect x="1150" y="70" width="340" height="500" rx="14" fill="#f4f7fe" stroke="#6b8ee0" stroke-width="2"/>
+<text class="pt" x="1170" y="98" fill="#3858b8">dbt Core - owns retail_gold</text>
+<rect x="1520" y="70" width="340" height="500" rx="14" fill="#f7f8fa" stroke="#9aa3af" stroke-width="2"/>
+<text class="pt" x="1540" y="98" fill="#4b5563">Consumers</text>
+
+<!-- Edges -->
+<path class="edge" d="M350,174 H420" marker-end="url(#arrow)"/>
+<path class="edge" d="M720,174 H780" marker-end="url(#arrow)"/>
+<path class="edge" d="M930,218 V280" marker-end="url(#arrow)"/>
+<path class="edge" d="M840,218 V249 H570 V280" marker-end="url(#arrow)"/>
+<path class="edge" d="M1080,324 H1170" marker-end="url(#arrow)"/>
+<path class="edge" d="M1320,368 V430" marker-end="url(#arrow)"/>
+<path class="edge" d="M1470,490 H1540" marker-end="url(#arrow)"/>
+<path class="edge" d="M1470,450 H1505 V324 H1540" marker-end="url(#arrow)"/>
+
+<!-- Landing -->
+<g class="built" transform="translate(50,130)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#d98a2b"/>
+  <use xlink:href="#i-folder" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Landing volume</text>
+  <text class="cs" x="70" y="55">retail_landing.raw; CSV</text>
+  <text class="cs" x="70" y="70">batches, never edited</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 00</text>
+</g>
+
+<!-- Lakeflow -->
+<g class="built" transform="translate(420,130)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#c2463f"/>
+  <use xlink:href="#i-table" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Bronze tables</text>
+  <text class="cs" x="70" y="55">One per entity; columns as</text>
+  <text class="cs" x="70" y="70">strings plus file metadata</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="built" transform="translate(780,130)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#2e8f80"/>
+  <use xlink:href="#i-gear" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Parse and validate</text>
+  <text class="cs" x="70" y="55">try_cast plus named rules;</text>
+  <text class="cs" x="70" y="70">rules defined once, used twice</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="built" transform="translate(420,280)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#d98a2b"/>
+  <use xlink:href="#i-warn" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Quarantine tables</text>
+  <text class="cs" x="70" y="55">entity_quarantine: rejected</text>
+  <text class="cs" x="70" y="70">rows with failed rule names</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="verify" transform="translate(780,280)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#c2463f"/>
+  <use xlink:href="#i-db" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Silver tables</text>
+  <text class="cs" x="70" y="55">AUTO CDC upsert, SCD type 1;</text>
+  <text class="cs" x="70" y="70">latest source_updated_at wins</text>
+  <rect class="b-verify" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g transform="translate(420,430)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5f6b7a"/>
+  <use xlink:href="#i-doc" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Pipeline event log</text>
+  <text class="cs" x="70" y="55">Pass and fail counts per</text>
+  <text class="cs" x="70" y="70">expectation, per update</text>
+</g>
+
+<!-- dbt -->
+<g class="built" transform="translate(1170,130)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#3c9a5f"/>
+  <use xlink:href="#i-check" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">dbt tests and docs</text>
+  <text class="cs" x="70" y="55">Schema and business tests,</text>
+  <text class="cs" x="70" y="70">docs site and lineage</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 04</text>
+</g>
+<g class="built" transform="translate(1170,280)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5a55c7"/>
+  <use xlink:href="#i-table" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Staging models</text>
+  <text class="cs" x="70" y="55">stg_ models over silver</text>
+  <text class="cs" x="70" y="70">sources; renames and casts</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 04</text>
+</g>
+<g class="built" transform="translate(1170,430)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#d98a2b"/>
+  <use xlink:href="#i-chart" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Gold marts</text>
+  <text class="cs" x="70" y="55">Daily sales, customer lifetime</text>
+  <text class="cs" x="70" y="70">value, product performance</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 04</text>
+</g>
+
+<!-- Consumers -->
+<g class="built" transform="translate(1540,280)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#2e8f80"/>
+  <use xlink:href="#i-compare" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Reconciliation</text>
+  <text class="cs" x="70" y="55">Legacy versus gold: counts,</text>
+  <text class="cs" x="70" y="70">sums, keys, row hashes</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 06</text>
+</g>
+<g transform="translate(1540,430)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5f6b7a"/>
+  <use xlink:href="#i-chart" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Reports and ad hoc SQL</text>
+  <text class="cs" x="70" y="55">Read gold only, never</text>
+  <text class="cs" x="70" y="70">silver or bronze</text>
+</g>
+
+<!-- Edge labels and contract pills -->
+<g transform="translate(385,174)"><rect class="pill" x="-14" y="-9" width="28" height="18" rx="9"/><text class="pl" y="3.5" text-anchor="middle">C1</text></g>
+<text class="el" x="750" y="166" text-anchor="middle">parse</text>
+<g transform="translate(942,249)"><rect x="-4" y="-10" width="38" height="20" rx="4" fill="#fdf4f3"/><text class="el" x="0" y="4">pass</text></g>
+<g transform="translate(690,249)"><rect x="-18" y="-10" width="36" height="20" rx="4" fill="#fdf4f3"/><text class="el" x="0" y="4" text-anchor="middle">fail</text></g>
+<g transform="translate(1135,324)"><rect class="pill" x="-14" y="-9" width="28" height="18" rx="9"/><text class="pl" y="3.5" text-anchor="middle">C2</text></g>
+<g transform="translate(1332,399)"><rect x="-4" y="-10" width="66" height="20" rx="4" fill="#f4f7fe"/><text class="el" x="0" y="4">dbt build</text></g>
+<g transform="translate(1505,387)"><rect class="pill" x="-14" y="-9" width="28" height="18" rx="9"/><text class="pl" y="3.5" text-anchor="middle">C3</text></g>
+
+<!-- Legend and caption -->
+<text class="lg" x="40" y="616" font-weight="700">Legend</text>
+<rect x="110" y="604" width="26" height="16" rx="4" fill="#f5f8ff" stroke="#4a72d9" stroke-width="2"/>
+<text class="lg" x="144" y="616">Built in this project (badge shows the phase)</text>
+<rect x="480" y="604" width="26" height="16" rx="4" fill="#fffaf2" stroke="#e09a3e" stroke-width="2"/>
+<text class="lg" x="514" y="616">Depends on a feature not yet verified</text>
+<rect x="800" y="604" width="26" height="16" rx="4" fill="#ffffff" stroke="#cdd3db" stroke-width="1.5"/>
+<text class="lg" x="834" y="616">Platform feature, used as is</text>
+<rect class="pill" x="1060" y="603" width="28" height="18" rx="9"/><text class="pl" x="1074" y="615.5" text-anchor="middle">C1</text>
+<text class="lg" x="1096" y="616">landing contract</text>
+<rect class="pill" x="1220" y="603" width="28" height="18" rx="9"/><text class="pl" x="1234" y="615.5" text-anchor="middle">C2</text>
+<text class="lg" x="1256" y="616">silver contract</text>
+<rect class="pill" x="1370" y="603" width="28" height="18" rx="9"/><text class="pl" x="1384" y="615.5" text-anchor="middle">C3</text>
+<text class="lg" x="1406" y="616">gold contract</text>
+<text class="cap" x="40" y="650">Each tool writes only to its own schemas. Bad rows go to quarantine instead of failing the run; invalid references are kept and flagged, not rejected,</text>
+<text class="cap" x="40" y="670">because a parent record can arrive in a later batch. Contracts are defined in docs/data_contracts.md.</text>
+</svg>

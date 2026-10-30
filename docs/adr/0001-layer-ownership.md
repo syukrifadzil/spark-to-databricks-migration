@@ -1,6 +1,6 @@
 # 0001. Lakeflow owns bronze and silver; dbt owns gold
 
-- Status: Proposed
+- Status: Accepted (2026-10-31)
 - Date: 2026-10-30
 
 ## Context

@@ -64,16 +64,7 @@ Each criterion names the phase that delivers it and the evidence the maintainer 
 
 ## 6. Phase plan
 
-```mermaid
-flowchart LR
-    p0["00 Foundation"] --> p1["01 Synthetic data"]
-    p1 --> p2["02 Legacy Spark"]
-    p2 --> p3["03 Lakeflow bronze and silver"]
-    p3 --> p4["04 dbt gold"]
-    p4 --> p5["05 Orchestration and CI/CD"]
-    p5 --> p6["06 Reconciliation and resilience"]
-    p6 --> p7["07 Benchmark and portfolio"]
-```
+![Phase plan: phases 00 to 07 in order, with Phase 00 in review and the rest planned](diagrams/phase-plan.svg)
 
 | Phase | Delivers | Depends on |
 |---|---|---|

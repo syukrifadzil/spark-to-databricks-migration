@@ -14,17 +14,7 @@ A case study in migrating a legacy batch PySpark ETL for a fictional Malaysian r
 
 ## Architecture at a glance
 
-```mermaid
-flowchart LR
-    gen["Synthetic data generator"] -->|CSV| legacy["Legacy PySpark job"]
-    gen -->|upload| vol[("Volume<br/>retail_landing.raw")]
-    vol --> bronze["retail_bronze"]
-    bronze --> silver["retail_silver"]
-    bronze --> quar["Quarantine tables"]
-    silver --> gold["retail_gold<br/>dbt marts"]
-    legacy --> recon{"Reconciliation"}
-    gold --> recon
-```
+![System context: local workstation, Databricks workspace and GitHub, with numbered data flow from generation through reconciliation](docs/diagrams/system-context.svg)
 
 | Layer | Schema | Owner |
 |---|---|---|
@@ -65,6 +55,7 @@ Directories are created by the phase that first needs them.
 │   ├── architecture.md             Target architecture and diagrams
 │   ├── data_contracts.md           Contract framework and quality rules
 │   ├── platform_assumptions.md     Free Edition, cost, toolchain, responsibilities
+│   ├── diagrams/                   Architecture diagrams (SVG)
 │   └── adr/                        Architecture decision records
 ├── infra/sql/                      Workspace setup SQL (00)
 ├── data/                           Generator, contracts, samples (01)

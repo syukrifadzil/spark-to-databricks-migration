@@ -1,6 +1,6 @@
 # 0004. Incremental ingestion, CDC upsert and quarantine
 
-- Status: Proposed
+- Status: Accepted (2026-10-31)
 - Date: 2026-10-30
 
 ## Context

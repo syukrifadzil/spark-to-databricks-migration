@@ -1,6 +1,6 @@
 # 0003. Target Databricks Free Edition on serverless compute
 
-- Status: Proposed
+- Status: Accepted (2026-10-31)
 - Date: 2026-10-30
 
 ## Context
