@@ -35,6 +35,8 @@ output/
 target/
 dbt_packages/
 logs/
+# Anonymous usage-tracking id that dbt writes next to profiles.yml (here dbt/).
+.user.yml
 
 # --- Databricks bundles -----------------------------------------------------
 .databricks/

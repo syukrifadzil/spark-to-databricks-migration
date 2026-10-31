@@ -208,8 +208,8 @@ Paste into the conversation:
 cd ~/Desktop/databricks-prep/dbx-proj/spark-to-dbx
 git add dbt requirements-dbt.txt tests/unit/test_dbt_project.py README.md docs phases/phase_04_dbt_gold
 git status --short
-git status --short | grep -E 'profiles\.yml$|\.env$|dbt/target|dbt/logs|\.venv' || echo "no local or generated files staged"
-git diff --cached | grep -nE 'dapi[0-9a-zA-Z]{16,}|DATABRICKS_TOKEN=[A-Za-z0-9]|https://[^[:space:]<]*databricks\.com'
+git status --short | grep -E 'profiles\.yml$|\.env$|\.user\.yml$|dbt/target|dbt/logs|\.venv' || echo "no local or generated files staged"
+git diff --cached | grep -nE 'dapi[0-9a-zA-Z]{16,}|DATABRICKS_TOKEN=[A-Za-z0-9]|https://[^[:space:]<]*databricks\.com' | grep -vE 'https://docs\.databricks\.com|dbc-xxxx'
 git commit -m "feat(dbt): add gold marts, contract and business-rule tests"
 git push
 ```
@@ -217,7 +217,7 @@ git push
 Expected:
 - `dbt/profiles.example.yml` staged.
 - `no local or generated files staged`. The grep matches `profiles.yml` only at the end of a name, so the example file does not count.
-- The secret scan prints nothing.
+- The secret scan prints nothing. The second `grep` drops links to the public documentation site and the `dbc-xxxx` placeholder, which the URL pattern would otherwise match.
 
 ## Troubleshooting
 

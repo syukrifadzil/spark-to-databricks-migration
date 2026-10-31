@@ -77,7 +77,10 @@ Complete. Run by the maintainer on 2026-10-31 and 2026-11-01. The install, conne
     - Lineage graph for `+mart_daily_sales+`: `silver.order_items`, `silver.orders` and `silver.payments`, each feeding its staging view, all three feeding `mart_daily_sales`. This matches the model. The runbook said "five sources", which holds only for the whole-project graph; Step 9 is corrected.  - Whole-project lineage graph: not reported.
   - Unity Catalog lineage (optional): not reported.
 - Step 10: reported verified on 2026-11-01.
-- Step 12: committed together with Phases 02 and 03 on 2026-11-01; see `git log`.
+- Step 12 (2026-11-01): commit `6f4ff73`, pushed to `main` (`4ae4be1..6f4ff73`), 39 files changed.
+  - The staged-files check printed `no local or generated files staged`.
+  - The secret scan matched two lines, both false positives: a link to `docs.databricks.com` and the `dbc-xxxx` placeholder in the runbook. The scan in Step 12 now filters both out.
+  - The commit included `dbt/.user.yml`. dbt writes this anonymous usage-tracking id next to `profiles.yml`, which here is `dbt/`. It holds no credentials. A follow-up commit removes it from the index and adds `.user.yml` to `.gitignore`. It stays in the history of `6f4ff73`, which was judged acceptable for a random id.
 - Any failures, with the full output:
 
 ## Phase 05 prerequisites
