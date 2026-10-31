@@ -2,7 +2,7 @@
 
 A case study in migrating a legacy batch PySpark ETL for a fictional Malaysian retailer to a Databricks Lakehouse built on Lakeflow Declarative Pipelines, Delta Lake, Unity Catalog and dbt Core, with GitHub Actions for continuous integration.
 
-**Status:** Phase 00 (foundation) is complete. Phase 01 (synthetic data) is written and awaiting its first run; none of its code has been executed yet. Results are added only from recorded runs.
+**Status:** Phases 00 (foundation) and 01 (synthetic data) are complete and validated by the maintainer. Phase 02 (legacy job) has been run locally and is in review; one reconciliation question is open. Results are added only from recorded runs.
 
 ## What the project demonstrates
 
@@ -30,8 +30,8 @@ Full design: [docs/architecture.md](docs/architecture.md).
 | Phase | Scope | Status |
 |---|---|---|
 | 00 | Foundation: architecture, contracts, ADRs, conventions | Complete |
-| 01 | Synthetic data generation and data contracts | Written, pending first run and review |
-| 02 | Legacy PySpark job | Not started |
+| 01 | Synthetic data generation and data contracts | Complete |
+| 02 | Legacy PySpark job | Run locally, in review |
 | 03 | Lakeflow bronze and silver | Not started |
 | 04 | dbt gold marts | Not started |
 | 05 | Orchestration and CI/CD | Not started |
@@ -51,7 +51,8 @@ Directories are created by the phase that first needs them.
 ├── .gitignore
 ├── .env.example                    Variable names only; copy to .env locally
 ├── pyproject.toml                  pytest settings
-├── requirements-dev.txt            Test dependency (runtime code is standard library only)
+├── requirements-dev.txt            Test dependency (Phase 01 code is standard library only)
+├── requirements-spark.txt          PySpark for the legacy job (needs Java 17 or 21)
 ├── docs/
 │   ├── case_study.md               Scenario, goals, acceptance criteria
 │   ├── architecture.md             Target architecture and diagrams
@@ -77,6 +78,7 @@ Requires Python 3.10 or later. Follow the runbooks in order:
 
 1. [Phase 00: workspace and repository setup](phases/phase_00_foundation/MANUAL_RUNBOOK.md)
 2. [Phase 01: generate and validate the synthetic data](phases/phase_01_synthetic_data/MANUAL_RUNBOOK.md)
+3. [Phase 02: run the legacy job](phases/phase_02_legacy_spark/MANUAL_RUNBOOK.md)
 
 Quick start for the data, from the repository root:
 
@@ -85,6 +87,10 @@ python3 -m venv .venv && source .venv/bin/activate
 python -m pip install -r requirements-dev.txt
 python -m data.generators.generate --preset small --out data/raw/clean
 python -m data.generators.validate --data data/raw/clean
+
+# Legacy job (needs Java 17 or 21)
+python -m pip install -r requirements-spark.txt
+python -m legacy_spark.retail_nightly_job --input data/raw/clean --output output/legacy/clean
 ```
 
 ## Documentation

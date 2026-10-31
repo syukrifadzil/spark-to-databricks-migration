@@ -1,0 +1,3 @@
+# Local PySpark for the legacy job (Phase 02). Needs a Java runtime: Java 17 or 21 for PySpark 4.
+# Pinned to the version that produced the recorded baseline (Phase 02 handoff), so the baseline can be reproduced.
+pyspark==4.3.0

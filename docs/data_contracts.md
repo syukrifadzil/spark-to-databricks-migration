@@ -149,9 +149,57 @@ For every silver entity table:
 | Source correction (newer `source_updated_at`) | Silver | Replaces current version | Sequence ordering |
 | New column in source file (schema evolution) | Bronze accepts; silver ignores until the contract adopts it | Explicit contract change | Prevents silent downstream changes |
 
-## 7. Gold contract (C3)
+## 7. Gold contract (C3): mart business rules
 
-Each mart declares its grain, unique key, not-null columns and business tests in dbt YAML (Phase 04). Baseline grains are listed in `architecture.md` section 7.
+Defined in Phase 02 so that the legacy job and the dbt marts (Phase 04) implement the same definitions. Phase 04 adds the dbt YAML tests; any change here changes both implementations.
+
+**Shared definitions**
+
+| Term | Definition |
+|---|---|
+| Current state | The latest version of each customer, product and order |
+| Sold order | An order whose current status is `paid`, `shipped` or `delivered`. Pending and cancelled orders are not sales |
+| Line total | `quantity * unit_price` |
+| Business date | The `Asia/Kuala_Lumpur` calendar date of a UTC timestamp |
+| Order date attribution | Order counts, items and gross sales belong to the business date of `order_date` |
+| Payment date attribution | Charges and refunds belong to the business date of `payment_at` |
+| Money in a payment | Only `succeeded` payments count. Charges add, refunds subtract |
+
+**mart_daily_sales**: one row per business date that has any order or any succeeded payment.
+
+| Column | Definition |
+|---|---|
+| business_date | Key |
+| orders_placed | Orders placed that date, any status |
+| orders_sold | Sold orders placed that date |
+| items_sold | Sum of quantity over items of sold orders placed that date |
+| gross_sales | Sum of line totals over items of sold orders placed that date |
+| charges | Succeeded charges with payment that date |
+| refunds | Succeeded refunds with payment that date |
+| net_payments | charges - refunds |
+
+**mart_customer_lifetime_value**: one row per customer, including customers with no orders (zeros, null dates).
+
+| Column | Definition |
+|---|---|
+| customer_id | Key |
+| region | Current region |
+| first_order_date, last_order_date | Earliest and latest business date of the customer's sold orders |
+| orders_sold | Number of sold orders |
+| lifetime_gross_sales | Sum of line totals over the customer's sold orders |
+| lifetime_net_paid | Succeeded charges minus succeeded refunds over all of the customer's orders, any status |
+
+**mart_product_performance**: one row per product, including products never sold (zeros).
+
+| Column | Definition |
+|---|---|
+| product_id | Key |
+| product_name, category, status | Current values |
+| units_sold | Sum of quantity over items of sold orders |
+| gross_sales | Sum of line totals over items of sold orders |
+| orders_sold | Distinct sold orders containing the product |
+
+The legacy job (Phase 02) implements these definitions on top of legacy input handling. Its known deviations are documented in `phases/phase_02_legacy_spark/EXPLANATION.md`, section 4.
 
 ## 8. Change process
 
