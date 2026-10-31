@@ -2,7 +2,7 @@
 
 A case study in migrating a legacy batch PySpark ETL for a fictional Malaysian retailer to a Databricks Lakehouse built on Lakeflow Declarative Pipelines, Delta Lake, Unity Catalog and dbt Core, with GitHub Actions for continuous integration.
 
-**Status:** Phase 00 (foundation) is written and awaiting review. Nothing in this repository has been executed or validated yet. Results are added only from recorded runs.
+**Status:** Phase 00 (foundation) is complete. Phase 01 (synthetic data) is written and awaiting its first run; none of its code has been executed yet. Results are added only from recorded runs.
 
 ## What the project demonstrates
 
@@ -29,8 +29,8 @@ Full design: [docs/architecture.md](docs/architecture.md).
 
 | Phase | Scope | Status |
 |---|---|---|
-| 00 | Foundation: architecture, contracts, ADRs, conventions | Written, pending review |
-| 01 | Synthetic data generation and data contracts | Not started |
+| 00 | Foundation: architecture, contracts, ADRs, conventions | Complete |
+| 01 | Synthetic data generation and data contracts | Written, pending first run and review |
 | 02 | Legacy PySpark job | Not started |
 | 03 | Lakeflow bronze and silver | Not started |
 | 04 | dbt gold marts | Not started |
@@ -50,6 +50,8 @@ Directories are created by the phase that first needs them.
 ├── GLOBAL_MASTER_INSTRUCTIONS.md   Project-wide working rules
 ├── .gitignore
 ├── .env.example                    Variable names only; copy to .env locally
+├── pyproject.toml                  pytest settings
+├── requirements-dev.txt            Test dependency (runtime code is standard library only)
 ├── docs/
 │   ├── case_study.md               Scenario, goals, acceptance criteria
 │   ├── architecture.md             Target architecture and diagrams
@@ -71,7 +73,19 @@ Directories are created by the phase that first needs them.
 
 ## Getting started
 
-Follow [phases/phase_00_foundation/MANUAL_RUNBOOK.md](phases/phase_00_foundation/MANUAL_RUNBOOK.md).
+Requires Python 3.10 or later. Follow the runbooks in order:
+
+1. [Phase 00: workspace and repository setup](phases/phase_00_foundation/MANUAL_RUNBOOK.md)
+2. [Phase 01: generate and validate the synthetic data](phases/phase_01_synthetic_data/MANUAL_RUNBOOK.md)
+
+Quick start for the data, from the repository root:
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+python -m pip install -r requirements-dev.txt
+python -m data.generators.generate --preset small --out data/raw/clean
+python -m data.generators.validate --data data/raw/clean
+```
 
 ## Documentation
 

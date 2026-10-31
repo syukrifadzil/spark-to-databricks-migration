@@ -1,0 +1,4 @@
+customer_id,name,email,region,created_at,updated_at,source_updated_at,change_type,batch_id,event_id
+,Sarah Nair,sarah.nair.6@example.com,Putrajaya,2025-07-13T09:30:58Z,2025-07-13T09:30:58Z,2026-01-05T00:00:02Z,update,batch_005,EVT-A005-00001
+,Mei Ling Das,meiling.das.17@example.com,Sarawak,2024-01-18T07:28:50Z,2024-01-18T07:28:50Z,2026-01-05T00:00:04Z,update,batch_005,EVT-A005-00003
+,Jun Jie Ng,junjie.ng.33@example.com,Kuala Lumpur,2024-02-12T17:55:08Z,2024-02-12T17:55:08Z,2026-01-05T00:00:06Z,update,batch_005,EVT-A005-00005

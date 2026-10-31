@@ -1,0 +1,16 @@
+product_id,product_name,category,price,status,source_updated_at,change_type,batch_id,event_id
+PROD-00005,Colour Pencils 851,stationery,27.22,active,2024-01-26T20:27:59Z,snapshot,batch_000,EVT-00000003
+PROD-00008,Baby Wipes 658,baby,133.55,active,2024-02-15T22:28:37Z,snapshot,batch_000,EVT-00000006
+PROD-00012,Notebook 834,stationery,25.90,active,2024-02-19T19:14:27Z,snapshot,batch_000,EVT-00000007
+PROD-00009,yoga mat 829,sports,347.20,active,2024-03-24T16:03:54Z,snapshot,batch_000,EVT-00000008
+PROD-00014,Sunscreen 351,personal_care,69.69,active,2024-04-21T18:59:55Z,snapshot,batch_000,EVT-00000011
+PROD-00004,Baby Wipes 108,baby,86.34,active,2024-06-10T23:10:09Z,snapshot,batch_000,EVT-00000015
+PROD-00002,Electric Fan 183,electronics,1360.85,discontinued,2024-06-12T10:39:44Z,snapshot,batch_000,EVT-00000017
+PROD-00001,Wok 670,home_kitchen,218.11,active,2024-06-18T13:00:15Z,snapshot,batch_000,EVT-00000019
+PROD-00003,Floor Cleaner 673,household,3.16,active,2024-10-06T18:52:54Z,snapshot,batch_000,EVT-00000024
+PROD-00013,Shampoo 121,personal_care,64.45,active,2024-11-02T13:27:55Z,snapshot,batch_000,EVT-00000026
+PROD-00006,Tea 909,beverages,6.84,active,2025-01-30T15:35:14Z,snapshot,batch_000,EVT-00000031
+PROD-00015,Toothpaste 945,personal_care,78.57,active,2025-03-14T15:21:52Z,snapshot,batch_000,EVT-00000035
+PROD-00007,Notebook 324,stationery,27.07,active,2025-07-05T08:57:21Z,snapshot,batch_000,EVT-00000044
+PROD-00011,Pen Set 808,stationery,24.51,active,2025-07-09T19:54:21Z,snapshot,batch_000,EVT-00000046
+PROD-00010,Flour 937,groceries,44.72,active,2025-09-05T13:15:28Z,snapshot,batch_000,EVT-00000051

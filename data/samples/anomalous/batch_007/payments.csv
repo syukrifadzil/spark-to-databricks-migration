@@ -1,0 +1,4 @@
+payment_id,order_id,payment_type,amount,method,status,payment_at,source_updated_at,change_type,batch_id,event_id
+PAY-00000062,ORD-0000056,charge,-288.73,card,succeeded,2025-12-27T12:26:40Z,2026-01-07T00:00:02Z,update,batch_007,EVT-A007-00001
+PAY-00000013,ORD-0000011,charge,-545.06,card,succeeded,2025-12-08T10:49:54Z,2026-01-07T00:00:04Z,update,batch_007,EVT-A007-00003
+PAY-00000090,ORD-0000081,charge,-157.14,fpx,failed,2026-01-03T17:06:58Z,2026-01-07T00:00:06Z,update,batch_007,EVT-A007-00005

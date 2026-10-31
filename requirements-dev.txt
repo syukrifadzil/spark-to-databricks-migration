@@ -1,0 +1,3 @@
+# Phase 01 runtime code uses the Python standard library only (Python 3.10 or later).
+# Test runner. Record the installed version with: python -m pip freeze
+pytest>=8

@@ -1,0 +1,118 @@
+{
+  "version": "1.0.0",
+  "description": "Landing contract (C1) for the synthetic retail source. Authoritative over docs/data_contracts.md.",
+  "conventions": {
+    "format": "CSV, comma separated, header row, RFC 4180 quoting, LF line endings",
+    "encoding": "utf-8",
+    "null": "empty field",
+    "timestamp_format": "%Y-%m-%dT%H:%M:%SZ",
+    "timestamp_timezone": "UTC",
+    "business_timezone": "Asia/Kuala_Lumpur",
+    "currency": "MYR",
+    "decimal_scale": 2,
+    "rounding": "ROUND_HALF_UP",
+    "file_layout": "<out>/batch_NNN/<entity>.csv; batch_000 is the initial snapshot, batch_001 onwards are change-feed batches",
+    "sequence": "latest version per primary key is the greatest (source_updated_at, event_id)"
+  },
+  "feed_columns": [
+    {"name": "source_updated_at", "type": "timestamp", "required": true,
+     "description": "When this version of the record was produced by the source. Sequence column for CDC."},
+    {"name": "change_type", "type": "string", "required": true,
+     "allowed": ["snapshot", "insert", "update", "correction"],
+     "description": "snapshot rows describe state at the as-of cut; insert, update and correction rows are change events."},
+    {"name": "batch_id", "type": "string", "required": true, "pattern": "batch_[0-9]{3}",
+     "description": "Batch in which the event was first delivered. A replayed row keeps its original batch_id."},
+    {"name": "event_id", "type": "string", "required": true, "pattern": "EVT-.+",
+     "description": "Stable identifier of the event. Unique per event; a replay repeats it with identical content. Tie-breaker for equal source_updated_at."}
+  ],
+  "entities": {
+    "customers": {
+      "description": "Customer profiles. Mutable: email and region changes, name corrections.",
+      "primary_key": "customer_id",
+      "foreign_keys": {},
+      "columns": [
+        {"name": "customer_id", "type": "string", "required": true, "description": "CUST-nnnnnn"},
+        {"name": "name", "type": "string", "required": true, "description": "Synthetic full name."},
+        {"name": "email", "type": "string", "required": true, "pattern": "[^@\\s]+@[^@\\s]+\\.[^@\\s]+",
+         "description": "Synthetic address on a reserved example domain."},
+        {"name": "region", "type": "string", "required": true,
+         "allowed": ["Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan", "Pahang", "Perak", "Perlis",
+                     "Pulau Pinang", "Sabah", "Sarawak", "Selangor", "Terengganu", "Kuala Lumpur", "Labuan", "Putrajaya"],
+         "description": "Malaysian state or federal territory."},
+        {"name": "created_at", "type": "timestamp", "required": true, "description": "Account creation time."},
+        {"name": "updated_at", "type": "timestamp", "required": true,
+         "description": "Last business change. Equal to source_updated_at in this source."}
+      ]
+    },
+    "products": {
+      "description": "Product catalogue. Mutable: price changes, discontinuation, name corrections.",
+      "primary_key": "product_id",
+      "foreign_keys": {},
+      "columns": [
+        {"name": "product_id", "type": "string", "required": true, "description": "PROD-nnnnn"},
+        {"name": "product_name", "type": "string", "required": true, "description": "Synthetic product name."},
+        {"name": "category", "type": "string", "required": true,
+         "allowed": ["groceries", "beverages", "household", "personal_care", "electronics", "apparel",
+                     "home_kitchen", "baby", "stationery", "sports"],
+         "description": "Product category."},
+        {"name": "price", "type": "decimal", "required": true, "min_exclusive": "0",
+         "description": "Current list price in MYR."},
+        {"name": "status", "type": "string", "required": true, "allowed": ["active", "discontinued"],
+         "description": "Discontinued products are not sold in new orders."}
+      ]
+    },
+    "orders": {
+      "description": "Order headers. Mutable: status progresses pending, paid, shipped, delivered, or ends cancelled.",
+      "primary_key": "order_id",
+      "foreign_keys": {"customer_id": "customers"},
+      "columns": [
+        {"name": "order_id", "type": "string", "required": true, "description": "ORD-nnnnnnn"},
+        {"name": "customer_id", "type": "string", "required": true, "description": "Ordering customer."},
+        {"name": "order_date", "type": "timestamp", "required": true, "description": "When the order was placed."},
+        {"name": "status", "type": "string", "required": true,
+         "allowed": ["pending", "paid", "shipped", "delivered", "cancelled"],
+         "description": "Order lifecycle status."}
+      ]
+    },
+    "order_items": {
+      "description": "Order lines. Inserted with the order and never changed.",
+      "primary_key": "order_item_id",
+      "foreign_keys": {"order_id": "orders", "product_id": "products"},
+      "columns": [
+        {"name": "order_item_id", "type": "string", "required": true, "description": "OI-nnnnnnnn"},
+        {"name": "order_id", "type": "string", "required": true, "description": "Parent order."},
+        {"name": "product_id", "type": "string", "required": true, "description": "Product sold."},
+        {"name": "quantity", "type": "integer", "required": true, "min_exclusive": "0", "description": "Units."},
+        {"name": "unit_price", "type": "decimal", "required": true, "min": "0",
+         "description": "Product price at order time, MYR. Line total is quantity times unit_price."}
+      ]
+    },
+    "payments": {
+      "description": "Payment events. Each record is inserted once with its final status; refunds are separate records.",
+      "primary_key": "payment_id",
+      "foreign_keys": {"order_id": "orders"},
+      "columns": [
+        {"name": "payment_id", "type": "string", "required": true, "description": "PAY-nnnnnnnn"},
+        {"name": "order_id", "type": "string", "required": true, "description": "Order being paid or refunded."},
+        {"name": "payment_type", "type": "string", "required": true, "allowed": ["charge", "refund"],
+         "description": "Direction of money. Amounts are always positive."},
+        {"name": "amount", "type": "decimal", "required": true, "min_exclusive": "0", "description": "MYR, always positive."},
+        {"name": "method", "type": "string", "required": true, "allowed": ["card", "fpx", "ewallet", "bank_transfer"],
+         "description": "Payment method."},
+        {"name": "status", "type": "string", "required": true, "allowed": ["succeeded", "failed"],
+         "description": "Only succeeded records move money."},
+        {"name": "payment_at", "type": "timestamp", "required": true, "description": "When the payment was processed."}
+      ]
+    }
+  },
+  "business_rules": [
+    {"name": "orders.has_items", "description": "Every order has at least one order item."},
+    {"name": "orders.paid_amount_matches", "description": "Paid, shipped and delivered orders: succeeded charges equal the order total (sum of quantity times unit_price)."},
+    {"name": "orders.cancelled_net_zero", "description": "Cancelled orders: succeeded charges minus succeeded refunds is zero."},
+    {"name": "orders.pending_not_fully_paid", "description": "Pending orders: succeeded charges are less than the order total (unpaid or partially paid)."},
+    {"name": "orders.refunds_within_charges", "description": "Succeeded refunds never exceed succeeded charges for an order."},
+    {"name": "orders.customer_before_order", "description": "The customer was created before the order was placed."},
+    {"name": "payments.after_order", "description": "payment_at is not earlier than the order's order_date."},
+    {"name": "customers.updated_after_created", "description": "updated_at is not earlier than created_at."}
+  ]
+}

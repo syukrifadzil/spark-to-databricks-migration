@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1520" height="800" viewBox="0 0 1520 800" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title>Phase 01 - generate, inject, validate</title>
+<defs>
+<style>
+.title{font-size:20px;font-weight:700;fill:#111827}
+.pt{font-size:15px;font-weight:700}
+.box{fill:#ffffff;stroke:#cdd3db;stroke-width:1.5}
+.built .box{fill:#f5f8ff;stroke:#4a72d9;stroke-width:2}
+.ct{font-size:14px;font-weight:700;fill:#111827}
+.built .ct{fill:#2f5bcc}
+.cs{font-size:11.5px;fill:#4b5563}
+.ic{fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.b-built{fill:#4a72d9}
+.bt{font-size:9.5px;font-weight:700;fill:#ffffff;letter-spacing:0.4px}
+.edge{fill:none;stroke:#6b7280;stroke-width:1.5}
+.sc{fill:#ffffff;stroke:#374151;stroke-width:1.2}
+.sn{font-size:10.5px;font-weight:700;fill:#111827}
+.el{font-size:11.5px;fill:#374151}
+.lg{font-size:12.5px;fill:#111827}
+.cap{font-size:12.5px;fill:#374151}
+</style>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/></marker>
+<symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></symbol>
+<symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 10v10"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3.5l9 16H3z"/><path d="M12 10v4.5M12 17.2v0.3"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
+<symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="2.5"/><path d="M4 5.5v13c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-13M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5"/></symbol>
+</defs>
+
+<rect width="1520" height="800" fill="#ffffff"/>
+<text class="title" x="40" y="42">Phase 01 - generate, inject, validate</text>
+
+<!-- Panels -->
+<rect x="30" y="70" width="340" height="310" rx="14" fill="#f1faf8" stroke="#3aa395" stroke-width="2"/>
+<text class="pt" x="50" y="98" fill="#227a6e">Generator</text>
+<rect x="400" y="70" width="720" height="310" rx="14" fill="#fdf8f0" stroke="#e3a14a" stroke-width="2"/>
+<text class="pt" x="420" y="98" fill="#b66d12">Clean dataset - data/raw/clean</text>
+<rect x="30" y="410" width="340" height="280" rx="14" fill="#f1faf8" stroke="#3aa395" stroke-width="2"/>
+<text class="pt" x="50" y="438" fill="#227a6e">Anomaly injector</text>
+<rect x="400" y="410" width="720" height="280" rx="14" fill="#fdf4f3" stroke="#d9534f" stroke-width="2"/>
+<text class="pt" x="420" y="438" fill="#b03a36">Anomalous dataset - data/raw/anomalous</text>
+<rect x="1150" y="70" width="340" height="620" rx="14" fill="#f4f7fe" stroke="#6b8ee0" stroke-width="2"/>
+<text class="pt" x="1170" y="98" fill="#3858b8">Validator</text>
+
+<!-- Edges -->
+<path class="edge" d="M350,174 H420" marker-end="url(#arrow)"/>
+<path class="edge" d="M1080,304 H1135 V370 H1170" marker-end="url(#arrow)"/>
+<path class="edge" d="M570,348 V395 H200 V455" marker-end="url(#arrow)"/>
+<path class="edge" d="M350,499 H420" marker-end="url(#arrow)"/>
+<path class="edge" d="M1080,619 H1135 V400 H1170" marker-end="url(#arrow)"/>
+<path class="edge" d="M1320,428 V520" marker-end="url(#arrow)"/>
+
+<!-- Generator -->
+<g class="built" transform="translate(50,130)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#7c5cdb"/>
+  <use xlink:href="#i-terminal" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">generate.py</text>
+  <text class="cs" x="70" y="55">Snapshot plus daily change-feed</text>
+  <text class="cs" x="70" y="70">batches from one seed</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 01</text>
+</g>
+
+<!-- Clean dataset -->
+<g class="built" transform="translate(420,130)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#d98a2b"/>
+  <use xlink:href="#i-folder" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">batch_000 snapshot</text>
+  <text class="cs" x="70" y="55">Latest version of every record</text>
+  <text class="cs" x="70" y="70">before the as-of cut</text>
+</g>
+<g class="built" transform="translate(780,130)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#d98a2b"/>
+  <use xlink:href="#i-folder" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">batch_001 to batch_N</text>
+  <text class="cs" x="70" y="55">Change feed: inserts, updates,</text>
+  <text class="cs" x="70" y="70">corrections, late, replays</text>
+</g>
+<g class="built" transform="translate(420,260)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#3b6fd9"/>
+  <use xlink:href="#i-db" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">_expected/</text>
+  <text class="cs" x="70" y="55">True final state per entity,</text>
+  <text class="cs" x="70" y="70">ground truth for later phases</text>
+</g>
+<g class="built" transform="translate(780,260)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5f6b7a"/>
+  <use xlink:href="#i-doc" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">_manifest.json</text>
+  <text class="cs" x="70" y="55">Config, row counts, checksums,</text>
+  <text class="cs" x="70" y="70">late, replay, correction lists</text>
+</g>
+
+<!-- Injector -->
+<g class="built" transform="translate(50,455)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#d98a2b"/>
+  <use xlink:href="#i-warn" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">inject_anomalies.py</text>
+  <text class="cs" x="70" y="55">Ten scenarios, each in its own</text>
+  <text class="cs" x="70" y="70">batch with its own seed</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 01</text>
+</g>
+
+<!-- Anomalous dataset -->
+<g class="built" transform="translate(420,455)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#d98a2b"/>
+  <use xlink:href="#i-folder" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Clean batches (copied)</text>
+  <text class="cs" x="70" y="55">Unchanged; _expected is not</text>
+  <text class="cs" x="70" y="70">copied</text>
+</g>
+<g class="built" transform="translate(780,455)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#c2463f"/>
+  <use xlink:href="#i-folder" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Scenario batches</text>
+  <text class="cs" x="70" y="55">batch_N+1 onwards, one per</text>
+  <text class="cs" x="70" y="70">scenario, new keys and events</text>
+</g>
+<g class="built" transform="translate(780,575)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5f6b7a"/>
+  <use xlink:href="#i-doc" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">_anomaly_manifest.json</text>
+  <text class="cs" x="70" y="55">Affected ids, detecting check,</text>
+  <text class="cs" x="70" y="70">expected downstream behaviour</text>
+</g>
+
+<!-- Validator -->
+<g class="built" transform="translate(1170,340)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#3c9a5f"/>
+  <use xlink:href="#i-check" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">validate.py</text>
+  <text class="cs" x="70" y="55">Structure, delivery, keys,</text>
+  <text class="cs" x="70" y="70">business rules, final state</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 01</text>
+</g>
+<g class="built" transform="translate(1170,520)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5f6b7a"/>
+  <use xlink:href="#i-table" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Report</text>
+  <text class="cs" x="70" y="55">Observed versus expected per</text>
+  <text class="cs" x="70" y="70">check; exit 0 pass, 1 fail</text>
+</g>
+
+<!-- Step labels -->
+<g transform="translate(385,160)"><circle class="sc" r="8.5"/><text class="sn" y="3.6" text-anchor="middle">1</text></g>
+<g transform="translate(1135,337)"><circle class="sc" r="8.5"/><text class="sn" y="3.6" text-anchor="middle">2</text></g>
+<g transform="translate(380,395)"><rect x="-11" y="-10" width="112" height="20" rx="4" fill="#ffffff"/><circle class="sc" r="8.5"/><text class="sn" y="3.6" text-anchor="middle">3</text><text class="el" x="13" y="4">read final state</text></g>
+<g transform="translate(385,485)"><circle class="sc" r="8.5"/><text class="sn" y="3.6" text-anchor="middle">4</text></g>
+<g transform="translate(1135,510)"><circle class="sc" r="8.5"/><text class="sn" y="3.6" text-anchor="middle">5</text></g>
+<g transform="translate(1320,474)"><circle class="sc" r="8.5"/><text class="sn" y="3.6" text-anchor="middle">6</text></g>
+
+<!-- Legend and caption -->
+<text class="lg" x="40" y="730" font-weight="700">Legend</text>
+<rect x="110" y="718" width="26" height="16" rx="4" fill="#f5f8ff" stroke="#4a72d9" stroke-width="2"/>
+<text class="lg" x="144" y="730">Built in this project (badge marks the scripts; other cards are their outputs)</text>
+<text class="cap" x="40" y="764">1 generate the clean dataset · 2 validate it: no violations, and late arrivals and replays exactly as listed · 3 read the clean final state · 4 copy it and add scenario batches</text>
+<text class="cap" x="40" y="784">5 validate the anomalous dataset: every violation must match an entry in _anomaly_manifest.json · 6 report per check; any unexpected or missing identifier fails.</text>
+</svg>

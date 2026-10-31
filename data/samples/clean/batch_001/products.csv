@@ -1,0 +1,3 @@
+product_id,product_name,category,price,status,source_updated_at,change_type,batch_id,event_id
+PROD-00009,Yoga Mat 829,sports,347.20,active,2026-01-01T04:17:08Z,correction,batch_001,EVT-00000485
+PROD-00002,Electric Fan 183,electronics,1564.98,discontinued,2026-01-01T23:17:22Z,update,batch_001,EVT-00000523

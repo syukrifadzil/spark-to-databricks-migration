@@ -2,7 +2,7 @@
 
 ## Status
 
-Authored, not executed. No command, query or render in this phase has been run yet. Everything below under "Human outputs required" is blank until the maintainer fills it in.
+Complete. On 2026-10-31 the maintainer confirmed that the remaining items were done (diagram check, optional namespace re-run, checklist) and approved Phase 01. Outputs for those items were not pasted, so the entries below that say "not yet reported" or "not yet checked" record what was received.
 
 ## Files created or changed
 

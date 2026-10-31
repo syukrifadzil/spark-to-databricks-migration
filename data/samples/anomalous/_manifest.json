@@ -1,0 +1,172 @@
+{
+  "batches": {
+    "batch_000": {
+      "files": {
+        "customers.csv": {
+          "rows": 40,
+          "sha256": "aa6897a9b49a275ed1ba131a5af3f76848f241517327de30bcc5ce271f0fd609"
+        },
+        "order_items.csv": {
+          "rows": 127,
+          "sha256": "3f1d0e69a0f7c94c2ff91a514d02d24fb9fddbba2c1590adb8ea233933a9ee82"
+        },
+        "orders.csv": {
+          "rows": 60,
+          "sha256": "0b55a01d03a4514c4d0616bf9ebc6b6443b80bc766e869f0e8638718dc025ea2"
+        },
+        "payments.csv": {
+          "rows": 66,
+          "sha256": "fedc53e7d9c1fc6b2b161865affb7a9ac999d7608e55ed80591c71ae993aa71c"
+        },
+        "products.csv": {
+          "rows": 15,
+          "sha256": "3ad95f2581bfbca985700d6894bf4cb446ce414c1b5b10deb90ef0d7af4d8763"
+        }
+      },
+      "state_before": "2026-01-01T00:00:00Z",
+      "type": "snapshot"
+    },
+    "batch_001": {
+      "files": {
+        "customers.csv": {
+          "rows": 5,
+          "sha256": "75b91dcaf4abb774e63cdbc2dca57fab7365e28c42557966532a1fe331a0b910"
+        },
+        "order_items.csv": {
+          "rows": 16,
+          "sha256": "aa1c1e3f95e9d05437a9826fa6d48ced1502f738644b03d00d2d915091545a3d"
+        },
+        "orders.csv": {
+          "rows": 18,
+          "sha256": "82f923194fc24685fc74b80cdb5774aafb9e7e65816c9d9e358b9db0ef59f97a"
+        },
+        "payments.csv": {
+          "rows": 9,
+          "sha256": "bd28ec25ac8d5fda5fcd46a4cd2ebcc839bf0d7d8a77427dd364362f7f6faa76"
+        },
+        "products.csv": {
+          "rows": 2,
+          "sha256": "bebb50508206a4b6f96f9e40e37f324b85dc4eed73402c4f0cb9bfc72e8c6db2"
+        }
+      },
+      "type": "change_feed",
+      "window_end": "2026-01-02T00:00:00Z",
+      "window_start": "2026-01-01T00:00:00Z"
+    },
+    "batch_002": {
+      "files": {
+        "customers.csv": {
+          "rows": 5,
+          "sha256": "22e1b591ebfc0e6c807aee430846e6ab06918c92b0ae10e14bd739d7d48deacf"
+        },
+        "order_items.csv": {
+          "rows": 13,
+          "sha256": "d82090535b21bd164d093fc65176ad19922c7fc06e6acf3ddea9d75f5465cf4b"
+        },
+        "orders.csv": {
+          "rows": 24,
+          "sha256": "4c4616683f6b2da9b4485a538e1458f375f9251c15d6aa12d1d35a6eadf7814c"
+        },
+        "payments.csv": {
+          "rows": 9,
+          "sha256": "2b752228d73204b40b428968a94316feac0e0180fe23a3009938ac1670428715"
+        },
+        "products.csv": {
+          "rows": 1,
+          "sha256": "212f36370cf12ec46c1c7ffdf43fcdfdf2e64531d1398809b22379466da002e8"
+        }
+      },
+      "type": "change_feed",
+      "window_end": "2026-01-03T00:00:00Z",
+      "window_start": "2026-01-02T00:00:00Z"
+    },
+    "batch_003": {
+      "files": {
+        "customers.csv": {
+          "rows": 4,
+          "sha256": "7f4508976493f89bb3d1a170dfb4d68bbc6b2a0381e1e0ffcb4f2ca8a9257d3a"
+        },
+        "order_items.csv": {
+          "rows": 18,
+          "sha256": "c373a726e3be18877bb67a0dfedd083e2d96787f14ec6cb4849e2ef4e924bdc7"
+        },
+        "orders.csv": {
+          "rows": 21,
+          "sha256": "8da967483542efe418f88a95f634397284a55888e9819b8e6924c59ee8c4f02a"
+        },
+        "payments.csv": {
+          "rows": 10,
+          "sha256": "748e3de6c684ea6aff71c7f8769fcc8df47c3c3326179434d2d57f5c77c87837"
+        },
+        "products.csv": {
+          "rows": 1,
+          "sha256": "39df7897512908d863fb68adbf83f605b862bf453e76df46166f260e90ac4298"
+        }
+      },
+      "type": "change_feed",
+      "window_end": "2026-01-04T00:00:00Z",
+      "window_start": "2026-01-03T00:00:00Z"
+    }
+  },
+  "config": {
+    "as_of": "2026-01-01",
+    "batch_customers": 3,
+    "batch_orders": 8,
+    "batches": 3,
+    "correction_rate": 0.002,
+    "customers": 40,
+    "history_days": 30,
+    "late_rate": 0.01,
+    "orders": 60,
+    "preset": "tiny",
+    "products": 15,
+    "replay_rate": 0.01,
+    "seed": 42
+  },
+  "contract_version": "1.0.0",
+  "corrections": [
+    {
+      "entity": "customers",
+      "event_id": "EVT-00000481",
+      "key": "CUST-000002",
+      "window_batch": "batch_001"
+    },
+    {
+      "entity": "products",
+      "event_id": "EVT-00000485",
+      "key": "PROD-00009",
+      "window_batch": "batch_001"
+    },
+    {
+      "entity": "customers",
+      "event_id": "EVT-00000552",
+      "key": "CUST-000026",
+      "window_batch": "batch_002"
+    }
+  ],
+  "expected_rows": {
+    "customers": 49,
+    "order_items": 173,
+    "orders": 84,
+    "payments": 94,
+    "products": 15
+  },
+  "late_arrivals": [
+    {
+      "delivered_in": "batch_003",
+      "entity": "order_items",
+      "event_id": "EVT-00000538",
+      "key": "OI-00000147",
+      "window_batch": "batch_002"
+    }
+  ],
+  "replays": [
+    {
+      "entity": "order_items",
+      "event_id": "EVT-00000572",
+      "key": "OI-00000156",
+      "original_batch": "batch_002",
+      "replayed_in": "batch_003"
+    }
+  ]
+}

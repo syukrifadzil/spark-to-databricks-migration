@@ -1,0 +1,4 @@
+order_id,customer_id,order_date,status,source_updated_at,change_type,batch_id,event_id
+ORD-0000046,CUST-000027,2025-12-22T04:24:46Z,shipped,2025-12-28T03:41:46Z,update,batch_012,EVT-A012-00001
+ORD-0000044,CUST-000034,2025-12-21T22:15:04Z,shipped,2025-12-23T21:03:04Z,update,batch_012,EVT-A012-00002
+ORD-0000053,CUST-000033,2025-12-25T21:08:16Z,shipped,2025-12-30T19:48:16Z,update,batch_012,EVT-A012-00003

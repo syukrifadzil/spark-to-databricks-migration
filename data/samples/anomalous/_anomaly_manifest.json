@@ -1,0 +1,349 @@
+{
+  "batches": {
+    "batch_004": {
+      "files": {
+        "payments.csv": {
+          "rows": 3,
+          "sha256": "329b2260065c52ce82c986f326d30af1eef6df3501834c00f3c1cb88b3607521"
+        }
+      },
+      "scenario": "duplicate_key_conflict",
+      "window_start": "2026-01-04T00:00:00Z"
+    },
+    "batch_005": {
+      "files": {
+        "customers.csv": {
+          "rows": 3,
+          "sha256": "9a902c9145336b6cbd1838f10ca2c63b3ea0fb36432924b475dcbfcbcf6daabd"
+        },
+        "orders.csv": {
+          "rows": 3,
+          "sha256": "69cf038106be56948dafd079a21b6d0cec09ef4c29db29c212cf1352bc53c9a9"
+        },
+        "payments.csv": {
+          "rows": 3,
+          "sha256": "6622b6a572131b3ca7a0ce03f506d58a3f7c690a8a167bcd8985c522aa8d3386"
+        }
+      },
+      "scenario": "null_required",
+      "window_start": "2026-01-05T00:00:00Z"
+    },
+    "batch_006": {
+      "files": {
+        "order_items.csv": {
+          "rows": 6,
+          "sha256": "a5787f8633adc998392bca26ffe8d75d8e8c72a34eadc5c82b611311c3a8d707"
+        },
+        "orders.csv": {
+          "rows": 6,
+          "sha256": "fc10d810ff0463f32b7e11d1c9212612cef7147a46945499c7f5c2f911239914"
+        },
+        "payments.csv": {
+          "rows": 3,
+          "sha256": "3a6c0c1e9ef39509d0a232d589758041133c7d08fd41ecb80852016d9ad38f68"
+        }
+      },
+      "scenario": "invalid_reference",
+      "window_start": "2026-01-06T00:00:00Z"
+    },
+    "batch_007": {
+      "files": {
+        "payments.csv": {
+          "rows": 3,
+          "sha256": "39fe7b3a84357a5b8dee246eca186c4d57712376cf7ec8ed34e1b43f15bc5845"
+        }
+      },
+      "scenario": "negative_amount",
+      "window_start": "2026-01-07T00:00:00Z"
+    },
+    "batch_008": {
+      "files": {
+        "payments.csv": {
+          "rows": 3,
+          "sha256": "83da33cd61ead52e35ec05d329435e88ccf3f7d2dcf7c421622dc7d4b0e07984"
+        }
+      },
+      "scenario": "payment_mismatch",
+      "window_start": "2026-01-08T00:00:00Z"
+    },
+    "batch_009": {
+      "files": {
+        "orders.csv": {
+          "rows": 3,
+          "sha256": "ef64166e566fc5eed87f76e6fbefcb81933b668a6fb783058844942a744d16cd"
+        }
+      },
+      "scenario": "malformed_timestamp",
+      "window_start": "2026-01-09T00:00:00Z"
+    },
+    "batch_010": {
+      "files": {
+        "order_items.csv": {
+          "rows": 3,
+          "sha256": "0f4fbebdf3ee290c9bb5481ac1dad8bee5b0229a929d7d17941b3457396ca2d0"
+        },
+        "payments.csv": {
+          "rows": 3,
+          "sha256": "739a016f7df9eca742b1ef7f4a2f234499c8ef1c5987905b420b8caa3ca213b2"
+        }
+      },
+      "scenario": "malformed_type",
+      "window_start": "2026-01-10T00:00:00Z"
+    },
+    "batch_011": {
+      "files": {
+        "customers.csv": {
+          "rows": 3,
+          "sha256": "8a8a042c5d03b6cd19e8d4f4ca5e13613107aab1eacabe9327a4243e896d70a9"
+        }
+      },
+      "scenario": "schema_evolution",
+      "window_start": "2026-01-11T00:00:00Z"
+    },
+    "batch_012": {
+      "files": {
+        "orders.csv": {
+          "rows": 3,
+          "sha256": "af4f0d4c77491c21a01fdd6af097d29789d70db4ab6eaffeb492f134f81e6f97"
+        }
+      },
+      "scenario": "late_arrival",
+      "window_start": "2026-01-12T00:00:00Z"
+    },
+    "batch_013": {
+      "files": {
+        "orders.csv": {
+          "rows": 3,
+          "sha256": "e5e4aa5dd81726abc62255763d30e02ed709f9d8dcfcef0dd18e5fc1588a7acd"
+        }
+      },
+      "scenario": "replay",
+      "window_start": "2026-01-13T00:00:00Z"
+    }
+  },
+  "count": 3,
+  "entries": [
+    {
+      "batch": "batch_004",
+      "check": "sequence_conflict",
+      "count": 3,
+      "entity": "payments",
+      "expected_behaviour": "Same payment_id and source_updated_at as an existing row, different method. Bronze keeps both; silver keeps the row with the higher event_id (this one); flagged as a sequence conflict.",
+      "ids": [
+        "EVT-A004-00001",
+        "EVT-A004-00002",
+        "EVT-A004-00003"
+      ],
+      "scenario": "duplicate_key_conflict",
+      "silver_effect": "method changes for the affected payments"
+    },
+    {
+      "batch": "batch_005",
+      "check": "required",
+      "count": 3,
+      "entity": "customers",
+      "expected_behaviour": "Quarantined: customers.customer_id is required.",
+      "ids": [
+        "EVT-A005-00001",
+        "EVT-A005-00003",
+        "EVT-A005-00005"
+      ],
+      "scenario": "null_required",
+      "silver_effect": "none"
+    },
+    {
+      "batch": "batch_005",
+      "check": "required",
+      "count": 3,
+      "entity": "orders",
+      "expected_behaviour": "Quarantined: orders.status is required.",
+      "ids": [
+        "EVT-A005-00007",
+        "EVT-A005-00009",
+        "EVT-A005-00011"
+      ],
+      "scenario": "null_required",
+      "silver_effect": "none"
+    },
+    {
+      "batch": "batch_005",
+      "check": "required",
+      "count": 3,
+      "entity": "payments",
+      "expected_behaviour": "Quarantined: payments.order_id is required.",
+      "ids": [
+        "EVT-A005-00013",
+        "EVT-A005-00015",
+        "EVT-A005-00017"
+      ],
+      "scenario": "null_required",
+      "silver_effect": "none"
+    },
+    {
+      "batch": "batch_006",
+      "check": "foreign_key",
+      "count": 3,
+      "entity": "orders",
+      "expected_behaviour": "Order for unknown customer CUST-X99999. Kept in silver and flagged by relationship tests, not quarantined: a parent may arrive in a later batch.",
+      "ids": [
+        "EVT-A006-00003",
+        "EVT-A006-00016",
+        "EVT-A006-00029"
+      ],
+      "scenario": "invalid_reference",
+      "silver_effect": "adds orphan rows to silver"
+    },
+    {
+      "batch": "batch_006",
+      "check": "foreign_key",
+      "count": 3,
+      "entity": "order_items",
+      "expected_behaviour": "Item for unknown product PROD-X9999. Kept in silver and flagged by relationship tests, not quarantined: a parent may arrive in a later batch.",
+      "ids": [
+        "EVT-A006-00010",
+        "EVT-A006-00023",
+        "EVT-A006-00036"
+      ],
+      "scenario": "invalid_reference",
+      "silver_effect": "adds orphan rows to silver"
+    },
+    {
+      "batch": "batch_006",
+      "check": "foreign_key",
+      "count": 3,
+      "entity": "payments",
+      "expected_behaviour": "Payment for unknown order ORD-X9999999. Kept in silver and flagged by relationship tests, not quarantined: a parent may arrive in a later batch.",
+      "ids": [
+        "EVT-A006-00013",
+        "EVT-A006-00026",
+        "EVT-A006-00039"
+      ],
+      "scenario": "invalid_reference",
+      "silver_effect": "adds orphan rows to silver"
+    },
+    {
+      "batch": "batch_007",
+      "check": "range",
+      "count": 3,
+      "entity": "payments",
+      "expected_behaviour": "Quarantined: amounts must be greater than zero; refunds use payment_type.",
+      "ids": [
+        "EVT-A007-00001",
+        "EVT-A007-00003",
+        "EVT-A007-00005"
+      ],
+      "scenario": "negative_amount",
+      "silver_effect": "none"
+    },
+    {
+      "batch": "batch_008",
+      "check": "orders.paid_amount_matches",
+      "count": 3,
+      "entity": "payments",
+      "expected_behaviour": "Valid rows, kept in silver. The order becomes overpaid by 5.00; the gold business test fails and reconciliation reports the order.",
+      "ids": [
+        "orders:ORD-0000008",
+        "orders:ORD-0000009",
+        "orders:ORD-0000050"
+      ],
+      "scenario": "payment_mismatch",
+      "silver_effect": "adds payments; affected orders are overpaid"
+    },
+    {
+      "batch": "batch_009",
+      "check": "type",
+      "count": 3,
+      "entity": "orders",
+      "expected_behaviour": "Quarantined: order_date does not parse as an ISO 8601 UTC timestamp.",
+      "ids": [
+        "EVT-A009-00001",
+        "EVT-A009-00003",
+        "EVT-A009-00005"
+      ],
+      "scenario": "malformed_timestamp",
+      "silver_effect": "none"
+    },
+    {
+      "batch": "batch_010",
+      "check": "type",
+      "count": 3,
+      "entity": "order_items",
+      "expected_behaviour": "Quarantined: quantity is not an integer.",
+      "ids": [
+        "EVT-A010-00001",
+        "EVT-A010-00003",
+        "EVT-A010-00005"
+      ],
+      "scenario": "malformed_type",
+      "silver_effect": "none"
+    },
+    {
+      "batch": "batch_010",
+      "check": "type",
+      "count": 3,
+      "entity": "payments",
+      "expected_behaviour": "Quarantined: amount is not a decimal with two places.",
+      "ids": [
+        "EVT-A010-00007",
+        "EVT-A010-00009",
+        "EVT-A010-00011"
+      ],
+      "scenario": "malformed_type",
+      "silver_effect": "none"
+    },
+    {
+      "batch": "batch_011",
+      "check": "header",
+      "count": 1,
+      "entity": "customers",
+      "expected_behaviour": "Extra column loyalty_tier. Bronze captures it (new column or rescued data); silver ignores it until the contract adopts it. Row values are otherwise unchanged.",
+      "ids": [
+        "batch_011/customers.csv"
+      ],
+      "scenario": "schema_evolution",
+      "silver_effect": "source_updated_at advances; business values unchanged"
+    },
+    {
+      "batch": "batch_012",
+      "check": "late_arrival",
+      "count": 3,
+      "entity": "orders",
+      "expected_behaviour": "Older version (status shipped, one hour before the current delivered version) arriving late. Silver ignores it; a last-file-wins job would wrongly apply it.",
+      "ids": [
+        "EVT-A012-00001",
+        "EVT-A012-00002",
+        "EVT-A012-00003"
+      ],
+      "scenario": "late_arrival",
+      "silver_effect": "none"
+    },
+    {
+      "batch": "batch_013",
+      "check": "replay",
+      "count": 3,
+      "entity": "orders",
+      "expected_behaviour": "Identical rows re-sent. Bronze stores them again; silver does not change.",
+      "ids": [
+        "EVT-00000525",
+        "EVT-00000539",
+        "EVT-00000607"
+      ],
+      "scenario": "replay",
+      "silver_effect": "none"
+    }
+  ],
+  "scenarios": [
+    "duplicate_key_conflict",
+    "null_required",
+    "invalid_reference",
+    "negative_amount",
+    "payment_mismatch",
+    "malformed_timestamp",
+    "malformed_type",
+    "schema_evolution",
+    "late_arrival",
+    "replay"
+  ],
+  "seed": 7,
+  "source": "data/samples/clean"
+}

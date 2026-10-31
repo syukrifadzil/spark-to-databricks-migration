@@ -1,0 +1,2 @@
+product_id,product_name,category,price,status,source_updated_at,change_type,batch_id,event_id
+PROD-00011,Pen Set 808,stationery,25.74,active,2026-01-03T07:31:41Z,update,batch_003,EVT-00000589

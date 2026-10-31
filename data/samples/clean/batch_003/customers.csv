@@ -1,0 +1,5 @@
+customer_id,name,email,region,created_at,updated_at,source_updated_at,change_type,batch_id,event_id
+CUST-000048,Sarah Menon,sarah.menon.48@example.com,Putrajaya,2026-01-03T03:47:09Z,2026-01-03T03:47:09Z,2026-01-03T03:47:09Z,insert,batch_003,EVT-00000587
+CUST-000047,Divya Abdullah,divya.abdullah.47@example.com,Kuala Lumpur,2026-01-03T08:52:07Z,2026-01-03T08:52:07Z,2026-01-03T08:52:07Z,insert,batch_003,EVT-00000594
+CUST-000049,Wei Ling Fernandez,weiling.fernandez.49@example.com,Labuan,2026-01-03T20:00:35Z,2026-01-03T20:00:35Z,2026-01-03T20:00:35Z,insert,batch_003,EVT-00000621
+CUST-000041,Jun Jie Pillai,junjie.pillai.41@example.com,Kedah,2026-01-01T23:03:31Z,2026-01-03T21:06:08Z,2026-01-03T21:06:08Z,update,batch_003,EVT-00000622

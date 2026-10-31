@@ -1,0 +1,2 @@
+product_id,product_name,category,price,status,source_updated_at,change_type,batch_id,event_id
+PROD-00004,Baby Wipes 108,baby,87.20,active,2026-01-02T02:36:05Z,update,batch_002,EVT-00000527

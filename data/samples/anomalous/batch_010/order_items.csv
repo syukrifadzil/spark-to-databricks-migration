@@ -1,0 +1,4 @@
+order_item_id,order_id,product_id,quantity,unit_price,source_updated_at,change_type,batch_id,event_id
+OI-00000062,ORD-0000030,PROD-00003,two,3.16,2026-01-10T00:00:02Z,update,batch_010,EVT-A010-00001
+OI-00000006,ORD-0000003,PROD-00014,1.5,69.69,2026-01-10T00:00:04Z,update,batch_010,EVT-A010-00003
+OI-00000004,ORD-0000002,PROD-00011,3 units,24.51,2026-01-10T00:00:06Z,update,batch_010,EVT-A010-00005

@@ -1,0 +1,4 @@
+payment_id,order_id,payment_type,amount,method,status,payment_at,source_updated_at,change_type,batch_id,event_id
+PAY-X00600012,ORD-X9999999,charge,10.00,card,succeeded,2026-01-06T00:00:11Z,2026-01-06T00:00:11Z,insert,batch_006,EVT-A006-00013
+PAY-X00600025,ORD-X9999999,charge,10.00,card,succeeded,2026-01-06T00:00:24Z,2026-01-06T00:00:24Z,insert,batch_006,EVT-A006-00026
+PAY-X00600038,ORD-X9999999,charge,10.00,card,succeeded,2026-01-06T00:00:37Z,2026-01-06T00:00:37Z,insert,batch_006,EVT-A006-00039

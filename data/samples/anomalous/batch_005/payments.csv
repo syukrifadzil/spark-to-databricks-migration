@@ -1,0 +1,4 @@
+payment_id,order_id,payment_type,amount,method,status,payment_at,source_updated_at,change_type,batch_id,event_id
+PAY-00000068,,charge,287.80,card,succeeded,2026-01-01T05:07:29Z,2026-01-05T00:00:14Z,update,batch_005,EVT-A005-00013
+PAY-00000035,,charge,461.99,card,succeeded,2025-12-16T06:21:53Z,2026-01-05T00:00:16Z,update,batch_005,EVT-A005-00015
+PAY-00000062,,charge,288.73,card,succeeded,2025-12-27T12:26:40Z,2026-01-05T00:00:18Z,update,batch_005,EVT-A005-00017
