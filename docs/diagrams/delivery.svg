@@ -75,14 +75,14 @@
   <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
   <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 05</text>
 </g>
-<g class="verify" transform="translate(750,125)">
+<g class="built" transform="translate(750,125)">
   <rect class="box" width="300" height="88" rx="8"/>
   <rect x="16" y="24" width="40" height="40" rx="9" fill="#5a55c7"/>
   <use xlink:href="#i-table" class="ic" x="24" y="32" width="24" height="24"/>
   <text class="ct" x="70" y="36">dbt-parse</text>
   <text class="cs" x="70" y="55">Placeholder profile; parses</text>
   <text class="cs" x="70" y="70">without connecting</text>
-  <rect class="b-verify" x="226" y="-9" width="64" height="18" rx="9"/>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
   <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 05</text>
 </g>
 <g class="built" transform="translate(1100,125)">

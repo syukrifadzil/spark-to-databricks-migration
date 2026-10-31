@@ -31,6 +31,6 @@ The maintainer executes all commands, deployments and git operations manually, a
 
 - Phase 05: confirm which checks can run without credentials (in particular dbt parsing).
   - `.github/workflows/ci.yml` runs three jobs: unit tests with Java (so the Spark tests run), `dbt parse` with a placeholder profile, and a scan for personal access tokens.
-  - Whether `dbt parse` works without a connection is confirmed by the first CI run (Phase 05 handoff).
+  - `dbt parse` works without a connection: the job passed on the first pull request run (Phase 05 handoff).
   - Linting is deferred until a rule set is chosen (Phase 05 EXPLANATION D10).
   - Bundle validation needs a credential, so it stays a manual step.

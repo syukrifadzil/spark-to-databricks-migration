@@ -1,6 +1,6 @@
 # Phase 05 Explanation: Orchestration and CI/CD
 
-Status: the workspace steps were run by the maintainer on 2026-11-01. The bundle was validated and deployed, and the job ran to success with data unchanged. The first CI run is pending. Results are in `HANDOFF.md`.
+Status: complete. On 2026-11-01 the maintainer ran the workspace steps. The bundle was validated and deployed, the job ran to success with data unchanged, and CI passed on a pull request. Results are in `HANDOFF.md`.
 
 ## 1. Objectives
 
@@ -86,7 +86,7 @@ Checked on 2026-11-01. "Verified" means the documentation or the official templa
 | V13 | With no `workspace.host`, the CLI uses the profile named in `DATABRICKS_CONFIG_PROFILE` | Confirmed by run | Step 3 resolved the maintainer's user and workspace path |
 | V14 | Bundle file sync skips git-ignored files | Confirmed by run | Step 5 listing: `.env.example` uploaded but not `.env`. No `data/raw`, and no `profiles.yml`, `target` or `logs` in `dbt/` |
 | V15 | `actions/checkout@v7`, `actions/setup-python@v7` and `actions/setup-java@v6` (Temurin) are the current majors | Verified | Release pages of each action |
-| V16 | `dbt parse` reads the profile but does not connect, so a placeholder token works | Assumed | The first CI run shows it. Fallback in section 7 |
+| V16 | `dbt parse` reads the profile but does not connect, so a placeholder token works | Confirmed by run | The `dbt-parse` job passed on the pull request with placeholder values |
 | V17 | Serverless job compute on Free Edition can install packages from PyPI (FE14) | Confirmed by run | The `gold` task installed the pinned dbt packages and ran (Step 6) |
 
 ## 5. Decisions

@@ -2,7 +2,11 @@
 
 A case study in migrating a legacy batch PySpark ETL for a fictional Malaysian retailer to a Databricks Lakehouse built on Lakeflow Declarative Pipelines, Delta Lake, Unity Catalog and dbt Core, with GitHub Actions for continuous integration.
 
-**Status:** Phases 00 to 04 are complete and validated by the maintainer: the foundation, synthetic data, the legacy job, Lakeflow bronze and silver, and the dbt gold marts. Phase 05 (orchestration and CI/CD) is deployed: a bundle, a job and a CI workflow. The job ran end to end on 2026-11-01; the first CI run is pending. Results are added only from recorded runs.
+**Status:** Phases 00 to 05 are complete and validated by the maintainer:
+- the foundation and synthetic data
+- the legacy job
+- Lakeflow bronze and silver, and the dbt gold marts
+- orchestration and CI. A bundle deploys the pipeline and the job `retail_nightly`, and GitHub Actions runs the checks without secrets. Results are added only from recorded runs.
 
 ## What the project demonstrates
 
@@ -34,7 +38,7 @@ Full design: [docs/architecture.md](docs/architecture.md).
 | 02 | Legacy PySpark job | Complete |
 | 03 | Lakeflow bronze and silver | Complete |
 | 04 | dbt gold marts | Complete |
-| 05 | Orchestration and CI/CD | Deployed and run; first CI run pending |
+| 05 | Orchestration and CI/CD | Complete |
 | 06 | Reconciliation and resilience | Not started |
 | 07 | Benchmark and portfolio | Not started |
 

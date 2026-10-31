@@ -2,7 +2,10 @@
 
 ## Status
 
-Workspace steps run and reported verified by the maintainer on 2026-11-01. Bundle validated, pipeline bound, bundle deployed, job run to success, data unchanged. CI has not run yet: the phase is complete once Steps 10 and 11 are reported. The maintainer approved Phase 05 on 2026-11-01 ("Proceed").
+Complete (2026-11-01).
+- **Workspace:** the maintainer ran and verified every step. The bundle was validated, the pipeline bound, the bundle deployed, and the job run to success with data unchanged.
+- **Code:** committed as `91fc614`.
+- **CI:** all three jobs passed on a pull request. The maintainer approved Phase 05 on 2026-11-01 ("Proceed").
 
 ## Files created or changed
 
@@ -29,10 +32,12 @@ Workspace steps run and reported verified by the maintainer on 2026-11-01. Bundl
 
 ## Assumptions
 
-Confirmed by the 2026-11-01 run (EXPLANATION section 4): V3, V4, V9, V13, V14, V17, and FE9, FE10, FE12, FE14 (`docs/platform_assumptions.md`).
+Confirmed (EXPLANATION section 4):
+- by the 2026-11-01 workspace run: V3, V4, V9, V13, V14, V17
+- by the pull request CI run: V16
+- Free Edition: FE9, FE10, FE12 and FE14 (`docs/platform_assumptions.md`)
 
-Still open:
-- V16: `dbt parse` does not connect. The first CI run shows it (Step 11).
+None of the Phase 05 assumptions remain open.
 
 ## Observations from the run
 
@@ -55,8 +60,8 @@ Still open:
 
 ## Human outputs required
 
-- Step 0: `git log --oneline -3`: not reported.
-- Step 1: CLI version; `bind` present: version not reported. `bind` worked in Step 4b.
+- Step 0: reported done. `main` was at `fbc624b` before the Phase 05 push.
+- Step 1: `Databricks CLI v1.23.0`. `bind` worked in Step 4b.
 - Step 2: `41 passed in 14.43s`.
 - Step 3: `Validation OK!`, target `dev`, path `/Workspace/Users/<maintainer>/.bundle/spark_to_databricks_migration/dev`. Resolved settings:
   - pipeline `[dev syuk_fadzil] retail_bronze_silver`
@@ -90,8 +95,14 @@ Still open:
   - Headline from `mart_daily_sales`: 96 rows, 4478 orders sold, gross 2646546.91, charges 2780589.47, refunds 146764.64, net 2633824.83.
 - Step 8: FE9, FE10, FE12 and FE14 confirmed (see `docs/platform_assumptions.md`). No quota message.
 - Step 9: `workspace delete --recursive` run on the Phase 03 upload; it printed nothing.
-- Step 10: commit hash:
-- Step 11: CI run URL and job results; pull request check if done:
+- Step 10: `91fc614` (`fbc624b..91fc614`, 14 files). Staged-files check printed `no local or generated files staged`. Secret scan printed nothing.
+- Step 11: pull request from `ci-check` (commit `ceb51df`): "All checks have passed".
+  - `ci / dbt-parse (pull_request)`: successful in 40s
+  - `ci / secret-scan (pull_request)`: successful in 5s
+  - `ci / unit-tests (pull_request)`: successful in 1m
+  - `unit-tests` log: `41 passed in 41.35s`, with no `SKIPPED` lines, so the Spark tests ran with Java.
+  - Workflow runs: `ci #1`, the push of `91fc614` to `main`, green in 1m 46s; `ci #2`, pull request #1, green in 1m 33s.
+  - The pull request run shows one annotation notice; its text was not reported.
 - Any failures, with the full output: none in the workspace steps. Two operator slips had no effect: a mistyped `atabricks`, and `BUNDLE_FILES` first set to the landing volume. The runbook now spells out that path.
 
 ## Phase 06 prerequisites
