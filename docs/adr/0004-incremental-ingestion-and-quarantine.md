@@ -32,7 +32,10 @@ The legacy job reloads everything on every run, double counts replays, and loses
 - Rule definitions are shared between the expectation and the quarantine filter, so they cannot drift.
 - Bronze storage grows with replays; acceptable at demo scale.
 
-## Verification required
+## Verification
 
-- Current Lakeflow Python API names (`pyspark.pipelines` versus `dlt`, `create_auto_cdc_flow` versus `apply_changes`) and AUTO CDC behaviour on equal sequence values (Phase 03).
-- `cloudFiles.allowOverwrites` default and schema evolution mode behaviour for CSV (Phase 03).
+Checked against the Databricks documentation in Phase 03 (2026-10-31). Details are in `phases/phase_03_lakeflow_bronze_silver/EXPLANATION.md` section 4.
+
+- **Python API:** `from pyspark import pipelines as dp` and `dp.create_auto_cdc_flow`; `import dlt` is deprecated. Behaviour on equal sequence values is not documented. The pipeline sequences by `(source_updated_at, event_id)`, so only identical replays tie, and the Phase 03 replay test covers them.
+- **`cloudFiles.allowOverwrites`:** defaults to false, so a file rewritten under the same path is not read again.
+- **Schema evolution:** with an explicit schema the mode defaults to `none`. Bronze sets `rescuedDataColumn` so that new CSV columns are kept rather than failing the stream. Whether those columns actually land in the rescued column is tested in Phase 03.

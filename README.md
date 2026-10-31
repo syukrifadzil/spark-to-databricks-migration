@@ -2,7 +2,7 @@
 
 A case study in migrating a legacy batch PySpark ETL for a fictional Malaysian retailer to a Databricks Lakehouse built on Lakeflow Declarative Pipelines, Delta Lake, Unity Catalog and dbt Core, with GitHub Actions for continuous integration.
 
-**Status:** Phases 00 (foundation) and 01 (synthetic data) are complete and validated by the maintainer. Phase 02 (legacy job) has been run locally and is in review; one reconciliation question is open. Results are added only from recorded runs.
+**Status:** Phases 00 (foundation) and 01 (synthetic data) are complete and validated by the maintainer. Phase 02 (legacy job) has been run locally; a fix to its metrics is awaiting a rerun. Phase 03 (Lakeflow bronze and silver) is written and has not yet been deployed. Results are added only from recorded runs.
 
 ## What the project demonstrates
 
@@ -32,7 +32,7 @@ Full design: [docs/architecture.md](docs/architecture.md).
 | 00 | Foundation: architecture, contracts, ADRs, conventions | Complete |
 | 01 | Synthetic data generation and data contracts | Complete |
 | 02 | Legacy PySpark job | Run locally, in review |
-| 03 | Lakeflow bronze and silver | Not started |
+| 03 | Lakeflow bronze and silver | Written, pending deployment and review |
 | 04 | dbt gold marts | Not started |
 | 05 | Orchestration and CI/CD | Not started |
 | 06 | Reconciliation and resilience | Not started |
@@ -63,7 +63,7 @@ Directories are created by the phase that first needs them.
 ├── infra/sql/                      Workspace setup SQL (00)
 ├── data/                           Generator, contracts, samples (01)
 ├── legacy_spark/                   Legacy batch job (02)
-├── lakeflow/                       Pipeline source (03)
+├── lakeflow/                       Pipeline source, contract rules, settings, checks (03)
 ├── dbt/                            dbt project (04)
 ├── .github/workflows/              CI (05)
 ├── reconciliation/                 Legacy versus modern checks (06)
@@ -79,6 +79,7 @@ Requires Python 3.10 or later. Follow the runbooks in order:
 1. [Phase 00: workspace and repository setup](phases/phase_00_foundation/MANUAL_RUNBOOK.md)
 2. [Phase 01: generate and validate the synthetic data](phases/phase_01_synthetic_data/MANUAL_RUNBOOK.md)
 3. [Phase 02: run the legacy job](phases/phase_02_legacy_spark/MANUAL_RUNBOOK.md)
+4. [Phase 03: deploy and run the Lakeflow pipeline](phases/phase_03_lakeflow_bronze_silver/MANUAL_RUNBOOK.md)
 
 Quick start for the data, from the repository root:
 

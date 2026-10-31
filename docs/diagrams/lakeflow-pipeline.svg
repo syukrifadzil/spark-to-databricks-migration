@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1510" height="780" viewBox="0 0 1510 780" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title>Lakeflow bronze and silver pipeline</title>
+<defs>
+<style>
+.title{font-size:20px;font-weight:700;fill:#111827}
+.pt{font-size:15px;font-weight:700}
+.box{fill:#ffffff;stroke:#cdd3db;stroke-width:1.5}
+.built .box{fill:#f5f8ff;stroke:#4a72d9;stroke-width:2}
+.verify .box{fill:#fff8ef;stroke:#e09a3e;stroke-width:2}
+.ct{font-size:14px;font-weight:700;fill:#111827}
+.built .ct{fill:#2f5bcc}
+.verify .ct{fill:#b66d12}
+.cs{font-size:11.5px;fill:#4b5563}
+.ic{fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.b-built{fill:#4a72d9}
+.b-verify{fill:#e09a3e}
+.bt{font-size:9.5px;font-weight:700;fill:#ffffff;letter-spacing:0.4px}
+.edge{fill:none;stroke:#6b7280;stroke-width:1.5}
+.dash{fill:none;stroke:#9aa3af;stroke-width:1.5;stroke-dasharray:5 4}
+.lg{font-size:12.5px;fill:#111827}
+.cap{font-size:12.5px;fill:#374151}
+</style>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/></marker>
+<symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 10v10"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l9.5 17h-19z"/><path d="M12 10v4.5M12 17.5v.5"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 20h18M6 20v-7M11 20V5M16 20v-10"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></symbol>
+</defs>
+
+<rect width="1510" height="780" fill="#ffffff"/>
+<text class="title" x="40" y="42">Lakeflow bronze and silver - lakeflow/transformations/retail_pipeline.py</text>
+
+<!-- Panels -->
+<rect x="30" y="70" width="340" height="400" rx="14" fill="#fdf8f0" stroke="#e3a14a" stroke-width="2"/>
+<text class="pt" x="50" y="98" fill="#b66d12">Inputs and settings</text>
+<rect x="400" y="70" width="1080" height="400" rx="14" fill="#f7f8fa" stroke="#9aa3af" stroke-width="2"/>
+<text class="pt" x="420" y="98" fill="#4b5563">Pipeline retail_bronze_silver - the same five datasets for each entity, one serverless update</text>
+<rect x="30" y="500" width="1450" height="170" rx="14" fill="#f7f8fa" stroke="#9aa3af" stroke-width="2"/>
+<text class="pt" x="50" y="528" fill="#4b5563">Checks - run by the maintainer after each update</text>
+
+<!-- Edges -->
+<path class="edge" d="M350,184 H420" marker-end="url(#arrow)"/>
+<path class="edge" d="M350,270 H750 V212 H780" marker-end="url(#arrow)"/>
+<path class="edge" d="M570,270 V230" marker-end="url(#arrow)"/>
+<path class="edge" d="M720,184 H780" marker-end="url(#arrow)"/>
+<path class="edge" d="M1080,184 H1140" marker-end="url(#arrow)"/>
+<path class="edge" d="M930,228 V300" marker-end="url(#arrow)"/>
+<path class="edge" d="M1080,344 H1140" marker-end="url(#arrow)"/>
+<path class="dash" d="M780,344 H722" marker-end="url(#arrow)"/>
+
+<!-- Inputs -->
+<g class="built" transform="translate(50,140)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#d98a2b"/>
+  <use xlink:href="#i-folder" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Landing volume</text>
+  <text class="cs" x="70" y="55">retail_landing.raw/retail/</text>
+  <text class="cs" x="70" y="70">batch_*/&lt;entity&gt;.csv, immutable</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 01</text>
+</g>
+<g class="built" transform="translate(50,250)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5f6b7a"/>
+  <use xlink:href="#i-doc" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Contract and rules</text>
+  <text class="cs" x="70" y="55">retail_contract.json read by</text>
+  <text class="cs" x="70" y="70">lakeflow/retail_rules.py</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="verify" transform="translate(50,360)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5f6b7a"/>
+  <use xlink:href="#i-gear" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Pipeline settings</text>
+  <text class="cs" x="70" y="55">lakeflow/pipeline.json: serverless,</text>
+  <text class="cs" x="70" y="70">catalog, paths, schema names</text>
+  <rect class="b-verify" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">VERIFY</text>
+</g>
+
+<!-- Pipeline -->
+<g class="built" transform="translate(420,140)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#a5682a"/>
+  <use xlink:href="#i-table" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">1 retail_bronze.&lt;entity&gt;</text>
+  <text class="cs" x="70" y="55">Auto Loader, new files only; all</text>
+  <text class="cs" x="70" y="70">strings, file path, rescued data</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="built" transform="translate(780,140)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#2f8a5b"/>
+  <use xlink:href="#i-shield" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">2 Contract rules</text>
+  <text class="cs" x="70" y="55">required, type, domain, range;</text>
+  <text class="cs" x="70" y="70">one definition, used twice</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="built" transform="translate(1140,140)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#c0504d"/>
+  <use xlink:href="#i-alert" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">3a &lt;entity&gt;_quarantine</text>
+  <text class="cs" x="70" y="55">Failing rows, original values,</text>
+  <text class="cs" x="70" y="70">_failed_rules; append-only</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="verify" transform="translate(420,300)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5f6b7a"/>
+  <use xlink:href="#i-chart" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Pipeline event log</text>
+  <text class="cs" x="70" y="55">Pass and fail counts per rule</text>
+  <text class="cs" x="70" y="70">from the expectations</text>
+  <rect class="b-verify" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">VERIFY</text>
+</g>
+<g class="verify" transform="translate(780,300)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#2f8a5b"/>
+  <use xlink:href="#i-check" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">3b Valid and typed views</text>
+  <text class="cs" x="70" y="55">expect_all_or_drop, then cast to</text>
+  <text class="cs" x="70" y="70">DECIMAL(18,2), INT, TIMESTAMP</text>
+  <rect class="b-verify" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">VERIFY</text>
+</g>
+<g class="verify" transform="translate(1140,300)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#a5682a"/>
+  <use xlink:href="#i-refresh" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">4 retail_silver.&lt;entity&gt;</text>
+  <text class="cs" x="70" y="55">AUTO CDC, SCD 1, latest by</text>
+  <text class="cs" x="70" y="70">(source_updated_at, event_id)</text>
+  <rect class="b-verify" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">VERIFY</text>
+</g>
+
+<!-- Checks -->
+<g class="built" transform="translate(60,555)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#2f8a5b"/>
+  <use xlink:href="#i-check" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Unit test, local Spark</text>
+  <text class="cs" x="70" y="55">Rules reject exactly what the</text>
+  <text class="cs" x="70" y="70">Phase 01 validator rejects</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="built" transform="translate(420,555)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5f6b7a"/>
+  <use xlink:href="#i-table" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">01 Layer counts</text>
+  <text class="cs" x="70" y="55">Rows per layer and a silver</text>
+  <text class="cs" x="70" y="70">fingerprint for idempotency</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="built" transform="translate(780,555)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5f6b7a"/>
+  <use xlink:href="#i-doc" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">02 Silver against expected</text>
+  <text class="cs" x="70" y="55">Clean run: silver equals the</text>
+  <text class="cs" x="70" y="70">generator's _expected state</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="built" transform="translate(1140,555)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#c0504d"/>
+  <use xlink:href="#i-alert" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">03 Anomaly checks</text>
+  <text class="cs" x="70" y="55">Each scenario's expected effect</text>
+  <text class="cs" x="70" y="70">from the anomaly manifest</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+
+<!-- Legend and caption -->
+<text class="lg" x="40" y="710" font-weight="700">Legend</text>
+<rect x="110" y="698" width="26" height="16" rx="4" fill="#f5f8ff" stroke="#4a72d9" stroke-width="2"/>
+<text class="lg" x="144" y="710">Built in this project</text>
+<rect x="300" y="698" width="26" height="16" rx="4" fill="#fff8ef" stroke="#e09a3e" stroke-width="2"/>
+<text class="lg" x="334" y="710">Depends on a Lakeflow or Free Edition behaviour not yet verified in this workspace</text>
+<path class="dash" d="M990,706 H1030"/>
+<text class="lg" x="1040" y="710">Metrics, not data</text>
+<text class="cap" x="40" y="744">A row goes to exactly one of quarantine (3a) or silver (3b, 4): both sides evaluate the same rule set from the contract.</text>
+<text class="cap" x="40" y="764">Bronze keeps every row, including replays and rejects, so silver can always be rebuilt from bronze or from the immutable landing files.</text>
+</svg>

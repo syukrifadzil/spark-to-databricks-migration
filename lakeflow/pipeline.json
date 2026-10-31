@@ -1,0 +1,19 @@
+{
+  "name": "retail_bronze_silver",
+  "catalog": "workspace",
+  "schema": "retail_silver",
+  "serverless": true,
+  "development": true,
+  "continuous": false,
+  "channel": "CURRENT",
+  "libraries": [
+    {"glob": {"include": "/Workspace/Shared/spark-to-databricks-migration/lakeflow/transformations/**"}}
+  ],
+  "configuration": {
+    "retail.code_root": "/Workspace/Shared/spark-to-databricks-migration/lakeflow",
+    "retail.contract_path": "/Workspace/Shared/spark-to-databricks-migration/data/contracts/retail_contract.json",
+    "retail.landing_path": "/Volumes/workspace/retail_landing/raw/retail",
+    "retail.bronze_schema": "retail_bronze",
+    "retail.silver_schema": "retail_silver"
+  }
+}

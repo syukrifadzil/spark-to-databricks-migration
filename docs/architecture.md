@@ -69,7 +69,13 @@ Late arrivals: a record whose `source_updated_at` is older than the current silv
 
 Silver keeps current state only (SCD type 1). History remains available in bronze for audit and replay. SCD type 2 for customers is a documented optional extension, not part of the baseline, because the legacy job only produces current state and reconciliation would gain nothing from it.
 
-API note (verify in Phase 03): the CDC upsert is expected to use Lakeflow AUTO CDC (`create_auto_cdc_flow` in Python, `AUTO CDC INTO` in SQL; formerly `apply_changes` / `APPLY CHANGES INTO`). The current Python module is expected to be `from pyspark import pipelines as dp`, with the older `import dlt` still accepted. Databricks has renamed this product more than once; documentation may now refer to it as Lakeflow Spark Declarative Pipelines. Tie-breaking behaviour when two rows share the same sequence value must be confirmed against documentation and tested.
+API note, checked against Databricks documentation on 2026-10-31 (Phase 03):
+- The CDC upsert uses `dp.create_auto_cdc_flow`, with `from pyspark import pipelines as dp`. `import dlt` is deprecated but still accepted.
+- `sequence_by` accepts a struct and orders by its fields in turn. The pipeline sequences by `struct(source_updated_at, event_id)`, so only identical replays share a sequence value.
+- The documentation does not state behaviour for equal sequence values; the Phase 03 replay test covers it.
+- The product is now documented as Lakeflow Spark Declarative Pipelines.
+
+The full verification table is in `phases/phase_03_lakeflow_bronze_silver/EXPLANATION.md` section 4.
 
 ## 6. Validation and quarantine
 
@@ -147,7 +153,9 @@ Manual DML or `RESTORE` against pipeline-managed tables is avoided; recovery for
 
 Tracked with fallbacks in `platform_assumptions.md`. The main ones:
 
-1. Whether a single pipeline can publish to both `retail_bronze` and `retail_silver` by fully qualified name. Fallback: one schema for both layers with `bronze_` and `silver_` table name prefixes.
+1. Whether a single pipeline can publish to both `retail_bronze` and `retail_silver`.
+   - The documentation says yes in the default publishing mode, using qualified names. This is tested in Phase 03.
+   - Fallback: one schema for both layers, with a `bronze_` prefix on the bronze table names.
 2. Whether the dbt task type is available in Free Edition jobs. Fallback: run dbt locally.
 3. Whether bundle deployment works against Free Edition. Fallback: create the job and pipeline in the UI from the documented settings.
-4. Current names and signatures of the Lakeflow Python API and AUTO CDC.
+4. Names and signatures of the Lakeflow Python API and AUTO CDC. Checked against the documentation in Phase 03; the remaining items are listed there.
