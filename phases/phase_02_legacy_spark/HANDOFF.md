@@ -2,7 +2,7 @@
 
 ## Status
 
-Executed by the maintainer on 2026-10-31, Steps 1 to 8. All 34 tests pass and every run completes. On the anomalous dataset the written files reconcile fully with the code. The metrics JSON disagreed with those files on two daily order counts (O1, below). The metrics path has been fixed, but the fix has not been run yet. Not yet committed.
+Executed by the maintainer on 2026-10-31, Steps 1 to 8. All 34 tests pass and every run completes. On the anomalous dataset the written files reconcile fully with the code. The metrics JSON disagreed with those files on two daily order counts (O1, below). The metrics path has been fixed, but the fix has not been run yet. Not yet committed. The maintainer approved Phase 03 on 2026-10-31 before reporting the rerun, so the Phase 03 runbook Step 0 completes and commits this phase.
 
 ## Decisions taken at the start of the phase
 
