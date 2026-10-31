@@ -1,0 +1,54 @@
+# Static checks and unit tests on every pull request and every push to main (ADR 0005).
+# No secrets: nothing here can reach a Databricks workspace. Deployment stays manual.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      # Java for the local Spark tests (legacy job, Lakeflow rules). Without it they would be skipped.
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
+      - run: python -m pip install -r requirements-dev.txt -r requirements-spark.txt
+      # -rs lists skipped tests, so a silently skipped Spark test is visible in the log.
+      - run: python -m pytest -q -rs
+
+  dbt-parse:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dbt
+    # Placeholders only. dbt parse reads the profile but does not connect.
+    env:
+      DATABRICKS_HOST: https://ci-placeholder.invalid
+      DATABRICKS_HTTP_PATH: /sql/1.0/warehouses/ci-placeholder
+      DATABRICKS_TOKEN: ci-placeholder
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r ../requirements-dbt.txt
+      - run: cp profiles.example.yml profiles.yml
+      - run: dbt parse --profiles-dir . --target token
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # Fails if a Databricks personal access token is committed in the current tree.
+      - run: "! git grep -nE 'dapi[0-9a-zA-Z]{16,}'"

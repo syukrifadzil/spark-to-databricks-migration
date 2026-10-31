@@ -8,7 +8,8 @@ For each entity in the landing contract:
 
 Rules come from lakeflow/retail_rules.py, built from data/contracts/retail_contract.json, so the
 expectations and the quarantine filter cannot drift apart. Settings are read from the pipeline
-configuration (lakeflow/pipeline.json). See phases/phase_03_lakeflow_bronze_silver/EXPLANATION.md.
+configuration (databricks.yml since Phase 05; lakeflow/pipeline.json for the Phase 03 setup).
+See phases/phase_03_lakeflow_bronze_silver/EXPLANATION.md.
 """
 import sys
 

@@ -2,7 +2,7 @@
 
 A case study in migrating a legacy batch PySpark ETL for a fictional Malaysian retailer to a Databricks Lakehouse built on Lakeflow Declarative Pipelines, Delta Lake, Unity Catalog and dbt Core, with GitHub Actions for continuous integration.
 
-**Status:** Phases 00 to 04 are complete and validated by the maintainer: the foundation, synthetic data, the legacy job, Lakeflow bronze and silver, and the dbt gold marts. Phase 05 (orchestration and CI/CD) has not started. Results are added only from recorded runs.
+**Status:** Phases 00 to 04 are complete and validated by the maintainer: the foundation, synthetic data, the legacy job, Lakeflow bronze and silver, and the dbt gold marts. Phase 05 (orchestration and CI/CD) is deployed: a bundle, a job and a CI workflow. The job ran end to end on 2026-11-01; the first CI run is pending. Results are added only from recorded runs.
 
 ## What the project demonstrates
 
@@ -34,7 +34,7 @@ Full design: [docs/architecture.md](docs/architecture.md).
 | 02 | Legacy PySpark job | Complete |
 | 03 | Lakeflow bronze and silver | Complete |
 | 04 | dbt gold marts | Complete |
-| 05 | Orchestration and CI/CD | Not started |
+| 05 | Orchestration and CI/CD | Deployed and run; first CI run pending |
 | 06 | Reconciliation and resilience | Not started |
 | 07 | Benchmark and portfolio | Not started |
 
@@ -54,6 +54,7 @@ Directories are created by the phase that first needs them.
 ├── requirements-dev.txt            Test dependency (Phase 01 code is standard library only)
 ├── requirements-spark.txt          PySpark for the legacy job (needs Java 17 or 21)
 ├── requirements-dbt.txt            dbt Core and dbt-databricks, in their own .venv-dbt
+├── databricks.yml                  Bundle: pipeline and job retail_nightly (05)
 ├── docs/
 │   ├── case_study.md               Scenario, goals, acceptance criteria
 │   ├── architecture.md             Target architecture and diagrams
@@ -82,6 +83,7 @@ Requires Python 3.10 or later. Follow the runbooks in order:
 3. [Phase 02: run the legacy job](phases/phase_02_legacy_spark/MANUAL_RUNBOOK.md)
 4. [Phase 03: deploy and run the Lakeflow pipeline](phases/phase_03_lakeflow_bronze_silver/MANUAL_RUNBOOK.md)
 5. [Phase 04: build and test the gold marts with dbt](phases/phase_04_dbt_gold/MANUAL_RUNBOOK.md)
+6. [Phase 05: deploy the bundle, run the job, check CI](phases/phase_05_orchestration_cicd/MANUAL_RUNBOOK.md)
 
 Quick start for the data, from the repository root:
 

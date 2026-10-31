@@ -1,0 +1,78 @@
+# Declarative Automation Bundle (formerly Databricks Asset Bundles) for the Lakeflow pipeline and the
+# job that runs it before dbt. Validated and deployed by hand from the repository root; see
+# phases/phase_05_orchestration_cicd/MANUAL_RUNBOOK.md. No workspace host is stored here: the CLI
+# takes the workspace from the profile named in DATABRICKS_CONFIG_PROFILE (.env).
+bundle:
+  name: spark_to_databricks_migration
+
+variables:
+  catalog:
+    description: Unity Catalog catalog that holds the retail_* schemas (ADR 0002).
+    default: workspace
+  warehouse_id:
+    description: SQL warehouse for the dbt task, looked up by name so its id stays out of git.
+    lookup:
+      warehouse: Serverless Starter Warehouse
+
+resources:
+  pipelines:
+    # The pipeline created in Phase 03, bound to this bundle (runbook Step 4), so its tables and
+    # checkpoints are kept. Same settings as lakeflow/pipeline.json, but the code now comes from the
+    # bundle's synced files instead of /Workspace/Shared.
+    retail_bronze_silver:
+      name: retail_bronze_silver
+      # Deleting the pipeline can also drop the tables it publishes. Refuse any destroy or recreate.
+      lifecycle:
+        prevent_destroy: true
+      catalog: ${var.catalog}
+      schema: retail_silver
+      serverless: true
+      continuous: false
+      channel: CURRENT
+      libraries:
+        - glob:
+            include: lakeflow/transformations/**
+      configuration:
+        retail.code_root: ${workspace.file_path}/lakeflow
+        retail.contract_path: ${workspace.file_path}/data/contracts/retail_contract.json
+        retail.landing_path: /Volumes/${var.catalog}/retail_landing/raw/retail
+        retail.bronze_schema: retail_bronze
+        retail.silver_schema: retail_silver
+
+  jobs:
+    # Bronze and silver, then gold. dbt starts only if the pipeline update succeeded.
+    # Reconciliation is added as a third task in Phase 06.
+    retail_nightly:
+      name: retail_nightly
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: bronze_silver
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.retail_bronze_silver.id}
+        - task_key: gold
+          depends_on:
+            - task_key: bronze_silver
+          environment_key: dbt
+          dbt_task:
+            project_directory: dbt
+            commands:
+              - dbt build
+            warehouse_id: ${var.warehouse_id}
+            catalog: ${var.catalog}
+            schema: retail_gold
+      environments:
+        - environment_key: dbt
+          spec:
+            # Python 3.12, as in .venv-dbt. Keep the versions equal to requirements-dbt.txt
+            # (checked by tests/unit/test_bundle.py).
+            environment_version: "4"
+            dependencies:
+              - dbt-core==1.12.6
+              - dbt-databricks==1.13.0
+
+targets:
+  dev:
+    # Prefixes the pipeline and job names with "[dev <user>]", keeps the pipeline in development
+    # mode and pauses any schedule. This is the only target: Free Edition is one workspace.
+    mode: development
+    default: true

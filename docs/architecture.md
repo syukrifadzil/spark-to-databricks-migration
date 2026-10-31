@@ -109,19 +109,27 @@ Refunds and partial payments are modelled explicitly (see `data_contracts.md`, p
 | Run Lakeflow pipeline | Workspace, serverless | Maintainer (UI) or job | Workspace login |
 | Build gold with dbt | Local dbt CLI to SQL warehouse, or job task | Maintainer | Token or OAuth, stored only in local `.env` or profile |
 | Reconciliation | Local scripts plus SQL in workspace | Maintainer | As for dbt |
-| Deployment of job and pipeline definitions | Databricks CLI bundle commands | Maintainer, manually | Workspace login |
+| Deployment of job and pipeline definitions | `databricks bundle` commands with `databricks.yml` | Maintainer, manually | Workspace login (CLI profile) |
 
 GitHub Actions never holds workspace credentials in the baseline design. If live deployment from CI is added later, it must be a separate, manually approved workflow using GitHub environment secrets. See ADR 0005.
 
 ## 9. Orchestration
 
-Target (Phase 05, subject to Free Edition verification):
+Target. The first two tasks ran on Free Edition on 2026-11-01 (Phase 05):
 
 ![Target Databricks job with three tasks, and the manual fallback running the same three steps in the same order](diagrams/orchestration.svg)
 
 Fallback: the maintainer runs the same three steps by hand in order (pipeline update in the UI, `dbt build` locally, reconciliation scripts locally). The order and the success check between steps are identical, so the fallback exercises the same logic.
 
-Job and pipeline definitions are planned as Databricks Asset Bundle configuration (`databricks.yml`). The Phase 05 brief refers to these as Declarative Automation Bundles; confirm the current product name and CLI syntax before Phase 05.
+Phase 05 implements the first two tasks in `databricks.yml`, a Declarative Automation Bundle. The product was formerly called Databricks Asset Bundles, and the CLI commands are still `databricks bundle ...`.
+- The bundle adopts the Phase 03 pipeline with `bundle deployment bind`, so its tables and checkpoints are kept, and syncs its code.
+- It defines the job `retail_nightly`: a pipeline task, then a dbt task that runs `dbt build` on the SQL warehouse.
+- Reconciliation becomes the third task in Phase 06.
+- Validation and deployment are run by the maintainer. CI runs only static checks and unit tests.
+
+![Delivery: CI checks without secrets, manual bundle validation and deployment, and the job](diagrams/delivery.svg)
+
+Details and the verification table: `phases/phase_05_orchestration_cicd/EXPLANATION.md`.
 
 ## 10. Reconciliation
 
@@ -156,6 +164,6 @@ Tracked with fallbacks in `platform_assumptions.md`. The main ones:
 1. Whether a single pipeline can publish to both `retail_bronze` and `retail_silver`.
    - The documentation says yes in the default publishing mode, using qualified names. This is tested in Phase 03.
    - Fallback: one schema for both layers, with a `bronze_` prefix on the bronze table names.
-2. Whether the dbt task type is available in Free Edition jobs. Fallback: run dbt locally.
-3. Whether bundle deployment works against Free Edition. Fallback: create the job and pipeline in the UI from the documented settings.
+2. Whether the dbt task type is available in Free Edition jobs. Answered yes in Phase 05 (FE10).
+3. Whether bundle deployment works against Free Edition. Answered yes in Phase 05 (FE12).
 4. Names and signatures of the Lakeflow Python API and AUTO CDC. Checked against the documentation in Phase 03; the remaining items are listed there.

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1450" height="780" viewBox="0 0 1450 780" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title>Delivery - CI checks, manual bundle deployment and the job</title>
+<defs>
+<style>
+.title{font-size:20px;font-weight:700;fill:#111827}
+.pt{font-size:15px;font-weight:700}
+.box{fill:#ffffff;stroke:#cdd3db;stroke-width:1.5}
+.built .box{fill:#f5f8ff;stroke:#4a72d9;stroke-width:2}
+.verify .box{fill:#fffaf2;stroke:#e09a3e;stroke-width:2}
+.ct{font-size:14px;font-weight:700;fill:#111827}
+.built .ct{fill:#2f5bcc}
+.cs{font-size:11.5px;fill:#4b5563}
+.ic{fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.b-built{fill:#4a72d9}
+.b-verify{fill:#e09a3e}
+.b-plan{fill:#9aa3af}
+.bt{font-size:9.5px;font-weight:700;fill:#ffffff;letter-spacing:0.4px}
+.edge{fill:none;stroke:#6b7280;stroke-width:1.5}
+.lg{font-size:12.5px;fill:#111827}
+.cap{font-size:12.5px;fill:#374151}
+</style>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/></marker>
+<symbol id="i-flow" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8.5 6h7M7.3 8.2l3.5 7.4M16.7 8.2l-3.5 7.4"/></symbol>
+<symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 10v10"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-compare" viewBox="0 0 24 24"><path d="M4 8h15M15 4l4 4-4 4M20 16H5M9 12l-4 4 4 4"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></symbol>
+</defs>
+
+<rect width="1450" height="780" fill="#ffffff"/>
+<text class="title" x="40" y="42">Delivery - CI checks, manual bundle deployment and the job</text>
+
+<!-- Panels -->
+<rect x="30" y="70" width="1390" height="170" rx="14" fill="#f4f7fe" stroke="#6b8ee0" stroke-width="2"/>
+<text class="pt" x="50" y="98" fill="#3858b8">GitHub Actions - no secrets, cannot reach the workspace</text>
+<rect x="30" y="270" width="1390" height="170" rx="14" fill="#f1faf8" stroke="#3aa395" stroke-width="2"/>
+<text class="pt" x="50" y="298" fill="#227a6e">Maintainer's terminal - dry validation, then live deployment</text>
+<rect x="30" y="490" width="1390" height="170" rx="14" fill="#fdf4f3" stroke="#d9534f" stroke-width="2"/>
+<text class="pt" x="50" y="518" fill="#b03a36">Job retail_nightly</text>
+
+<!-- Edges: CI fan-out -->
+<path class="edge" d="M350,169 H375 V112 H1250"/>
+<path class="edge" d="M550,112 V123" marker-end="url(#arrow)"/>
+<path class="edge" d="M900,112 V123" marker-end="url(#arrow)"/>
+<path class="edge" d="M1250,112 V123" marker-end="url(#arrow)"/>
+<!-- Edges: terminal -->
+<path class="edge" d="M350,359 H400" marker-end="url(#arrow)"/>
+<path class="edge" d="M700,359 H750" marker-end="url(#arrow)"/>
+<path class="edge" d="M1050,359 H1100" marker-end="url(#arrow)"/>
+<path class="edge" d="M1250,403 V465 H230 V533" marker-end="url(#arrow)"/>
+<!-- Edges: job -->
+<path class="edge" d="M350,579 H400" marker-end="url(#arrow)"/>
+<path class="edge" d="M700,579 H750" marker-end="url(#arrow)"/>
+
+<!-- Row 1: CI -->
+<g transform="translate(50,125)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5f6b7a"/>
+  <use xlink:href="#i-clock" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Pull request or push</text>
+  <text class="cs" x="70" y="55">to main; three jobs run</text>
+  <text class="cs" x="70" y="70">in parallel</text>
+</g>
+<g class="built" transform="translate(400,125)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#3c9a5f"/>
+  <use xlink:href="#i-check" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">unit-tests</text>
+  <text class="cs" x="70" y="55">pytest with Java 17, so the</text>
+  <text class="cs" x="70" y="70">Spark tests run, not skip</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 05</text>
+</g>
+<g class="verify" transform="translate(750,125)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5a55c7"/>
+  <use xlink:href="#i-table" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">dbt-parse</text>
+  <text class="cs" x="70" y="55">Placeholder profile; parses</text>
+  <text class="cs" x="70" y="70">without connecting</text>
+  <rect class="b-verify" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 05</text>
+</g>
+<g class="built" transform="translate(1100,125)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#c2463f"/>
+  <use xlink:href="#i-doc" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">secret-scan</text>
+  <text class="cs" x="70" y="55">Fails on a personal access</text>
+  <text class="cs" x="70" y="70">token in the tree</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 05</text>
+</g>
+
+<!-- Row 2: terminal -->
+<g class="built" transform="translate(50,315)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#2e8f80"/>
+  <use xlink:href="#i-check" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">bundle validate</text>
+  <text class="cs" x="70" y="55">Dry: resolves variables and</text>
+  <text class="cs" x="70" y="70">paths, changes nothing</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 05</text>
+</g>
+<g class="built" transform="translate(400,315)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#d98a2b"/>
+  <use xlink:href="#i-user" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">deployment bind, once</text>
+  <text class="cs" x="70" y="55">Adopts the Phase 03 pipeline;</text>
+  <text class="cs" x="70" y="70">tables and checkpoints kept</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 05</text>
+</g>
+<g class="built" transform="translate(750,315)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#7c5cdb"/>
+  <use xlink:href="#i-gear" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">bundle deploy</text>
+  <text class="cs" x="70" y="55">Live: syncs code, updates the</text>
+  <text class="cs" x="70" y="70">pipeline, creates the job</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 05</text>
+</g>
+<g class="built" transform="translate(1100,315)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#3b6fd9"/>
+  <use xlink:href="#i-clock" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">bundle run retail_nightly</text>
+  <text class="cs" x="70" y="55">Started by hand; no schedule</text>
+  <text class="cs" x="70" y="70">(Free Edition quotas)</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 05</text>
+</g>
+
+<!-- Row 3: job -->
+<g class="built" transform="translate(50,535)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#c2463f"/>
+  <use xlink:href="#i-flow" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">bronze_silver</text>
+  <text class="cs" x="70" y="55">Pipeline task: incremental</text>
+  <text class="cs" x="70" y="70">update of the bound pipeline</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 03</text>
+</g>
+<g class="built" transform="translate(400,535)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5a55c7"/>
+  <use xlink:href="#i-table" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">gold</text>
+  <text class="cs" x="70" y="55">dbt task: dbt build on the SQL</text>
+  <text class="cs" x="70" y="70">warehouse, serverless env</text>
+  <rect class="b-built" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 05</text>
+</g>
+<g transform="translate(750,535)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#9aa3af"/>
+  <use xlink:href="#i-compare" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">reconciliation</text>
+  <text class="cs" x="70" y="55">Third task, added when the</text>
+  <text class="cs" x="70" y="70">checks exist</text>
+  <rect class="b-plan" x="226" y="-9" width="64" height="18" rx="9"/>
+  <text class="bt" x="258" y="3.5" text-anchor="middle">PHASE 06</text>
+</g>
+<g transform="translate(1100,535)">
+  <rect class="box" width="300" height="88" rx="8"/>
+  <rect x="16" y="24" width="40" height="40" rx="9" fill="#5f6b7a"/>
+  <use xlink:href="#i-user" class="ic" x="24" y="32" width="24" height="24"/>
+  <text class="ct" x="70" y="36">Fallback</text>
+  <text class="cs" x="70" y="55">Pipeline update, then dbt build</text>
+  <text class="cs" x="70" y="70">locally, as in Phase 04</text>
+</g>
+
+<!-- Legend and caption -->
+<text class="lg" x="40" y="706" font-weight="700">Legend</text>
+<rect x="110" y="694" width="26" height="16" rx="4" fill="#f5f8ff" stroke="#4a72d9" stroke-width="2"/>
+<text class="lg" x="144" y="706">Built in this project (badge shows the phase)</text>
+<rect x="480" y="694" width="26" height="16" rx="4" fill="#fffaf2" stroke="#e09a3e" stroke-width="2"/>
+<text class="lg" x="514" y="706">Depends on behaviour not yet verified (badge shows the item)</text>
+<rect x="960" y="694" width="26" height="16" rx="4" fill="#ffffff" stroke="#cdd3db" stroke-width="1.5"/>
+<text class="lg" x="994" y="706">Trigger, person or planned</text>
+<text class="cap" x="40" y="740">CI never holds workspace credentials. Every change to the workspace is a bundle command the maintainer runs and observes. Each arrow in the job</text>
+<text class="cap" x="40" y="760">means: start only after the previous task succeeded.</text>
+</svg>
