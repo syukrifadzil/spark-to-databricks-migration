@@ -1,0 +1,5 @@
+# dbt Core with the Databricks adapter (Phase 04), installed in its own Python 3.12 environment
+# (.venv-dbt). Pinned to the versions recorded in the Phase 04 handoff. The project targets dbt Core v1;
+# dbt v2 is a separate product line and moving to it would be its own change.
+dbt-core==1.12.6
+dbt-databricks==1.13.0

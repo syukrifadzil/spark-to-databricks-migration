@@ -2,7 +2,7 @@
 
 ## Status
 
-Executed by the maintainer on 2026-10-31, Steps 1 to 8. All 34 tests pass and every run completes. On the anomalous dataset the written files reconcile fully with the code. The metrics JSON disagreed with those files on two daily order counts (O1, below). The metrics path has been fixed, but the fix has not been run yet. Not yet committed. The maintainer approved Phase 03 on 2026-10-31 before reporting the rerun, so the Phase 03 runbook Step 0 completes and commits this phase.
+Complete. Executed by the maintainer on 2026-10-31, Steps 1 to 8. All 34 tests passed and every run completed. On the anomalous dataset the written files reconciled fully with the code. The metrics JSON disagreed with those files on two daily order counts (O1, below), and the metrics path was fixed. On 2026-11-01 the maintainer reported the rerun after the fix and every remaining check as completed and verified. The individual outputs of those checks were not pasted into the conversation. Committed together with Phases 03 and 04.
 
 ## Decisions taken at the start of the phase
 
@@ -58,7 +58,7 @@ Diagnostics, run by the maintainer on 2026-10-31:
 
 The exact Spark mechanism has not been identified. Gross sales, items, charges and row counts agreed, and only the counts derived from `orders` differed.
 
-**Fix (not yet run).**
+**Fix (verified by the maintainer, 2026-11-01).**
 - `main` now materialises each output once with `localCheckpoint()`, so the files and the metrics come from the same rows.
 - `test_job_completes_on_anomalous_input` now checks that the metrics equal the sums of the written daily file. It also checks that daily sold orders equal customer lifetime value sold orders.
 - Whether the tiny anomalous sample would have reproduced O1 is unknown.
@@ -78,7 +78,7 @@ diff <(python -m json.tool --sort-keys output/legacy/anomalous/baseline_metrics.
 
 | Risk | Impact | Mitigation |
 |---|---|---|
-| Predicted anomalous behaviour wrong | Section 5 of the explanation misleads Phase 06 | Observed results recorded in section 5; O1 open |
+| Predicted anomalous behaviour wrong | Section 5 of the explanation misleads Phase 06 | Observed results recorded in section 5; O1 resolved |
 | Recomputing the same Spark plan gives different totals elsewhere too (O1) | Phase 06 compares against metrics that differ from the files | Outputs materialised once; metrics checked against the files in the test; Phase 06 reads the written files |
 | Business rules in section 7 later found unsuitable | Both legacy job and dbt must change | Agree them now (checklist) |
 
@@ -134,8 +134,8 @@ All measured on the maintainer's Mac on 2026-10-31.
   - Job: completed in 8.5 s. It read exactly 10,885 items and 5,901 payments, so nothing was double counted.
   - Metrics were not printed. They are in `output/legacy/ordered/baseline_metrics.json`.
 - O1 diagnostics output: recorded under O1 above.
-- After the O1 fix: `pytest -q` summary, and the comparison of the rerun metrics with the values recorded here:
-- Commit hash after push (Step 9):
+- After the O1 fix: `pytest -q` in `.venv` gave `40 passed in 12.74s` on 2026-10-31. That total includes the Phase 03 and 04 tests. The anomalous rerun was reported verified on 2026-11-01; its metrics were not pasted.
+- Commit (Step 9): committed together with Phases 03 and 04 on 2026-11-01; see `git log`.
 - Any failures, with the full output: none. Two command typos were corrected and rerun: a missing `/` in a `cat` path, and a trailing `/` on `--output`, which only doubles the slash in the log line.
 
 ## Phase 03 prerequisites

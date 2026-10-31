@@ -2,7 +2,7 @@
 
 A case study in migrating a legacy batch PySpark ETL for a fictional Malaysian retailer to a Databricks Lakehouse built on Lakeflow Declarative Pipelines, Delta Lake, Unity Catalog and dbt Core, with GitHub Actions for continuous integration.
 
-**Status:** Phases 00 (foundation) and 01 (synthetic data) are complete and validated by the maintainer. Phase 02 (legacy job) has been run locally; a fix to its metrics is awaiting a rerun. Phase 03 (Lakeflow bronze and silver) is written and has not yet been deployed. Results are added only from recorded runs.
+**Status:** Phases 00 to 04 are complete and validated by the maintainer: the foundation, synthetic data, the legacy job, Lakeflow bronze and silver, and the dbt gold marts. Phase 05 (orchestration and CI/CD) has not started. Results are added only from recorded runs.
 
 ## What the project demonstrates
 
@@ -31,9 +31,9 @@ Full design: [docs/architecture.md](docs/architecture.md).
 |---|---|---|
 | 00 | Foundation: architecture, contracts, ADRs, conventions | Complete |
 | 01 | Synthetic data generation and data contracts | Complete |
-| 02 | Legacy PySpark job | Run locally, in review |
-| 03 | Lakeflow bronze and silver | Written, pending deployment and review |
-| 04 | dbt gold marts | Not started |
+| 02 | Legacy PySpark job | Complete |
+| 03 | Lakeflow bronze and silver | Complete |
+| 04 | dbt gold marts | Complete |
 | 05 | Orchestration and CI/CD | Not started |
 | 06 | Reconciliation and resilience | Not started |
 | 07 | Benchmark and portfolio | Not started |
@@ -53,6 +53,7 @@ Directories are created by the phase that first needs them.
 ├── pyproject.toml                  pytest settings
 ├── requirements-dev.txt            Test dependency (Phase 01 code is standard library only)
 ├── requirements-spark.txt          PySpark for the legacy job (needs Java 17 or 21)
+├── requirements-dbt.txt            dbt Core and dbt-databricks, in their own .venv-dbt
 ├── docs/
 │   ├── case_study.md               Scenario, goals, acceptance criteria
 │   ├── architecture.md             Target architecture and diagrams
@@ -64,7 +65,7 @@ Directories are created by the phase that first needs them.
 ├── data/                           Generator, contracts, samples (01)
 ├── legacy_spark/                   Legacy batch job (02)
 ├── lakeflow/                       Pipeline source, contract rules, settings, checks (03)
-├── dbt/                            dbt project (04)
+├── dbt/                            dbt project: sources, staging, marts, tests (04)
 ├── .github/workflows/              CI (05)
 ├── reconciliation/                 Legacy versus modern checks (06)
 ├── benchmarks/                     Harness and recorded results (07)
@@ -80,6 +81,7 @@ Requires Python 3.10 or later. Follow the runbooks in order:
 2. [Phase 01: generate and validate the synthetic data](phases/phase_01_synthetic_data/MANUAL_RUNBOOK.md)
 3. [Phase 02: run the legacy job](phases/phase_02_legacy_spark/MANUAL_RUNBOOK.md)
 4. [Phase 03: deploy and run the Lakeflow pipeline](phases/phase_03_lakeflow_bronze_silver/MANUAL_RUNBOOK.md)
+5. [Phase 04: build and test the gold marts with dbt](phases/phase_04_dbt_gold/MANUAL_RUNBOOK.md)
 
 Quick start for the data, from the repository root:
 

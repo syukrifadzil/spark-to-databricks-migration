@@ -26,10 +26,11 @@ Phase 02 has a fix that has not been run, and possibly an uncommitted Phase 01. 
 python -m pytest -q
 ```
 
-Expected: `38 passed`.
+Expected: `40 passed`.
 - 30 from Phase 01.
 - 4 from the legacy job.
 - 4 from `tests/unit/test_lakeflow_rules.py`, new in this phase.
+- 2 from `tests/unit/test_dbt_project.py`, added in Phase 04.
 
 ```bash
 python -m legacy_spark.retail_nightly_job --input data/raw/anomalous --output output/legacy/anomalous
@@ -100,7 +101,7 @@ This is already covered by Step 0. To run only the new tests:
 python -m pytest -q tests/unit/test_lakeflow_rules.py
 ```
 
-Expected: `4 passed`.
+Expected: `4 passed`. Recorded on 2026-10-31: `4 passed in 6.68s`.
 
 A failure in `test_failed_rules_match_the_validator` means the pipeline would quarantine different rows from the ones the validator flags. Paste it in full, because nothing in the workspace will reconcile until it passes.
 
@@ -353,7 +354,8 @@ These fill `HANDOFF.md` and the FE7 row of `docs/platform_assumptions.md`.
 ## Step 13. Commit and push Phase 03
 
 ```bash
-git add lakeflow tests/unit/test_lakeflow_rules.py README.md docs phases/phase_03_lakeflow_bronze_silver
+git add lakeflow tests/unit/test_lakeflow_rules.py phases/phase_03_lakeflow_bronze_silver \
+        docs/diagrams/lakeflow-pipeline.svg docs/adr/0004-incremental-ingestion-and-quarantine.md docs/platform_assumptions.md
 git status --short
 git status --short | grep -E 'output/|data/raw|\.venv|__pycache__|\.pytest_cache' || echo "no generated or local files staged"
 git diff --cached | grep -nE 'dapi[0-9a-zA-Z]{16,}|DATABRICKS_TOKEN=[A-Za-z0-9]|https://[^[:space:]<]*databricks\.com'
@@ -367,6 +369,8 @@ Expected:
 - The push succeeds.
 
 `lakeflow/pipeline.json` contains workspace paths but no host name or credentials.
+
+`README.md`, `docs/architecture.md` and `docs/diagrams/phase-plan.svg` hold changes from both Phase 03 and Phase 04, so they go into the Phase 04 commit.
 
 ## Troubleshooting
 

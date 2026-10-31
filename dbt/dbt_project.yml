@@ -1,0 +1,20 @@
+name: retail
+version: "1.0.0"
+config-version: 2
+# `arguments:` on generic tests needs 1.10.5 or later.
+require-dbt-version: ">=1.10.5"
+profile: retail
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+clean-targets: ["target", "dbt_packages"]
+
+# Everything dbt builds lands in the profile's target schema, retail_gold (ADR 0001). No model sets a
+# custom schema, so dbt's default schema naming needs no override.
+models:
+  retail:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

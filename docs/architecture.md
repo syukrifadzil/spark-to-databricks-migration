@@ -53,7 +53,7 @@ Ownership rule: no tool writes to a schema it does not own. dbt reads silver thr
 | Business columns | snake_case, matching the data contract | `source_updated_at` |
 | Landing paths | `/Volumes/<catalog>/retail_landing/raw/<dataset>/batch_NNN/<entity>.csv` | `/Volumes/workspace/retail_landing/raw/clean/batch_000/orders.csv` |
 
-`batch_000` is the initial snapshot; `batch_001` onwards are daily change-feed batches (Phase 01). One glob per entity, `batch_*/orders.csv`, covers every batch. Where staging models are materialised (view in `retail_gold` or a separate schema) is decided in Phase 04; dbt's default behaviour of prefixing custom schema names with the target schema will need a `generate_schema_name` override so that marts land in exactly `retail_gold`.
+`batch_000` is the initial snapshot; `batch_001` onwards are daily change-feed batches (Phase 01). One glob per entity, `batch_*/orders.csv`, covers every batch. Phase 04 decision: staging models are views in `retail_gold`, next to the marts. No model sets a custom schema, so dbt's default schema naming already builds everything in exactly `retail_gold` and no `generate_schema_name` override is needed.
 
 ## 5. Incremental processing and idempotency
 

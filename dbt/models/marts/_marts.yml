@@ -1,0 +1,63 @@
+version: 2
+
+# Gold contract C3: definitions in docs/data_contracts.md section 7, shared with the legacy job.
+# Column names match legacy_spark/sql/baseline_metrics.sql so Phase 06 can run it unchanged.
+models:
+  - name: mart_daily_sales
+    description: One row per Asia/Kuala_Lumpur business date with any order or any succeeded payment.
+    columns:
+      - name: business_date
+        description: Key.
+        data_tests: [unique, not_null]
+      - name: orders_placed
+        description: Orders placed that date, any status.
+      - name: orders_sold
+        description: Sold orders (paid, shipped, delivered) placed that date.
+      - name: items_sold
+        description: Units on sold orders placed that date.
+      - name: gross_sales
+        description: Line totals of sold orders placed that date, MYR.
+      - name: charges
+        description: Succeeded charges with payment that date, MYR.
+      - name: refunds
+        description: Succeeded refunds with payment that date, MYR.
+      - name: net_payments
+        description: charges - refunds, MYR.
+
+  - name: mart_customer_lifetime_value
+    description: One row per customer, including customers with no orders.
+    columns:
+      - name: customer_id
+        description: Key.
+        data_tests: [unique, not_null]
+      - name: region
+        description: Current region.
+      - name: first_order_date
+        description: Earliest business date of the customer's sold orders; null if none.
+      - name: last_order_date
+        description: Latest business date of the customer's sold orders; null if none.
+      - name: orders_sold
+        description: Number of sold orders.
+      - name: lifetime_gross_sales
+        description: Line totals over the customer's sold orders, MYR.
+      - name: lifetime_net_paid
+        description: Succeeded charges minus succeeded refunds over all of the customer's orders, MYR.
+
+  - name: mart_product_performance
+    description: One row per product, including products never sold.
+    columns:
+      - name: product_id
+        description: Key.
+        data_tests: [unique, not_null]
+      - name: product_name
+        description: Current name.
+      - name: category
+        description: Current category.
+      - name: status
+        description: Current status, active or discontinued.
+      - name: units_sold
+        description: Units on sold orders.
+      - name: gross_sales
+        description: Line totals on sold orders, MYR.
+      - name: orders_sold
+        description: Distinct sold orders containing the product.

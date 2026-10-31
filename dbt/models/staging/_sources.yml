@@ -1,0 +1,87 @@
+version: 2
+
+# Silver contract C2 (docs/data_contracts.md section 5). The Lakeflow pipeline owns these tables;
+# dbt only reads them. Tests at error severity check guarantees silver must keep: a failure means a
+# pipeline defect. Relationship tests are warnings: orphans are valid source data that silver keeps
+# on purpose (section 6), and a warning reports them without stopping the build.
+sources:
+  - name: silver
+    database: "{{ env_var('RETAIL_CATALOG', 'workspace') }}"
+    schema: retail_silver
+    tables:
+      - name: customers
+        description: Current state of each customer (SCD 1), latest valid version by source sequence.
+        columns:
+          - name: customer_id
+            data_tests: [unique, not_null]
+
+      - name: products
+        description: Current state of each product.
+        columns:
+          - name: product_id
+            data_tests: [unique, not_null]
+
+      - name: orders
+        description: Current state of each order header.
+        columns:
+          - name: order_id
+            data_tests: [unique, not_null]
+          - name: status
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [pending, paid, shipped, delivered, cancelled]
+          - name: customer_id
+            data_tests:
+              - relationships:
+                  arguments:
+                    to: source('silver', 'customers')
+                    field: customer_id
+                  config:
+                    severity: warn
+
+      - name: order_items
+        description: Order lines; inserted with the order and never changed.
+        columns:
+          - name: order_item_id
+            data_tests: [unique, not_null]
+          - name: order_id
+            data_tests:
+              - relationships:
+                  arguments:
+                    to: source('silver', 'orders')
+                    field: order_id
+                  config:
+                    severity: warn
+          - name: product_id
+            data_tests:
+              - relationships:
+                  arguments:
+                    to: source('silver', 'products')
+                    field: product_id
+                  config:
+                    severity: warn
+
+      - name: payments
+        description: Payment events; refunds are separate records with positive amounts.
+        columns:
+          - name: payment_id
+            data_tests: [unique, not_null]
+          - name: payment_type
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [charge, refund]
+          - name: status
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [succeeded, failed]
+          - name: order_id
+            data_tests:
+              - relationships:
+                  arguments:
+                    to: source('silver', 'orders')
+                    field: order_id
+                  config:
+                    severity: warn

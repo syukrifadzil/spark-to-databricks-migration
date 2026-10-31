@@ -1,0 +1,28 @@
+version: 2
+
+# Staging views: one per silver table, renaming nothing, adding only the derived columns the marts
+# share. Keys are tested on the sources, which these views select from one to one.
+models:
+  - name: stg_customers
+    description: Customers from silver.
+  - name: stg_products
+    description: Products from silver.
+  - name: stg_orders
+    description: Orders from silver with the Kuala Lumpur business date and the sold flag.
+    columns:
+      - name: order_business_date
+        description: Asia/Kuala_Lumpur calendar date of order_date.
+      - name: is_sold
+        description: True for paid, shipped and delivered orders.
+  - name: stg_order_items
+    description: Order lines from silver with the line total.
+    columns:
+      - name: line_total
+        description: quantity * unit_price, DECIMAL(18,2).
+  - name: stg_payments
+    description: Payments from silver with the Kuala Lumpur business date and the succeeded flag.
+    columns:
+      - name: payment_business_date
+        description: Asia/Kuala_Lumpur calendar date of payment_at.
+      - name: is_succeeded
+        description: True when the payment moved money.

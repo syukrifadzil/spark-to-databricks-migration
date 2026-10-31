@@ -2,7 +2,7 @@
 
 ## Status
 
-Authored, not run. Nothing has been uploaded, created or executed. The maintainer approved Phase 03 on 2026-10-31 ("proceed") before reporting the results of the Phase 02 fix. Runbook Step 0 therefore completes Phase 02 first.
+Complete. Deployed and run by the maintainer on 2026-10-31, with the results recorded below. On 2026-11-01 the maintainer reported that every remaining check had been completed and verified: the validation queries, the rerun and the `batch_901` replay. The individual query results were not pasted into the conversation, so the result lines below say only that they were reported verified. Committed together with Phases 02 and 04.
 
 ## Files created or changed
 
@@ -50,7 +50,7 @@ Listed with their status in `EXPLANATION.md` section 4. These are verified only 
 
 ## Human outputs required
 
-- Step 0: `pytest -q` summary; anomalous `orders_placed` and `orders_sold`; Phase 02 commit hash: not yet reported.
+- Step 0: `pytest -q`: `40 passed in 12.74s` (2026-10-31). Anomalous rerun: reported verified on 2026-11-01. Phase 02 committed together with this phase.
 - Step 1 (2026-10-31):
   - The CLI authenticates as the maintainer, who is in `admins`.
   - The four `retail_*` schemas exist, and the managed volume `workspace.retail_landing.raw` exists.
@@ -80,12 +80,12 @@ Listed with their status in `EXPLANATION.md` section 4. These are verified only 
   - Final states of these four updates: not yet reported.
   - Because files arrived during updates, Steps 8 to 10 cannot be told apart. Runbook Step 11a collects the rerun and replay evidence on the final state instead.
 - Step 7 (clean-only `02` result): not captured. Step 11a's `02` result replaces it: on the final state, only the anomaly-affected rows may differ from `_expected`.
-- Step 11: final states, then `01`, `02` and `03` after the full refresh:
+- Step 11: final states, then `01`, `02` and `03` after the full refresh: reported verified on 2026-11-01.
 - Step 11a:
   - A rerun with no new files was started with the wait loop and ended `"state": "COMPLETED"`; `get-update` works on this CLI.
   - `01` was not run before this rerun, so it cannot be compared with the full-refresh result. A second rerun after recording `01` gives that comparison.
-  - Results: `01` before and after the second rerun, and after the `batch_901` replay:
-- Step 13: commit hash after push:
+  - Results: `01` before and after the second rerun, and after the `batch_901` replay: reported verified on 2026-11-01.
+- Step 13: committed together with Phases 02 and 04 on 2026-11-01; see `git log`.
 - Any failures, with the full output:
 
 ## Phase 04 prerequisites
