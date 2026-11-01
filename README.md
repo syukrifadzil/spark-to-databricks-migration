@@ -148,4 +148,9 @@ Databricks Free Edition is a non-commercial environment with quotas and no SLA. 
 
 ## License
 
-To be chosen before publication (Phase 07).
+Licensed under either of
+
+- Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE))
+- MIT License ([LICENSE-MIT](LICENSE-MIT))
+
+at your option (`SPDX-License-Identifier: MIT OR Apache-2.0`). All data in this repository is synthetic.

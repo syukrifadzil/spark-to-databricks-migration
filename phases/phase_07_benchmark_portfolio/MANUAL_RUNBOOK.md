@@ -285,6 +285,16 @@ These steps make the repository public-facing. Each one is yours to decide; none
    - **No licence:** all rights reserved; others may read but not reuse.
 
    To add one: on GitHub, **Add file > Create new file**, name it `LICENSE`, then **Choose a license template**. Then replace the README's License section with the licence name, in a normal commit.
+
+   Chosen on 2026-11-01: a dual licence, `MIT OR Apache-2.0`. `LICENSE-MIT` is in the repository. Download the canonical Apache text from the repository root:
+
+   ```bash
+   curl -fsSL https://www.apache.org/licenses/LICENSE-2.0.txt -o LICENSE-APACHE
+   head -3 LICENSE-APACHE
+   wc -l LICENSE-APACHE
+   ```
+
+   Expected: the first lines read `Apache License` and `Version 2.0, January 2004`, and the file is about 200 lines long.
 2. **History scan for secrets and hosts.** This scans every commit's changes, not just the current tree:
 
    ```bash

@@ -1,6 +1,6 @@
 # 0009. Benchmark with measured wall-clock proxies only, and no speed comparison
 
-- Status: Proposed
+- Status: Accepted (2026-11-01)
 - Date: 2026-11-01
 
 ## Context

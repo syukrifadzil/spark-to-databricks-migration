@@ -139,7 +139,11 @@ B-V1 to B-V5 (EXPLANATION section 6). The most consequential:
   - **Path check:** `no local or generated files staged`.
   - **Email check:** `no email addresses staged`.
   - **Secret scan:** it printed two lines, both false positives. They are the documentation's own mention of the `X-Databricks-Signature` parameter name: the redaction table in `docs/screenshots_checklist.md`, and the history scan command in this runbook. Neither contains a signed URL. The scan now matches `X-Databricks-Signature=`, which only a real signed URL contains.
-- Step 13: licence chosen; history scan output; visibility decision:
+- Follow-up commit `628e569` (`528b350..628e569`): this handoff and the corrected scan pattern.
+- Step 13:
+  - **Licence:** the maintainer chose "MIT and Apache 2.0" (2026-11-01). This is recorded as a dual licence, `MIT OR Apache-2.0`, at the user's option, the usual meaning of that pairing. `LICENSE-MIT` was written with the GitHub handle as copyright holder. `LICENSE-APACHE` is downloaded by the maintainer from apache.org, so it carries the canonical text.
+  - **ADR 0009:** accepted by the maintainer (2026-11-01).
+  - **History scan output; visibility decision:**
 - Any failures, with the full output:
 
 ## After Phase 07
