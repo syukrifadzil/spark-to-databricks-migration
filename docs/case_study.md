@@ -59,12 +59,12 @@ Each criterion names the phase that delivers it and the evidence the maintainer 
 | AC9 | GitHub Actions runs static checks and unit tests on pull requests with no workspace secrets. | 05 | Workflow run link. |
 | AC10 | Legacy and modern outputs reconcile: row counts and decimal totals match exactly on clean data; every difference on anomalous data is explained by a documented rule. | 06 | Reconciliation report. |
 | AC11 | Rerun, late arrival, schema drift and recovery scenarios are executed and their outcomes recorded. | 06 | Test matrix with evidence. |
-| AC12 | Benchmark and portfolio material contains only measured numbers, with environment and caveats stated. | 07 | Benchmark result files. |
+| AC12 | Benchmark and portfolio material contains only measured numbers, with environment and caveats stated. | 07 | `benchmarks/results/runs.csv` and `benchmarks/RESULTS.md`, filled from recorded runs. |
 | AC13 | No credentials, tokens or private data exist in git history. | All | Secret scan output before each push. |
 
 ## 6. Phase plan
 
-![Phase plan: phases 00 to 07 in order, with Phase 00 in review and the rest planned](diagrams/phase-plan.svg)
+![Phase plan: phases 00 to 07 in order, with phases 00 to 06 complete and Phase 07 in review](diagrams/phase-plan.svg)
 
 | Phase | Delivers | Depends on |
 |---|---|---|

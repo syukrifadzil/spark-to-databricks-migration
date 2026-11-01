@@ -12,7 +12,21 @@ A case study in migrating a legacy batch PySpark ETL for a fictional Malaysian r
   - on the anomalous state, every difference has a documented cause
   - a test matrix covers reruns, replays, bad records, schema drift, late arrivals, recovery and rollback
 
-Phase 07 (benchmark and portfolio) has not started.
+Phase 07 (benchmark and portfolio) is validated by the maintainer. Its measured runtimes are in [benchmarks/RESULTS.md](benchmarks/RESULTS.md). The legacy job and the Lakehouse are not compared on speed, because they run on different hardware and start-up dominates both at this size.
+
+## Results
+
+Recorded on Databricks Free Edition with the small synthetic preset, 2026-11-01. The evidence is in [the Phase 06 handoff](phases/phase_06_reconciliation_resilience/HANDOFF.md).
+
+| Check | Result |
+|---|---|
+| Gold against the legacy output on correctly ordered data | 94 / 530 / 50 rows on the three marts, 0 differences |
+| Gold against the legacy output on anomalous data | Every difference explained by a documented cause; 0 unexplained |
+| Deliberate wrong-dataset run | Job failed on exactly the 2 dates and 5 customers the anomalies change |
+| Quarantined rows against the anomaly manifest | 35 of 35 |
+| Rerun, replay, late re-delivery, full refresh, gold `RESTORE` | Silver unchanged or restored; gold rolled back and forward |
+
+The project does not claim production readiness or a speed advantage. See [docs/limitations.md](docs/limitations.md).
 
 ## What the project demonstrates
 
@@ -47,7 +61,7 @@ Full design: [docs/architecture.md](docs/architecture.md).
 | 04 | dbt gold marts | Complete |
 | 05 | Orchestration and CI/CD | Complete |
 | 06 | Reconciliation and resilience | Complete |
-| 07 | Benchmark and portfolio | Not started |
+| 07 | Benchmark and portfolio | Validated; publication pending |
 
 Each phase folder under `phases/` contains the phase brief (`PROMPT.md`), a design explanation, a manual runbook, a validation checklist and a handoff note.
 
@@ -80,7 +94,7 @@ Directories are created by the phase that first needs them.
 ├── dbt/                            dbt project: sources, staging, marts, tests (04)
 ├── .github/workflows/              CI (05)
 ├── reconciliation/                 Legacy versus gold reconciliation task and SQL checks (06)
-├── benchmarks/                     Harness and recorded results (07)
+├── benchmarks/                     Results collector, SQL, recorded results (07)
 ├── tests/                          Unit tests
 └── phases/                         Per-phase briefs and documentation
 ```
@@ -96,6 +110,7 @@ Requires Python 3.10 or later. Follow the runbooks in order:
 5. [Phase 04: build and test the gold marts with dbt](phases/phase_04_dbt_gold/MANUAL_RUNBOOK.md)
 6. [Phase 05: deploy the bundle, run the job, check CI](phases/phase_05_orchestration_cicd/MANUAL_RUNBOOK.md)
 7. [Phase 06: reconcile with the legacy outputs and run the resilience tests](phases/phase_06_reconciliation_resilience/MANUAL_RUNBOOK.md)
+8. [Phase 07: record the benchmarks and publish](phases/phase_07_benchmark_portfolio/MANUAL_RUNBOOK.md)
 
 Quick start for the data, from the repository root:
 
@@ -117,6 +132,11 @@ python -m legacy_spark.retail_nightly_job --input data/raw/clean --output output
 - [Data contracts](docs/data_contracts.md)
 - [Platform and cost assumptions](docs/platform_assumptions.md)
 - [Architecture decision records](docs/adr/README.md)
+- [Migration narrative](docs/migration_narrative.md): what was built, what the evidence shows, what went wrong
+- [Limitations](docs/limitations.md)
+- [Benchmarks](benchmarks/README.md) and [results](benchmarks/RESULTS.md)
+- [Interview talking points](docs/interview_talking_points.md)
+- [Screenshots checklist](docs/screenshots_checklist.md)
 
 ## Security
 

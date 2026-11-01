@@ -1,6 +1,6 @@
 # Target Architecture
 
-Status: proposed in Phase 00, pending human review. Product names and APIs flagged "verify" must be checked against current Databricks documentation before the phase that uses them.
+Status: proposed in Phase 00, then built and verified in Phases 03 to 06. Each phase HANDOFF records what was confirmed in the workspace. Product names and APIs flagged "verify" were checked against current Databricks documentation in the phase that used them.
 
 ## 1. System context
 
@@ -36,7 +36,7 @@ The same generated CSV files feed both the legacy job (locally) and the Lakehous
 | Silver | `retail_silver` | Lakeflow pipeline | Typed, validated, current-state rows (SCD type 1) keyed by business key | Change-data-capture upsert ordered by source sequence |
 | Quarantine | `retail_silver` (`<entity>_quarantine`) | Lakeflow pipeline | Rows that failed validation, with the failed rule names | Append-only |
 | Gold | `retail_gold` | dbt Core | Daily sales, customer lifetime value, product performance | dbt table materialisation (full rebuild); incremental only if justified in Phase 04 |
-| Audit | `retail_audit` | Reconciliation task (Phase 06) | Results of each legacy versus gold reconciliation run | Append-only, one set of rows per job run |
+| Audit | `retail_audit` | Reconciliation task (Phase 06) | Results of each legacy versus gold reconciliation run | One set of rows per job run: a rerun of the task replaces its run's rows |
 
 The landing rule has one deliberate exception. Phase 06 test R6 removes the anomaly batches to exercise the bad-batch recovery in section 12, then delivers them again. The legacy job's outputs are uploaded under `raw/legacy/` in the same volume, outside the `raw/retail/` folder the pipeline reads.
 

@@ -391,7 +391,7 @@ None open. EXPLANATION section 8 has V1 to V3 verified against the documentation
 - Step 5: not pasted. The Step 10 deploy output is recorded, and every job run shows the deployed task.
 - Step 6: 6b, 6c (except `02_legacy_vs_gold` on anomalous paths) and 6d recorded. 6a not recorded; Step 12's counts became the reference instead.
 - Steps 7 to 12 and 11b: recorded above. The final runs are recorded as reported, without the output.
-- Step 14: commit hash; CI run result:
+- Step 14: committed as `df9334f` and pushed to `main` (2026-11-01). The path check, secret scan and email check printed nothing to fix. CI run result: not reported.
 - Any failures, with the full output: recorded above
 
 ## Phase 07 prerequisites

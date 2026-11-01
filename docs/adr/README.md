@@ -12,6 +12,9 @@ Status values: Proposed, Accepted, Superseded by NNNN, Rejected.
 | [0004](0004-incremental-ingestion-and-quarantine.md) | Incremental ingestion, CDC upsert and quarantine | Accepted |
 | [0005](0005-human-operated-execution-and-ci-scope.md) | Human-operated deployment; CI limited to static checks and unit tests | Accepted |
 | [0006](0006-money-and-time-conventions.md) | Monetary precision and timezone conventions | Accepted |
+| [0007](0007-orchestration-as-a-bundle-job.md) | One bundle-deployed job runs the pipeline, dbt and reconciliation | Accepted |
+| [0008](0008-reconcile-key-by-key-against-legacy.md) | Reconcile gold with the legacy outputs key by key, and explain differences by cause | Accepted |
+| [0009](0009-benchmark-with-measured-proxies-only.md) | Benchmark with measured wall-clock proxies only, and no speed comparison | Proposed |
 
 ## Template
 

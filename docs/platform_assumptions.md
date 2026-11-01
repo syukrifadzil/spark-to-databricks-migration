@@ -24,7 +24,7 @@ Databricks Free Edition features and quotas change over time and are not fully d
 
 ## 2. Cost assumptions
 
-- Free Edition has no billing, so cost cannot be measured in currency. Phase 07 will record resource proxies instead (wall-clock runtime, rows processed, number of pipeline updates), labelled as Free Edition measurements.
+- Free Edition has no billing, so cost cannot be measured in currency. Phase 07 records resource proxies instead: wall-clock runtime, rows processed and, if the billing system table is readable, usage quantities. They are labelled as Free Edition measurements. Method: `benchmarks/README.md`; decision: ADR 0009.
 - No cost figures, DBU rates or price comparisons will be published unless the maintainer measures them on a paid workspace and records the source.
 - Design choices that would reduce cost in production (incremental ingestion instead of full reloads, serverless auto-stop, table-level rebuild only where needed) are described qualitatively, not quantified.
 
