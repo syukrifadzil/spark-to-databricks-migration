@@ -2,7 +2,7 @@
 
 A case study in migrating a legacy batch PySpark ETL for a fictional Malaysian retailer to a Databricks Lakehouse built on Lakeflow Declarative Pipelines, Delta Lake, Unity Catalog and dbt Core, with GitHub Actions for continuous integration.
 
-**Status:** Phases 00 to 06 are complete and validated by the maintainer:
+**Status:** All eight phases, 00 to 07, are complete and validated by the maintainer:
 - the foundation and synthetic data
 - the legacy job
 - Lakeflow bronze and silver, and the dbt gold marts
@@ -12,7 +12,7 @@ A case study in migrating a legacy batch PySpark ETL for a fictional Malaysian r
   - on the anomalous state, every difference has a documented cause
   - a test matrix covers reruns, replays, bad records, schema drift, late arrivals, recovery and rollback
 
-Phase 07 (benchmark and portfolio) is validated by the maintainer. Its measured runtimes are in [benchmarks/RESULTS.md](benchmarks/RESULTS.md). The legacy job and the Lakehouse are not compared on speed, because they run on different hardware and start-up dominates both at this size.
+Phase 07 (benchmark and portfolio) is complete. Its measured runtimes are in [benchmarks/RESULTS.md](benchmarks/RESULTS.md). The legacy job and the Lakehouse are not compared on speed, because they run on different hardware and start-up dominates both at this size.
 
 ## Results
 
@@ -61,7 +61,7 @@ Full design: [docs/architecture.md](docs/architecture.md).
 | 04 | dbt gold marts | Complete |
 | 05 | Orchestration and CI/CD | Complete |
 | 06 | Reconciliation and resilience | Complete |
-| 07 | Benchmark and portfolio | Validated; publication pending |
+| 07 | Benchmark and portfolio | Complete |
 
 Each phase folder under `phases/` contains the phase brief (`PROMPT.md`), a design explanation, a manual runbook, a validation checklist and a handoff note.
 

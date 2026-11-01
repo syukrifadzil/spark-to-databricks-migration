@@ -2,11 +2,12 @@
 
 ## Status
 
-In progress (2026-11-01). The maintainer approved Phase 07 on 2026-11-01 ("proceed"), after pushing Phase 06 as `df9334f`.
+Complete (2026-11-01). The maintainer approved Phase 07 on 2026-11-01 ("proceed"), after pushing Phase 06 as `df9334f`.
 - **Run:** Steps 1 to 10, reported validated by the maintainer. Step 6 needed a correction.
 - **Timings:** B1 to B5 are in `runs.csv`. B6 was reported as matching its expected outcomes, but its timings were not collected.
-- **Committed:** `528b350`.
-- **Not yet done:** the publication checklist (Step 13).
+- **Committed:** `528b350`, with follow-ups `628e569`, `560f286` and `8871c25`.
+- **Published:** the repository was made public on 2026-11-01.
+- **CI result for these commits:** not reported.
 
 ## Run log
 
@@ -146,7 +147,13 @@ B-V1 to B-V5 (EXPLANATION section 6). The most consequential:
   - **Licence commit:** `560f286` (`628e569..560f286`, 7 files).
     - `LICENSE-APACHE` downloaded from apache.org: 202 lines, headed `Apache License` / `Version 2.0, January 2004`.
     - `LICENSE-MIT` and the README License section were committed with it.
-  - **History scan output; visibility decision:**
+  - **Handoff commit:** `8871c25` (`560f286..8871c25`).
+  - **History scan (2026-11-01):**
+    - **Ignored files:** `no ignored files in history`.
+    - **Secrets and hosts:** 4 lines, all false positives. Every one is this project's own documentation: the scan command in the runbook (two commits), and the handoff note explaining the earlier false positive. Both quote the pattern followed by `|` or a backtick, never a signature value.
+    - **Real matches:** no token, no workspace host and no signed URL value. The pattern added in `628e569` still matched its own documentation. The runbook now requires at least ten value characters after the `=`, as a real signed link has.
+  - **Commit author email:** one personal address in commit metadata. The maintainer published with it; it is not repeated here.
+  - **Visibility:** the maintainer made the repository public on 2026-11-01.
 - Any failures, with the full output:
 
 ## After Phase 07

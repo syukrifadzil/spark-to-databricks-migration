@@ -64,7 +64,7 @@ Each criterion names the phase that delivers it and the evidence the maintainer 
 
 ## 6. Phase plan
 
-![Phase plan: phases 00 to 07 in order, with phases 00 to 06 complete and Phase 07 in review](diagrams/phase-plan.svg)
+![Phase plan: phases 00 to 07 in order, all complete](diagrams/phase-plan.svg)
 
 | Phase | Delivers | Depends on |
 |---|---|---|

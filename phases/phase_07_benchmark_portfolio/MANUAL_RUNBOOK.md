@@ -254,7 +254,7 @@ git add benchmarks tests/unit/test_benchmark_collect.py docs README.md \
         phases/phase_07_benchmark_portfolio phases/phase_06_reconciliation_resilience/HANDOFF.md
 git status --short
 git status --short | grep -E 'output/|data/raw|\.venv|__pycache__|\.databricks/|\.env$|profiles\.yml$' || echo "no local or generated files staged"
-git diff --cached | grep -nE 'dapi[0-9a-zA-Z]{16,}|DATABRICKS_TOKEN=[A-Za-z0-9]|X-Databricks-Signature=|https://[^[:space:]<]*databricks\.com' | grep -vE 'https://docs\.databricks\.com|dbc-xxxx'
+git diff --cached | grep -nE 'dapi[0-9a-zA-Z]{16,}|DATABRICKS_TOKEN=[A-Za-z0-9]|X-Databricks-Signature=[A-Za-z0-9_-]{10}|https://[^[:space:]<]*databricks\.com' | grep -vE 'https://docs\.databricks\.com|dbc-xxxx'
 git diff --cached | grep -niE '@gmail\.com' || echo "no email addresses staged"
 git commit -m "feat(benchmarks): add benchmark harness, results and portfolio documentation"
 git push
@@ -298,7 +298,7 @@ These steps make the repository public-facing. Each one is yours to decide; none
 2. **History scan for secrets and hosts.** This scans every commit's changes, not just the current tree:
 
    ```bash
-   git log -p --all --format= | grep -nE 'dapi[0-9a-zA-Z]{16,}|X-Databricks-Signature=|dbc-[0-9a-f]{8}-[0-9a-f]{4}' || echo "history clean"
+   git log -p --all --format= | grep -nE 'dapi[0-9a-zA-Z]{16,}|X-Databricks-Signature=[A-Za-z0-9_-]{10}|dbc-[0-9a-f]{8}-[0-9a-f]{4}' || echo "history clean"
    git log --all --name-only --format= | sort -u | grep -E '^(data/raw|output)/|(^|/)\.env$|profiles\.yml$' || echo "no ignored files in history"
    ```
 
