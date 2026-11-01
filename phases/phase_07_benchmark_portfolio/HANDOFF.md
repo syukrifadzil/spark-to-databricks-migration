@@ -5,7 +5,8 @@
 In progress (2026-11-01). The maintainer approved Phase 07 on 2026-11-01 ("proceed"), after pushing Phase 06 as `df9334f`.
 - **Run:** Steps 1 to 10, reported validated by the maintainer. Step 6 needed a correction.
 - **Timings:** B1 to B5 are in `runs.csv`. B6 was reported as matching its expected outcomes, but its timings were not collected.
-- **Not yet done:** the commit (Step 12) and the publication checklist (Step 13).
+- **Committed:** `528b350`.
+- **Not yet done:** the publication checklist (Step 13).
 
 ## Run log
 
@@ -134,7 +135,10 @@ B-V1 to B-V5 (EXPLANATION section 6). The most consequential:
 - Step 8: history rows used; `RESTORE` result and runtime; headlines; roll forward run:
 - Step 9 (optional): usage rows or the error:
 - Step 10: the summary table:
-- Step 12: commit hash; CI result:
+- Step 12: committed as `528b350` and pushed to `main` (`df9334f..528b350`, 26 files), 2026-11-01. CI result: not reported.
+  - **Path check:** `no local or generated files staged`.
+  - **Email check:** `no email addresses staged`.
+  - **Secret scan:** it printed two lines, both false positives. They are the documentation's own mention of the `X-Databricks-Signature` parameter name: the redaction table in `docs/screenshots_checklist.md`, and the history scan command in this runbook. Neither contains a signed URL. The scan now matches `X-Databricks-Signature=`, which only a real signed URL contains.
 - Step 13: licence chosen; history scan output; visibility decision:
 - Any failures, with the full output:
 
