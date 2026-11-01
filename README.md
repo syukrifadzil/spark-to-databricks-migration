@@ -2,11 +2,17 @@
 
 A case study in migrating a legacy batch PySpark ETL for a fictional Malaysian retailer to a Databricks Lakehouse built on Lakeflow Declarative Pipelines, Delta Lake, Unity Catalog and dbt Core, with GitHub Actions for continuous integration.
 
-**Status:** Phases 00 to 05 are complete and validated by the maintainer:
+**Status:** Phases 00 to 06 are complete and validated by the maintainer:
 - the foundation and synthetic data
 - the legacy job
 - Lakeflow bronze and silver, and the dbt gold marts
-- orchestration and CI. A bundle deploys the pipeline and the job `retail_nightly`, and GitHub Actions runs the checks without secrets. Results are added only from recorded runs.
+- orchestration and CI. A bundle deploys the pipeline and the job `retail_nightly`, and GitHub Actions runs the checks without secrets.
+- reconciliation and resilience. A third job task reconciles gold with the legacy outputs key by key:
+  - on the clean state, gold matches the legacy job's correct output exactly
+  - on the anomalous state, every difference has a documented cause
+  - a test matrix covers reruns, replays, bad records, schema drift, late arrivals, recovery and rollback
+
+Phase 07 (benchmark and portfolio) has not started.
 
 ## What the project demonstrates
 
@@ -26,6 +32,7 @@ A case study in migrating a legacy batch PySpark ETL for a fictional Malaysian r
 | Bronze | `retail_bronze` | Lakeflow pipeline |
 | Silver and quarantine | `retail_silver` | Lakeflow pipeline |
 | Gold | `retail_gold` | dbt Core |
+| Reconciliation results | `retail_audit` | Reconciliation job task |
 
 Full design: [docs/architecture.md](docs/architecture.md).
 
@@ -39,7 +46,7 @@ Full design: [docs/architecture.md](docs/architecture.md).
 | 03 | Lakeflow bronze and silver | Complete |
 | 04 | dbt gold marts | Complete |
 | 05 | Orchestration and CI/CD | Complete |
-| 06 | Reconciliation and resilience | Not started |
+| 06 | Reconciliation and resilience | Complete |
 | 07 | Benchmark and portfolio | Not started |
 
 Each phase folder under `phases/` contains the phase brief (`PROMPT.md`), a design explanation, a manual runbook, a validation checklist and a handoff note.
@@ -72,7 +79,7 @@ Directories are created by the phase that first needs them.
 ├── lakeflow/                       Pipeline source, contract rules, settings, checks (03)
 ├── dbt/                            dbt project: sources, staging, marts, tests (04)
 ├── .github/workflows/              CI (05)
-├── reconciliation/                 Legacy versus modern checks (06)
+├── reconciliation/                 Legacy versus gold reconciliation task and SQL checks (06)
 ├── benchmarks/                     Harness and recorded results (07)
 ├── tests/                          Unit tests
 └── phases/                         Per-phase briefs and documentation
@@ -88,6 +95,7 @@ Requires Python 3.10 or later. Follow the runbooks in order:
 4. [Phase 03: deploy and run the Lakeflow pipeline](phases/phase_03_lakeflow_bronze_silver/MANUAL_RUNBOOK.md)
 5. [Phase 04: build and test the gold marts with dbt](phases/phase_04_dbt_gold/MANUAL_RUNBOOK.md)
 6. [Phase 05: deploy the bundle, run the job, check CI](phases/phase_05_orchestration_cicd/MANUAL_RUNBOOK.md)
+7. [Phase 06: reconcile with the legacy outputs and run the resilience tests](phases/phase_06_reconciliation_resilience/MANUAL_RUNBOOK.md)
 
 Quick start for the data, from the repository root:
 

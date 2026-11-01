@@ -36,6 +36,9 @@ The same generated CSV files feed both the legacy job (locally) and the Lakehous
 | Silver | `retail_silver` | Lakeflow pipeline | Typed, validated, current-state rows (SCD type 1) keyed by business key | Change-data-capture upsert ordered by source sequence |
 | Quarantine | `retail_silver` (`<entity>_quarantine`) | Lakeflow pipeline | Rows that failed validation, with the failed rule names | Append-only |
 | Gold | `retail_gold` | dbt Core | Daily sales, customer lifetime value, product performance | dbt table materialisation (full rebuild); incremental only if justified in Phase 04 |
+| Audit | `retail_audit` | Reconciliation task (Phase 06) | Results of each legacy versus gold reconciliation run | Append-only, one set of rows per job run |
+
+The landing rule has one deliberate exception. Phase 06 test R6 removes the anomaly batches to exercise the bad-batch recovery in section 12, then delivers them again. The legacy job's outputs are uploaded under `raw/legacy/` in the same volume, outside the `raw/retail/` folder the pipeline reads.
 
 Ownership rule: no tool writes to a schema it does not own. dbt reads silver through `source()` declarations and never writes to bronze or silver. The Lakeflow pipeline never publishes gold tables. This avoids two systems maintaining the same table, which is the most common cause of conflicting logic in mixed Lakeflow and dbt estates. See ADR 0001.
 
@@ -108,7 +111,7 @@ Refunds and partial payments are modelled explicitly (see `data_contracts.md`, p
 | Upload CSVs to volume | Workspace UI or Databricks CLI | Maintainer | Workspace login |
 | Run Lakeflow pipeline | Workspace, serverless | Maintainer (UI) or job | Workspace login |
 | Build gold with dbt | Local dbt CLI to SQL warehouse, or job task | Maintainer | Token or OAuth, stored only in local `.env` or profile |
-| Reconciliation | Local scripts plus SQL in workspace | Maintainer | As for dbt |
+| Reconciliation | Job task on serverless compute; local rehearsal with PySpark | Job run started by the maintainer | The job runs as the deploying user; none locally |
 | Deployment of job and pipeline definitions | `databricks bundle` commands with `databricks.yml` | Maintainer, manually | Workspace login (CLI profile) |
 
 GitHub Actions never holds workspace credentials in the baseline design. If live deployment from CI is added later, it must be a separate, manually approved workflow using GitHub environment secrets. See ADR 0005.
@@ -124,7 +127,7 @@ Fallback: the maintainer runs the same three steps by hand in order (pipeline up
 Phase 05 implements the first two tasks in `databricks.yml`, a Declarative Automation Bundle. The product was formerly called Databricks Asset Bundles, and the CLI commands are still `databricks bundle ...`.
 - The bundle adopts the Phase 03 pipeline with `bundle deployment bind`, so its tables and checkpoints are kept, and syncs its code.
 - It defines the job `retail_nightly`: a pipeline task, then a dbt task that runs `dbt build` on the SQL warehouse.
-- Reconciliation becomes the third task in Phase 06.
+- Phase 06 adds the third task, `reconciliation`: a Python script on serverless compute (section 10). The job parameter `dataset` names the dataset the landing folder holds.
 - Validation and deployment are run by the maintainer. CI runs only static checks and unit tests.
 
 ![Delivery: CI checks without secrets, manual bundle validation and deployment, and the job](diagrams/delivery.svg)
@@ -135,7 +138,15 @@ Details and the verification table: `phases/phase_05_orchestration_cicd/EXPLANAT
 
 ![Shared CSV input feeding the legacy path and the Lakehouse path, both reduced to the same metrics and compared into a classified report](diagrams/reconciliation.svg)
 
-Expected differences are a feature, not a defect: for example the legacy job double counts replayed records while the Lakehouse does not. Every expected difference must trace back to an entry in the anomaly manifest (Phase 01) and a rule in the data contract. Unexplained differences fail reconciliation. Details in Phase 06.
+Expected differences are a feature, not a defect: for example the legacy job double counts replayed records while the Lakehouse does not. Every expected difference must trace back to an entry in the anomaly manifest (Phase 01) and a rule in the data contract. Unexplained differences fail reconciliation.
+
+Phase 06 implementation (`reconciliation/reconcile.py`, the job's third task):
+- **Key-by-key comparison.** Each gold mart is compared with a legacy output on row counts, column totals, duplicate keys, keys missing on either side, and a hash of every row.
+- **Explaining differences.** A difference is explained only when a cause listed in the manifests touches its key: a late arrival or replay in the clean feed, or a row in an anomaly batch.
+- **Exact match.** The comparison against the legacy output of the ordered dataset allows no cause at all. That dataset has no late or replayed deliveries, so the legacy job is correct on it.
+- **Results.** They are appended to `retail_audit`. An unexplained difference fails the task and the job run.
+
+Details: `phases/phase_06_reconciliation_resilience/EXPLANATION.md`.
 
 ## 11. Security and secrets
 
@@ -149,11 +160,15 @@ Expected differences are a feature, not a defect: for example the legacy job dou
 
 | Failure | Recovery path | Verified in |
 |---|---|---|
-| Bad batch uploaded | Remove the batch folder before the next update; if already ingested, full refresh after removal | Phase 06 |
-| Schema drift in a source file | Bronze tolerates (new columns or rescued data); silver selects contracted columns only; contract version bump to adopt | Phase 03, 06 |
-| Silver logic bug | Fix code, pipeline full refresh from immutable landing files | Phase 06 |
-| Gold logic bug | Fix model, `dbt build`; prior versions available via Delta time travel on dbt-owned tables | Phase 04, 06 |
-| Checkpoint corruption | Full refresh of the affected table | Phase 06 |
+| Bad batch uploaded | Remove the batch folder before the next update; if already ingested, full refresh after removal | Phase 06 test R6 |
+| Schema drift in a source file | Bronze tolerates (new columns or rescued data); silver selects contracted columns only; contract version bump to adopt | Phase 03; Phase 06 test R4 |
+| Silver logic bug | Fix code, pipeline full refresh from immutable landing files | The same full refresh as R6; no code fix tested |
+| Gold logic bug | Fix model, `dbt build`; prior versions available via Delta time travel on dbt-owned tables | Phase 04; Phase 06 test R7 (`RESTORE`, then rebuild) |
+| Checkpoint corruption | Full refresh of the affected table | Not tested; the full refresh itself is exercised by R6 |
+
+The Phase 06 tests move the workspace through these recoveries in a fixed order:
+
+![Phase 06 test sequence: anomalous baseline and negative test, recovery to the clean state, late re-delivery, gold rollback, rerun and replay](diagrams/resilience-sequence.svg)
 
 Manual DML or `RESTORE` against pipeline-managed tables is avoided; recovery for those goes through the pipeline. Confirm current guidance in Phase 06.
 

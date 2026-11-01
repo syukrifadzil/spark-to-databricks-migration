@@ -40,11 +40,16 @@ resources:
         retail.silver_schema: retail_silver
 
   jobs:
-    # Bronze and silver, then gold. dbt starts only if the pipeline update succeeded.
-    # Reconciliation is added as a third task in Phase 06.
+    # Bronze and silver, then gold, then reconciliation against the legacy outputs. Each task
+    # starts only if the one before it succeeded.
     retail_nightly:
       name: retail_nightly
       max_concurrent_runs: 1
+      parameters:
+        # Which dataset the landing folder holds: anomalous (clean plus the anomaly batches) or
+        # clean. It picks the legacy outputs and the allowed causes (reconciliation/reconcile.py).
+        - name: dataset
+          default: anomalous
       tasks:
         - task_key: bronze_silver
           pipeline_task:
@@ -60,6 +65,25 @@ resources:
             warehouse_id: ${var.warehouse_id}
             catalog: ${var.catalog}
             schema: retail_gold
+        - task_key: reconciliation
+          depends_on:
+            - task_key: gold
+          environment_key: reconciliation
+          spark_python_task:
+            python_file: reconciliation/reconcile.py
+            parameters:
+              - --dataset
+              - "{{job.parameters.dataset}}"
+              - --landing
+              - /Volumes/${var.catalog}/retail_landing/raw/retail
+              - --legacy-root
+              - /Volumes/${var.catalog}/retail_landing/raw/legacy
+              - --modern-schema
+              - ${var.catalog}.retail_gold
+              - --results-schema
+              - ${var.catalog}.retail_audit
+              - --run-id
+              - "{{job.run_id}}"
       environments:
         - environment_key: dbt
           spec:
@@ -69,6 +93,10 @@ resources:
             dependencies:
               - dbt-core==1.12.6
               - dbt-databricks==1.13.0
+        - environment_key: reconciliation
+          spec:
+            # PySpark comes with serverless compute; the script needs nothing else.
+            environment_version: "4"
 
 targets:
   dev:
