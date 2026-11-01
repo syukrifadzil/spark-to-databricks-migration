@@ -143,6 +143,9 @@ B-V1 to B-V5 (EXPLANATION section 6). The most consequential:
 - Step 13:
   - **Licence:** the maintainer chose "MIT and Apache 2.0" (2026-11-01). This is recorded as a dual licence, `MIT OR Apache-2.0`, at the user's option, the usual meaning of that pairing. `LICENSE-MIT` was written with the GitHub handle as copyright holder. `LICENSE-APACHE` is downloaded by the maintainer from apache.org, so it carries the canonical text.
   - **ADR 0009:** accepted by the maintainer (2026-11-01).
+  - **Licence commit:** `560f286` (`628e569..560f286`, 7 files).
+    - `LICENSE-APACHE` downloaded from apache.org: 202 lines, headed `Apache License` / `Version 2.0, January 2004`.
+    - `LICENSE-MIT` and the README License section were committed with it.
   - **History scan output; visibility decision:**
 - Any failures, with the full output:
 
